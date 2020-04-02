@@ -1,8 +1,6 @@
 package edu.kit.iti.formal.mymachine.automata;
 
-import edu.kit.iti.formal.mymachine.FrontEndPanel;
-import edu.kit.iti.formal.mymachine.MachineElement;
-import edu.kit.iti.formal.mymachine.MainFrame;
+import edu.kit.iti.formal.mymachine.Machine;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,10 +9,10 @@ import java.util.List;
 public class AutomataEditor extends JPanel {
 
     ButtonGroup group = new ButtonGroup();
-    private MainFrame frame;
+    private Machine frame;
     private AutomataPane panel;
 
-    public AutomataEditor(MainFrame frame) {
+    public AutomataEditor(Machine frame) {
         super(new BorderLayout());
         this.frame = frame;
         init();

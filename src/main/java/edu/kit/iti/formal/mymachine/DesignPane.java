@@ -2,17 +2,15 @@ package edu.kit.iti.formal.mymachine;
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
-import java.util.List;
 
 public class DesignPane extends JPanel {
 
     ButtonGroup group = new ButtonGroup();
-    private MainFrame frame;
+    private Machine frame;
     private FrontEndPanel frontEndPanel;
 
-    DesignPane(MainFrame frame) {
+    DesignPane(Machine frame) {
         super(new BorderLayout());
         this.frame = frame;
         init();
@@ -109,7 +107,7 @@ public class DesignPane extends JPanel {
 
     }
 
-    public MainFrame getFrame() {
+    public Machine getFrame() {
         return frame;
     }
 
