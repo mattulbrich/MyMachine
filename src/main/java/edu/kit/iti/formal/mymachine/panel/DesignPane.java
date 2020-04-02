@@ -4,17 +4,19 @@ import edu.kit.iti.formal.mymachine.Machine;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.util.Collection;
 
 public class DesignPane extends JPanel {
 
     ButtonGroup group = new ButtonGroup();
-    private Machine frame;
+    private Machine machine;
     private FrontEndPanel frontEndPanel;
 
-    DesignPane(Machine frame) {
+    public DesignPane(Machine machine) {
         super(new BorderLayout());
-        this.frame = frame;
+        this.machine = machine;
         init();
     }
 
@@ -62,9 +64,19 @@ public class DesignPane extends JPanel {
             selectionPanel.add(b);
             group.add(b);
         }
+        {
+            JButton b = new JButton("Szenario laden");
+            b.addActionListener(this::loadScenario);
+            selectionPanel.add(b);
+        }
+        {
+            JButton b = new JButton("Szenario speichern");
+            b.addActionListener(this::saveScenario);
+            selectionPanel.add(b);
+        }
 
-        frame.getPlayModeObservable().addObserver((s,o) -> {
-                    boolean playMode = frame.isPlayMode();
+        machine.getPlayModeObservable().addObserver((s, o) -> {
+                    boolean playMode = machine.isPlayMode();
                     for (Component component : selectionPanel.getComponents()) {
                         component.setEnabled(!playMode);
                     }
@@ -77,6 +89,30 @@ public class DesignPane extends JPanel {
         add(new JScrollPane(frontEndPanel));
 
         repaint();
+    }
+
+    private void loadScenario(ActionEvent actionEvent) {
+        JFileChooser jfc = new JFileChooser(".");
+        if (jfc.showDialog(this, "Laden") == JFileChooser.APPROVE_OPTION) {
+            try {
+                machine.loadScenario(jfc.getSelectedFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void saveScenario(ActionEvent actionEvent) {
+        JFileChooser jfc = new JFileChooser(".");
+        if (jfc.showDialog(this, "Speichern") == JFileChooser.APPROVE_OPTION) {
+            try {
+                machine.saveScenario(jfc.getSelectedFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public boolean isDeleteMode() {
@@ -100,7 +136,7 @@ public class DesignPane extends JPanel {
     public MachineElement createElement() {
         String actCommand = group.getSelection().getActionCommand();
         assert actCommand.startsWith("add ");
-        String clssName = "edu.kit.iti.formal.mymachine." + actCommand.substring(4);
+        String clssName = "edu.kit.iti.formal.mymachine.panel." + actCommand.substring(4);
         try {
             return (MachineElement) Class.forName(clssName).getConstructor().newInstance();
         } catch (Exception e) {
@@ -109,12 +145,12 @@ public class DesignPane extends JPanel {
 
     }
 
-    public Machine getFrame() {
-        return frame;
+    public Machine getMachine() {
+        return machine;
     }
 
     public Collection<MachineElement> getMachineElements() {
-        return frame.getMachineElements();
+        return machine.getMachineElements();
     }
 
     public void finishAction() {
@@ -122,10 +158,10 @@ public class DesignPane extends JPanel {
     }
 
     public void addMachineElement(MachineElement element) {
-        frame.addMachineElement(element);
+        machine.addMachineElement(element);
     }
 
     public MachineElement getMachineElement(String name) {
-        return frame.getMachineElement(name);
+        return machine.getMachineElement(name);
     }
 }

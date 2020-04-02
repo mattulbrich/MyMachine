@@ -1,8 +1,9 @@
 package edu.kit.iti.formal.mymachine.panel;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public abstract class MachineElement {
+public abstract class MachineElement implements Serializable {
 
     public enum PaintMode { NEUTRAL, PRESSED, MOUSE_OVER;};
 

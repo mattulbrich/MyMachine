@@ -1,10 +1,12 @@
 package edu.kit.iti.formal.mymachine;
 
+import com.thoughtworks.xstream.XStream;
 import edu.kit.iti.formal.mymachine.automata.State;
 import edu.kit.iti.formal.mymachine.automata.Transition;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
 
 import javax.swing.*;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 
@@ -39,9 +41,6 @@ public class Machine {
         machine.mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         machine.mainFrame.setVisible(true);
     }
-
-
-
 
     public Collection<MachineElement> getMachineElements() {
         return machineElements.values();
@@ -99,5 +98,28 @@ public class Machine {
 
     public MachineElement getMachineElement(String name) {
         return machineElements.get(name);
+    }
+
+    public void loadScenario(File file) throws IOException, ClassNotFoundException {
+        XStream xstream = new XStream();
+        try (ObjectInputStream ois = xstream.createObjectInputStream(new FileInputStream(file))) {
+            Map<String, MachineElement> machineElements = (Map<String, MachineElement>) ois.readObject();
+            List<State> states = (List<State>) ois.readObject();
+            List<Transition> transitions = (List<Transition>) ois.readObject();
+            this.activeState = null;
+            this.states = states;
+            this.machineElements = machineElements;
+            this.transitions = transitions;
+            mainFrame.repaint();
+        }
+    }
+
+    public void saveScenario(File file) throws IOException {
+        XStream xstream = new XStream();
+        try(ObjectOutputStream oos = xstream.createObjectOutputStream(new FileOutputStream(file))) {
+            oos.writeObject(machineElements);
+            oos.writeObject(states);
+            oos.writeObject(transitions);
+        }
     }
 }

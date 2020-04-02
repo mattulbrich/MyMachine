@@ -46,12 +46,12 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
 
-        if(designPane.getFrame().isPlayMode()) {
+        if(designPane.getMachine().isPlayMode()) {
             for (MachineElement element : designPane.getMachineElements()) {
                 if (element.contains(mouseEvent.getPoint()) && element.isActive()) {
                     String command = element.getName();
                     if (command != null) {
-                        designPane.getFrame().fire(command);
+                        designPane.getMachine().fire(command);
                     }
                 }
             }
