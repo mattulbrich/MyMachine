@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'edu.kit.iti.formal'
+version '1.0-SNAPSHOT'
+
+
+
+application {
+    mainClassName = 'edu.kit.iti.formal.mymachine.MainFrame'
+}
+
+
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
