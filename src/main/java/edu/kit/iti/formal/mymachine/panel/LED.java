@@ -1,4 +1,4 @@
-package edu.kit.iti.formal.mymachine;
+package edu.kit.iti.formal.mymachine.panel;
 
 import javax.swing.*;
 import java.awt.*;
