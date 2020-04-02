@@ -13,6 +13,7 @@
 
 package edu.kit.iti.formal.mymachine.panel;
 
+import edu.kit.iti.formal.mymachine.DeselectButtonGroup;
 import edu.kit.iti.formal.mymachine.Machine;
 
 import javax.swing.*;
@@ -21,7 +22,7 @@ import java.util.Collection;
 
 public class DesignPane extends JPanel {
 
-    ButtonGroup group = new ButtonGroup();
+    ButtonGroup buttonGroup = new DeselectButtonGroup();
     private Machine machine;
     private FrontEndPanel frontEndPanel;
 
@@ -37,43 +38,46 @@ public class DesignPane extends JPanel {
             JToggleButton b = new JToggleButton("Knopf");
             b.setActionCommand("add Button");
             selectionPanel.add(b);
-            group.add(b);
+            buttonGroup.add(b);
         }
         {
             JToggleButton b = new JToggleButton("Münzschlitz");
             b.setActionCommand("add Slot");
             selectionPanel.add(b);
-            group.add(b);
+            buttonGroup.add(b);
         }
         {
             JToggleButton b = new JToggleButton("Bild");
             b.setEnabled(false);
             selectionPanel.add(b);
-            group.add(b);
+            buttonGroup.add(b);
         }
         {
             JToggleButton b = new JToggleButton("Ausgabeschacht");
             b.setActionCommand("add Output");
             selectionPanel.add(b);
-            group.add(b);
+            buttonGroup.add(b);
         }
         {
             JToggleButton b = new JToggleButton("LED");
             b.setActionCommand("add LED");
+            b.addActionListener(e -> {
+                System.out.println(b);
+            });
             selectionPanel.add(b);
-            group.add(b);
+            buttonGroup.add(b);
         }
         {
             JToggleButton b = new JToggleButton("Display");
             b.setActionCommand("add Display");
             selectionPanel.add(b);
-            group.add(b);
+            buttonGroup.add(b);
         }
         {
             JToggleButton b = new JToggleButton("Löschen");
             b.setActionCommand("delete");
             selectionPanel.add(b);
-            group.add(b);
+            buttonGroup.add(b);
         }
 
         machine.addPlaymodeObserver(playmodeObs -> {
@@ -82,7 +86,7 @@ public class DesignPane extends JPanel {
                 component.setEnabled(!playmode);
             }
             if (playmode) {
-                group.clearSelection();
+                buttonGroup.clearSelection();
             }
         });
 
@@ -96,16 +100,16 @@ public class DesignPane extends JPanel {
     }
 
     public boolean isDeleteMode() {
-        ButtonModel selection = group.getSelection();
+        ButtonModel selection = buttonGroup.getSelection();
         return selection != null && selection.getActionCommand().equals("delete");
     }
 
     public boolean isMoveMode() {
-        return group.getSelection() == null;
+        return buttonGroup.getSelection() == null;
     }
 
     public boolean isAddMode() {
-        ButtonModel selection = group.getSelection();
+        ButtonModel selection = buttonGroup.getSelection();
         if (selection == null) {
             return false;
         }
@@ -114,7 +118,7 @@ public class DesignPane extends JPanel {
     }
 
     public MachineElement createElement() {
-        String actCommand = group.getSelection().getActionCommand();
+        String actCommand = buttonGroup.getSelection().getActionCommand();
         assert actCommand.startsWith("add ");
         String clssName = "edu.kit.iti.formal.mymachine.panel." + actCommand.substring(4);
         try {
@@ -134,7 +138,7 @@ public class DesignPane extends JPanel {
     }
 
     public void finishAction() {
-        group.clearSelection();
+        buttonGroup.clearSelection();
     }
 
     public void addMachineElement(MachineElement element) {

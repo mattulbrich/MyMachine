@@ -45,7 +45,6 @@ public class State {
         g2.fillOval(position.x - STATE_SIZE_HALF, position.y - STATE_SIZE_HALF,
                 STATE_SIZE, STATE_SIZE);
         g2.setColor(active ? Color.green : Color.black);
-        g2.setStroke(new BasicStroke(3f));
         g2.drawOval(position.x - STATE_SIZE_HALF, position.y - STATE_SIZE_HALF,
                 STATE_SIZE, STATE_SIZE);
         FontMetrics fontMetrics = g2.getFontMetrics();

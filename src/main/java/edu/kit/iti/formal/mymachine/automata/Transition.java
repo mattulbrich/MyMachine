@@ -35,7 +35,6 @@ public class Transition {
         int y2 = (toPos.y + fromPos.y) / 2;
 
         g2.setColor(Color.black);
-        g2.setStroke(new BasicStroke(3f));
         g2.drawLine(fromPos.x, fromPos.y, toPos.x, toPos.y);
         g2.drawString(in, x2, y2);
         g2.drawString(out, x2, y2+20);

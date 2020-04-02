@@ -12,6 +12,7 @@
  */
 package edu.kit.iti.formal.mymachine.automata;
 
+import edu.kit.iti.formal.mymachine.DeselectButtonGroup;
 import edu.kit.iti.formal.mymachine.Machine;
 
 import javax.swing.*;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class AutomataEditor extends JPanel {
 
-    ButtonGroup group = new ButtonGroup();
+    private ButtonGroup buttonGroup = new DeselectButtonGroup();
     private Machine machine;
     private AutomataPane panel;
 
@@ -45,7 +46,7 @@ public class AutomataEditor extends JPanel {
             JToggleButton b = new JToggleButton("Neuer Zustand");
             b.setActionCommand("addstate");
             selectionPanel.add(b);
-            group.add(b);
+            buttonGroup.add(b);
         }
         {
             JToggleButton b = new JToggleButton("Neuer Übergang");
@@ -54,19 +55,19 @@ public class AutomataEditor extends JPanel {
                 this.panel.removeTransitionInfo();
             });
             selectionPanel.add(b);
-            group.add(b);
+            buttonGroup.add(b);
         }
         {
             JToggleButton b = new JToggleButton("Bearbeiten");
             b.setActionCommand("edit");
             selectionPanel.add(b);
-            group.add(b);
+            buttonGroup.add(b);
         }
         {
             JToggleButton b = new JToggleButton("Löschen");
             b.setActionCommand("delete");
             selectionPanel.add(b);
-            group.add(b);
+            buttonGroup.add(b);
         }
 
         add(selectionPanel, BorderLayout.NORTH);
@@ -78,12 +79,12 @@ public class AutomataEditor extends JPanel {
         repaint();
 
         machine.addPlaymodeObserver(playmode -> {
-            Enumeration<AbstractButton> en = group.getElements();
+            Enumeration<AbstractButton> en = buttonGroup.getElements();
             while (en.hasMoreElements()) {
                 en.nextElement().setEnabled(!playmode.get());
             }
             if (playmode.get()) {
-                group.clearSelection();
+                buttonGroup.clearSelection();
             }
         });
     }
@@ -113,11 +114,11 @@ public class AutomataEditor extends JPanel {
     }
 
     public boolean isDeleteMode() {
-        return group.getSelection().getActionCommand().equals("delete");
+        return buttonGroup.getSelection().getActionCommand().equals("delete");
     }
 
     public boolean isMoveMode() {
-        return group.getSelection() == null;
+        return buttonGroup.getSelection() == null;
     }
 
     public Collection<State> getStates() {
@@ -129,7 +130,7 @@ public class AutomataEditor extends JPanel {
     }
 
     public String getMode() {
-        ButtonModel selButton = group.getSelection();
+        ButtonModel selButton = buttonGroup.getSelection();
         if (selButton == null) {
             return "move";
         }

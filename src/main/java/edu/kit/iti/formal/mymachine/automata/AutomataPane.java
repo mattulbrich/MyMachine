@@ -12,13 +12,19 @@
  */
 package edu.kit.iti.formal.mymachine.automata;
 
+import edu.kit.iti.formal.mymachine.panel.MachineElement;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Vector;
 
 public class AutomataPane extends JComponent implements MouseMotionListener, MouseListener {
+
+    private static final Stroke DASHED_STROKE = new BasicStroke(3f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);;
+    private static final Stroke SOLID_STROKE = new BasicStroke(3f);
     private AutomataEditor automataEditor;
     private State firstTransPartner;
     private State draggedState;
@@ -42,13 +48,22 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
                 RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON));
 
-        g.setColor(Color.white);
-        g.fillRect(0,0,getWidth(),getHeight());
+        g2.setColor(Color.white);
+        g2.fillRect(0,0,getWidth(),getHeight());
+        g2.setStroke(SOLID_STROKE);
 
         State active = automataEditor.getActiveState();
 
         for (Transition transition : automataEditor.getTransitions()) {
             transition.paint(g2);
+        }
+
+        if(firstTransPartner != null) {
+            Graphics2D g3 = (Graphics2D) g2.create();
+            g3.setStroke(DASHED_STROKE);
+            g3.setColor(Color.CYAN);
+            Point pos = firstTransPartner.getPosition();
+            g3.drawLine(pos.x, pos.y, dragStart.x, dragStart.y);
         }
 
         for (State state : automataEditor.getStates()) {
@@ -64,45 +79,29 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
             pos.y += e.getY() - dragStart.y;
             dragStart = e.getPoint();
             repaint();
+        } else if (firstTransPartner != null) {
+            dragStart = e.getPoint();
+            repaint();
         }
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        switch(automataEditor.getMode()) {
-            case "addstate":
-                String name = JOptionPane.showInputDialog("Name");
-                if (name != null) {
-                    if (automataEditor.getMachine().getState(name) != null) {
-                        JOptionPane.showMessageDialog(this, "Es gibt bereits einen Zustand, der diesen Namen hat.");
-                    } else {
-                        automataEditor.getMachine().addState(new State(name, e.getPoint()));
-                    }
-                }
-                repaint();
-                break;
-
-            case "addtrans":
-                State state = findState(e.getPoint());
-                if(state == null) {
-                    return;
-                }
-                if(firstTransPartner == null) {
-                    firstTransPartner = state;
-                    JOptionPane.showMessageDialog(null, "Select 2nd transition partner");
+        if(automataEditor.getMode().equals("addstate")) {
+            String name = JOptionPane.showInputDialog("Name");
+            if (name != null) {
+                if (automataEditor.getMachine().getState(name) != null) {
+                    JOptionPane.showMessageDialog(this, "Es gibt bereits einen Zustand, der diesen Namen hat.");
                 } else {
-                    String in = JOptionPane.showInputDialog("Transition input");
-                    String out = JOptionPane.showInputDialog("Transition output");
-                    automataEditor.getTransitions().add(new Transition(firstTransPartner, state, in, out));
-                    firstTransPartner = null;
+                    automataEditor.getMachine().addState(new State(name, e.getPoint()));
                 }
+            }
+            repaint();
         }
-
     }
 
     private State findState(Point point) {
@@ -116,13 +115,51 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
 
     @Override
     public void mousePressed(MouseEvent e) {
-        draggedState = findState(e.getPoint());
+        State state = findState(e.getPoint());
+        if(automataEditor.getMode().equals("addtrans")) {
+            firstTransPartner = state;
+        } else {
+            draggedState = state;
+        }
         dragStart = e.getPoint();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         draggedState = null;
+        if (firstTransPartner != null) {
+            State first = firstTransPartner;
+            State partner =  findState(e.getPoint());
+            firstTransPartner = null;
+            if (partner != null) {
+                String in = showTransitionInputDlg();
+                if (in == null) {
+                    return;
+                }
+                String out = JOptionPane.showInputDialog("Transition output");
+                if (out == null) {
+                    return;
+                }
+                automataEditor.getMachine().addTransition(new Transition(first, partner, in, out));
+                repaint();
+            }
+        }
+    }
+
+    private String showTransitionInputDlg() {
+        Vector<String> list = new Vector<>();
+        for (MachineElement element : automataEditor.getMachine().getMachineElements()) {
+            if (element.isActive()) {
+                list.add(element.getName());
+            }
+        }
+        JComboBox<String> jcb = new JComboBox<>(list);
+        int res = JOptionPane.showConfirmDialog(this, jcb,
+                "Eingabe-Ereignis", JOptionPane.OK_CANCEL_OPTION);
+        if (res == JOptionPane.OK_OPTION) {
+            return (String) jcb.getSelectedItem();
+        }
+        return null;
     }
 
     @Override

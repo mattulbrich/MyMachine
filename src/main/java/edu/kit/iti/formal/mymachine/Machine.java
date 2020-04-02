@@ -287,6 +287,10 @@ public class Machine implements Serializable {
         states.put(state.getName(), state);
     }
 
+    public void addTransition(Transition transition) {
+        transitions.add(transition);
+    }
+
     public State getState(String name) {
         return states.get(name);
     }
