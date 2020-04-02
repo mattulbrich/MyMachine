@@ -1,3 +1,15 @@
+/**
+ * This file is part of the tool MyMachine.
+ * https://github.com/mattulbrich/MyMachine
+ *
+ * MyMachine is a simple visualisation tool to learn finite state
+ * machines.
+ *
+ * The system is protected by the GNU General Public License Version 3.
+ * See the file LICENSE in the main directory of the project.
+ *
+ * (c) 2020 Karlsruhe Institute of Technology
+ */
 package edu.kit.iti.formal.mymachine.panel;
 
 import edu.kit.iti.formal.mymachine.Machine;
@@ -64,16 +76,6 @@ public class DesignPane extends JPanel {
             selectionPanel.add(b);
             group.add(b);
         }
-        {
-            JButton b = new JButton("Szenario laden");
-            b.addActionListener(this::loadScenario);
-            selectionPanel.add(b);
-        }
-        {
-            JButton b = new JButton("Szenario speichern");
-            b.addActionListener(this::saveScenario);
-            selectionPanel.add(b);
-        }
 
         machine.getPlayModeObservable().addObserver((s, o) -> {
                     boolean playMode = machine.isPlayMode();
@@ -89,30 +91,6 @@ public class DesignPane extends JPanel {
         add(new JScrollPane(frontEndPanel));
 
         repaint();
-    }
-
-    private void loadScenario(ActionEvent actionEvent) {
-        JFileChooser jfc = new JFileChooser(".");
-        if (jfc.showDialog(this, "Laden") == JFileChooser.APPROVE_OPTION) {
-            try {
-                machine.loadScenario(jfc.getSelectedFile());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void saveScenario(ActionEvent actionEvent) {
-        JFileChooser jfc = new JFileChooser(".");
-        if (jfc.showDialog(this, "Speichern") == JFileChooser.APPROVE_OPTION) {
-            try {
-                machine.saveScenario(jfc.getSelectedFile());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public boolean isDeleteMode() {

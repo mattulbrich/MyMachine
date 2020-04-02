@@ -1,3 +1,15 @@
+/**
+ * This file is part of the tool MyMachine.
+ * https://github.com/mattulbrich/MyMachine
+ *
+ * MyMachine is a simple visualisation tool to learn finite state
+ * machines.
+ *
+ * The system is protected by the GNU General Public License Version 3.
+ * See the file LICENSE in the main directory of the project.
+ *
+ * (c) 2020 Karlsruhe Institute of Technology
+ */
 package edu.kit.iti.formal.mymachine.automata;
 
 import javax.swing.*;
@@ -38,6 +50,14 @@ public class State {
         FontMetrics fontMetrics = g2.getFontMetrics();
         int strWidth = SwingUtilities.computeStringWidth(fontMetrics, name);
         g2.drawString(name, position.x - strWidth/2, position.y + fontMetrics.getAscent()/2);
+
+        if(name.equals("Start")) {
+            int x = position.x - STATE_SIZE_HALF;
+            int y = position.y;
+            g2.drawLine(x-40, y, x, y);
+            g2.drawLine(x, y, x - 10, y - 10);
+            g2.drawLine(x, y, x - 10, y + 10);
+        }
     }
 
     public boolean contains(Point point) {

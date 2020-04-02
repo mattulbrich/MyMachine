@@ -1,111 +1,96 @@
 <object-stream>
-  <map>
-    <entry>
-      <string>#Output</string>
-      <edu.kit.iti.formal.mymachine.panel.Output>
-        <position>
-          <x>179</x>
-          <y>369</y>
-        </position>
-        <dimension>
-          <width>200</width>
-          <height>50</height>
-        </dimension>
-        <active>false</active>
-        <name>#Output</name>
-        <schokis>0</schokis>
-      </edu.kit.iti.formal.mymachine.panel.Output>
-    </entry>
-    <entry>
-      <string>Knopf</string>
-      <edu.kit.iti.formal.mymachine.panel.Button>
-        <position>
-          <x>102</x>
-          <y>172</y>
-        </position>
-        <dimension>
-          <width>100</width>
-          <height>100</height>
-        </dimension>
-        <active>true</active>
-        <name>Knopf</name>
-      </edu.kit.iti.formal.mymachine.panel.Button>
-    </entry>
-    <entry>
-      <string>#Coinslot</string>
-      <edu.kit.iti.formal.mymachine.panel.Slot>
-        <position>
-          <x>258</x>
-          <y>177</y>
-        </position>
-        <dimension>
-          <width>20</width>
-          <height>100</height>
-        </dimension>
-        <active>true</active>
-        <name>#Coinslot</name>
-      </edu.kit.iti.formal.mymachine.panel.Slot>
-    </entry>
-  </map>
-  <list>
-    <edu.kit.iti.formal.mymachine.automata.State>
-      <name>Start</name>
-      <position>
-        <x>114</x>
-        <y>115</y>
-      </position>
-    </edu.kit.iti.formal.mymachine.automata.State>
-    <edu.kit.iti.formal.mymachine.automata.State>
-      <name>Geld1</name>
-      <position>
-        <x>345</x>
-        <y>101</y>
-      </position>
-    </edu.kit.iti.formal.mymachine.automata.State>
-    <edu.kit.iti.formal.mymachine.automata.State>
-      <name>Geld2</name>
-      <position>
-        <x>239</x>
-        <y>266</y>
-      </position>
-    </edu.kit.iti.formal.mymachine.automata.State>
-  </list>
-  <list>
-    <edu.kit.iti.formal.mymachine.automata.Transition>
-      <from>
+  <edu.kit.iti.formal.mymachine.Machine id="1">
+    <machineElements id="2">
+      <entry>
+        <string>#Output</string>
+        <edu.kit.iti.formal.mymachine.panel.Output id="3">
+          <position id="4">
+            <x>151</x>
+            <y>332</y>
+          </position>
+          <dimension id="5">
+            <width>200</width>
+            <height>50</height>
+          </dimension>
+          <active>false</active>
+          <name>#Output</name>
+          <schokis>0</schokis>
+        </edu.kit.iti.formal.mymachine.panel.Output>
+      </entry>
+      <entry>
+        <string>Knopf</string>
+        <edu.kit.iti.formal.mymachine.panel.Button id="6">
+          <position id="7">
+            <x>83</x>
+            <y>137</y>
+          </position>
+          <dimension id="8">
+            <width>100</width>
+            <height>100</height>
+          </dimension>
+          <active>true</active>
+          <name>Knopf</name>
+        </edu.kit.iti.formal.mymachine.panel.Button>
+      </entry>
+      <entry>
+        <string>#Coin</string>
+        <edu.kit.iti.formal.mymachine.panel.Slot id="9">
+          <position id="10">
+            <x>214</x>
+            <y>147</y>
+          </position>
+          <dimension id="11">
+            <width>20</width>
+            <height>100</height>
+          </dimension>
+          <active>true</active>
+          <name>#Coin</name>
+        </edu.kit.iti.formal.mymachine.panel.Slot>
+      </entry>
+    </machineElements>
+    <states id="12">
+      <edu.kit.iti.formal.mymachine.automata.State id="13">
         <name>Start</name>
-        <position>
-          <x>114</x>
-          <y>115</y>
+        <position id="14">
+          <x>139</x>
+          <y>73</y>
         </position>
-      </from>
-      <to>
+      </edu.kit.iti.formal.mymachine.automata.State>
+      <edu.kit.iti.formal.mymachine.automata.State id="15">
         <name>Geld1</name>
-        <position>
-          <x>345</x>
-          <y>101</y>
+        <position id="16">
+          <x>386</x>
+          <y>95</y>
         </position>
-      </to>
-      <in>Münze</in>
-      <out></out>
-    </edu.kit.iti.formal.mymachine.automata.Transition>
-    <edu.kit.iti.formal.mymachine.automata.Transition>
-      <from reference="../../edu.kit.iti.formal.mymachine.automata.Transition/to"/>
-      <to>
+      </edu.kit.iti.formal.mymachine.automata.State>
+      <edu.kit.iti.formal.mymachine.automata.State id="17">
         <name>Geld2</name>
-        <position>
-          <x>239</x>
-          <y>266</y>
+        <position id="18">
+          <x>258</x>
+          <y>252</y>
         </position>
-      </to>
-      <in>Münze</in>
-      <out></out>
-    </edu.kit.iti.formal.mymachine.automata.Transition>
-    <edu.kit.iti.formal.mymachine.automata.Transition>
-      <from reference="../../edu.kit.iti.formal.mymachine.automata.Transition[2]/to"/>
-      <to reference="../../edu.kit.iti.formal.mymachine.automata.Transition/from"/>
-      <in>Knopf</in>
-      <out>#Output 2</out>
-    </edu.kit.iti.formal.mymachine.automata.Transition>
-  </list>
+      </edu.kit.iti.formal.mymachine.automata.State>
+    </states>
+    <activeState reference="13"/>
+    <transitions id="19">
+      <edu.kit.iti.formal.mymachine.automata.Transition id="20">
+        <from reference="13"/>
+        <to reference="15"/>
+        <in>#Coin</in>
+        <out></out>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="21">
+        <from reference="15"/>
+        <to reference="17"/>
+        <in>#Coin</in>
+        <out></out>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="22">
+        <from reference="17"/>
+        <to reference="13"/>
+        <in>Knopf</in>
+        <out>#Output 2</out>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+    </transitions>
+  </edu.kit.iti.formal.mymachine.Machine>
 </object-stream>

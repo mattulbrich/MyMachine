@@ -1,0 +1,24 @@
+
+# List of open points to be implemented
+
+[ ] There should be at most one coin slot, at most one output
+    No two elements must have same name
+
+[ ] No double named states
+
+[ ] Edit state names, transitions properties
+
+[x] "Start" state should be indicated
+
+[ ] Start state is not the first but the one called "Start"
+
+[ ] Have a decent input dialog for transitions
+    --> take that from Teamprojekt?
+
+[ ] Check that names match "[:alpha:]+"
+
+[ ] Externalise explicit Strings
+
+[ ] Show only .xml files in file dialogs and suggest that extension.
+
+[ ] "Do you want to overwrite?"

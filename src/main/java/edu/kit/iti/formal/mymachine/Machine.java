@@ -1,3 +1,15 @@
+/**
+ * This file is part of the tool MyMachine.
+ * https://github.com/mattulbrich/MyMachine
+ *
+ * MyMachine is a simple visualisation tool to learn finite state
+ * machines.
+ *
+ * The system is protected by the GNU General Public License Version 3.
+ * See the file LICENSE in the main directory of the project.
+ *
+ * (c) 2020 Karlsruhe Institute of Technology
+ */
 package edu.kit.iti.formal.mymachine;
 
 import com.thoughtworks.xstream.XStream;
@@ -12,18 +24,15 @@ import java.util.List;
 
 public class Machine {
 
-    private MainFrame mainFrame;
+    private transient MainFrame mainFrame;
     private Map<String, MachineElement> machineElements = new HashMap<>();
     private List<State> states = new ArrayList<>();
     private State activeState;
-    private final BooleanObservable playModeObservable = new BooleanObservable();
+    private transient final BooleanObservable playModeObservable = new BooleanObservable();
     private List<Transition> transitions = new ArrayList<>();
 
     public Machine() {
         this.mainFrame = new MainFrame(this);
-    }
-
-    private void init() {
         playModeObservable.addObserver((s,o) -> {
             if ((Boolean) o) {
                 activeState = states.get(0);
@@ -82,12 +91,15 @@ public class Machine {
     }
 
     private void output(String out) {
+        if (out.isEmpty()) {
+            return;
+        }
         String[] parts = out.split(" ", 2);
         MachineElement element = machineElements.get(parts[0]);
         if(element != null) {
             element.output(parts[1]);
         } else {
-            throw new NoSuchElementException("Unknown element " + parts[0]);
+            throw new NoSuchElementException("Unknown element in command '" + out + "'");
         }
         mainFrame.repaint();
     }
@@ -102,24 +114,22 @@ public class Machine {
 
     public void loadScenario(File file) throws IOException, ClassNotFoundException {
         XStream xstream = new XStream();
+        xstream.setMode(XStream.ID_REFERENCES);
         try (ObjectInputStream ois = xstream.createObjectInputStream(new FileInputStream(file))) {
-            Map<String, MachineElement> machineElements = (Map<String, MachineElement>) ois.readObject();
-            List<State> states = (List<State>) ois.readObject();
-            List<Transition> transitions = (List<Transition>) ois.readObject();
+            Machine newMachine = (Machine) ois.readObject();
             this.activeState = null;
-            this.states = states;
-            this.machineElements = machineElements;
-            this.transitions = transitions;
+            this.states = newMachine.states;
+            this.machineElements = newMachine.machineElements;
+            this.transitions = newMachine.transitions;
             mainFrame.repaint();
         }
     }
 
     public void saveScenario(File file) throws IOException {
         XStream xstream = new XStream();
+        xstream.setMode(XStream.ID_REFERENCES);
         try(ObjectOutputStream oos = xstream.createObjectOutputStream(new FileOutputStream(file))) {
-            oos.writeObject(machineElements);
-            oos.writeObject(states);
-            oos.writeObject(transitions);
+            oos.writeObject(this);
         }
     }
 }
