@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the tool MyMachine.
  * https://github.com/mattulbrich/MyMachine
  *
@@ -16,27 +16,29 @@ import edu.kit.iti.formal.mymachine.Machine;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.Collection;
+import java.util.Enumeration;
 import java.util.List;
 
 public class AutomataEditor extends JPanel {
 
     ButtonGroup group = new ButtonGroup();
-    private Machine frame;
+    private Machine machine;
     private AutomataPane panel;
 
-    public AutomataEditor(Machine frame) {
+    public AutomataEditor(Machine machine) {
         super(new BorderLayout());
-        this.frame = frame;
+        this.machine = machine;
         init();
     }
 
     private void init() {
         JToolBar selectionPanel = new JToolBar();
-
         {
             JToggleButton b = new JToggleButton(" L A U F ");
             selectionPanel.add(b);
-            b.addActionListener(e -> frame.setPlayMode(b.isSelected()));
+            b.addActionListener(this::run);
         }
         selectionPanel.add(new JSeparator());
         {
@@ -74,6 +76,40 @@ public class AutomataEditor extends JPanel {
         add(new JScrollPane(panel));
 
         repaint();
+
+        machine.addPlaymodeObserver(playmode -> {
+            Enumeration<AbstractButton> en = group.getElements();
+            while (en.hasMoreElements()) {
+                en.nextElement().setEnabled(!playmode.get());
+            }
+            if (playmode.get()) {
+                group.clearSelection();
+            }
+        });
+    }
+
+    private void run(ActionEvent e) {
+        JToggleButton button = (JToggleButton) e.getSource();
+        if(button.isSelected()) {
+            if(machine.getStartState() == null) {
+                JOptionPane.showMessageDialog(this,
+                        "Dieser Automat hat keinen Zustand der 'Start' heißt.");
+                button.setSelected(false);
+                return;
+            }
+
+            State indet = machine.findIndeterminism();
+            if (indet != null) {
+                JOptionPane.showMessageDialog(this,
+                        "Der Zustand '" + indet.getName() +
+                                "' hat zwei ausgehende Kanten, die auf dasselbe Signal reagieren.");
+                button.setSelected(false);
+                return;
+            }
+            machine.setPlayMode(true);
+        } else {
+            machine.setPlayMode(false);
+        }
     }
 
     public boolean isDeleteMode() {
@@ -84,12 +120,12 @@ public class AutomataEditor extends JPanel {
         return group.getSelection() == null;
     }
 
-    public List<State> getStates() {
-        return frame.getStates();
+    public Collection<State> getStates() {
+        return machine.getStates();
     }
 
     public State getActiveState() {
-        return frame.getActiveState();
+        return machine.getActiveState();
     }
 
     public String getMode() {
@@ -101,6 +137,10 @@ public class AutomataEditor extends JPanel {
     }
 
     public List<Transition> getTransitions() {
-        return frame.getTransitions();
+        return machine.getTransitions();
+    }
+
+    public Machine getMachine() {
+        return machine;
     }
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the tool MyMachine.
  * https://github.com/mattulbrich/MyMachine
  *
@@ -10,6 +10,7 @@
  *
  * (c) 2020 Karlsruhe Institute of Technology
  */
+
 package edu.kit.iti.formal.mymachine.automata;
 
 import javax.swing.*;
@@ -64,7 +65,6 @@ public class State {
         int deltax = point.x - position.x;
         int deltay = point.y - position.y;
 
-        return -STATE_SIZE_HALF <= deltax && deltax < STATE_SIZE_HALF &&
-                -STATE_SIZE_HALF <= deltay && deltay < STATE_SIZE_HALF;
+        return Math.hypot(deltax, deltay) <= STATE_SIZE_HALF;
     }
 }

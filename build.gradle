@@ -24,4 +24,10 @@ dependencies {
 
 license {
     header rootProject.file('HEADER')
+
+    //find styles here:
+    // http://code.mycila.com/license-maven-plugin/#supported-comment-types
+    mapping {
+        java = "SLASHSTAR_STYLE"
+    }
 }

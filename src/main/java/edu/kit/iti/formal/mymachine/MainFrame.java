@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the tool MyMachine.
  * https://github.com/mattulbrich/MyMachine
  *
@@ -10,6 +10,7 @@
  *
  * (c) 2020 Karlsruhe Institute of Technology
  */
+
 package edu.kit.iti.formal.mymachine;
 
 import edu.kit.iti.formal.mymachine.automata.AutomataEditor;
@@ -56,6 +57,10 @@ public class MainFrame extends JFrame {
         JMenuItem save = new JMenuItem("Szenario speichern ...");
         save.addActionListener(this::saveScenario);
         control.add(save);
+
+        JMenuItem reset = new JMenuItem("Zurücksetzen");
+        reset.addActionListener(e -> machine.reset());
+        control.add(reset);
 
         control.add(new JSeparator());
 

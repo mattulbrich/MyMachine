@@ -49,45 +49,53 @@
       </entry>
     </machineElements>
     <states id="12">
-      <edu.kit.iti.formal.mymachine.automata.State id="13">
-        <name>Start</name>
-        <position id="14">
-          <x>139</x>
-          <y>73</y>
-        </position>
-      </edu.kit.iti.formal.mymachine.automata.State>
-      <edu.kit.iti.formal.mymachine.automata.State id="15">
-        <name>Geld1</name>
-        <position id="16">
-          <x>386</x>
-          <y>95</y>
-        </position>
-      </edu.kit.iti.formal.mymachine.automata.State>
-      <edu.kit.iti.formal.mymachine.automata.State id="17">
-        <name>Geld2</name>
-        <position id="18">
-          <x>258</x>
-          <y>252</y>
-        </position>
-      </edu.kit.iti.formal.mymachine.automata.State>
+      <entry>
+        <string>Geld1</string>
+        <edu.kit.iti.formal.mymachine.automata.State id="13">
+          <name>Geld1</name>
+          <position id="14">
+            <x>391</x>
+            <y>83</y>
+          </position>
+        </edu.kit.iti.formal.mymachine.automata.State>
+      </entry>
+      <entry>
+        <string>Geld2</string>
+        <edu.kit.iti.formal.mymachine.automata.State id="15">
+          <name>Geld2</name>
+          <position id="16">
+            <x>264</x>
+            <y>270</y>
+          </position>
+        </edu.kit.iti.formal.mymachine.automata.State>
+      </entry>
+      <entry>
+        <string>Start</string>
+        <edu.kit.iti.formal.mymachine.automata.State id="17">
+          <name>Start</name>
+          <position id="18">
+            <x>139</x>
+            <y>73</y>
+          </position>
+        </edu.kit.iti.formal.mymachine.automata.State>
+      </entry>
     </states>
-    <activeState reference="13"/>
     <transitions id="19">
       <edu.kit.iti.formal.mymachine.automata.Transition id="20">
+        <from reference="17"/>
+        <to reference="13"/>
+        <in>#Coin</in>
+        <out></out>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="21">
         <from reference="13"/>
         <to reference="15"/>
         <in>#Coin</in>
         <out></out>
       </edu.kit.iti.formal.mymachine.automata.Transition>
-      <edu.kit.iti.formal.mymachine.automata.Transition id="21">
+      <edu.kit.iti.formal.mymachine.automata.Transition id="22">
         <from reference="15"/>
         <to reference="17"/>
-        <in>#Coin</in>
-        <out></out>
-      </edu.kit.iti.formal.mymachine.automata.Transition>
-      <edu.kit.iti.formal.mymachine.automata.Transition id="22">
-        <from reference="17"/>
-        <to reference="13"/>
         <in>Knopf</in>
         <out>#Output 2</out>
       </edu.kit.iti.formal.mymachine.automata.Transition>

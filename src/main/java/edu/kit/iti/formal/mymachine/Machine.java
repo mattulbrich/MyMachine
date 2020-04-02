@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the tool MyMachine.
  * https://github.com/mattulbrich/MyMachine
  *
@@ -21,21 +21,61 @@ import javax.swing.*;
 import java.io.*;
 import java.util.*;
 import java.util.List;
+import java.util.function.Consumer;
 
-public class Machine {
 
+/**
+ * This is the main model class that holds the business date:
+ * - panel elements
+ * - states
+ * - transitions
+ * - the current transition.
+ *
+ * Operations on these data are defined here. This class is also used for serialisation.
+ */
+public class Machine implements Serializable {
+
+    /**
+     * A link to the frame of this application.
+     * Not to be serialised
+     */
     private transient MainFrame mainFrame;
+
+    /**
+     * A collection of all machine (=panel) elements. They are indexed by their name.
+     */
     private Map<String, MachineElement> machineElements = new HashMap<>();
-    private List<State> states = new ArrayList<>();
+
+    /**
+     * A collection of all automata states. They are indexed by their name.
+     */
+    private Map<String, State> states = new HashMap<>();
+
+    /**
+     * The currently active state while in play mode. Should be null while not in
+     * play mode.
+     */
     private State activeState;
-    private transient final BooleanObservable playModeObservable = new BooleanObservable();
+
+    /**
+     * The collection of transitions. not indexed.
+     */
     private List<Transition> transitions = new ArrayList<>();
 
+    /**
+     * The flag for the play mode. Observers can be added to the flag.
+     */
+    private transient final BooleanObservable playModeObservable = new BooleanObservable();
+
+
+    /**
+     * Make a new, empty model.
+     */
     public Machine() {
         this.mainFrame = new MainFrame(this);
-        playModeObservable.addObserver((s,o) -> {
-            if ((Boolean) o) {
-                activeState = states.get(0);
+        addPlaymodeObserver(playmode -> {
+            if (playmode.get()) {
+                activeState = getStartState();
             } else {
                 activeState = null;
             }
@@ -44,41 +84,125 @@ public class Machine {
         });
     }
 
+    /**
+     * The entry point of this application.
+     *
+     * @param args command line args
+     */
     public static void main(String[] args) {
         Machine machine = new Machine();
         machine.mainFrame.setSize(700,700);
+        machine.mainFrame.setLocationRelativeTo(null);
         machine.mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         machine.mainFrame.setVisible(true);
     }
 
+    /**
+     * Get an immutable collection of all existing machine elements
+     *
+     * @return an immutable, but iterable list.
+     */
     public Collection<MachineElement> getMachineElements() {
         return machineElements.values();
     }
 
-    public List<State> getStates() {
-        return states;
+    /**
+     * Get an immutable collection of all existing automaton states
+     *
+     * @return an immutable, but iterable list.
+     */
+    public Collection<State> getStates() {
+        return states.values();
     }
 
+    /**
+     * Get the currently active state in playmode, null otherwise.
+     *
+     * @return a state in {@link #getStates()} or null.
+     */
     public State getActiveState() {
         return activeState;
     }
 
-    public List<Transition> getTransitions() {
-        return transitions;
+    /**
+     * Get the start state.
+     * The start state is the state named "Start".
+     *
+     * @return start state, or null if non-existent.
+     */
+    public State getStartState() {
+        return states.get("Start");
     }
 
+    /**
+     * Get an immutable collection of all existing machine elements.
+     *
+     * @return an immutable, but iterable list.
+     */
+    public List<Transition> getTransitions() {
+        return Collections.unmodifiableList(transitions);
+    }
+
+    /**
+     * Are we in play mode?
+     *
+     * @return true iff we are in play mode.
+     */
     public boolean isPlayMode() {
         return playModeObservable.get();
     }
 
+    /**
+     * Set the playmode.
+     *
+     * If this is to be set to true, make sure that:
+     * 1. there is a start state
+     * 2. There is no indeterminism in the automaton
+     *
+     * @param playMode true iff playmode should be entered
+     */
     public void setPlayMode(boolean playMode) {
+        assert !playMode || (getStartState() != null && findIndeterminism() == null);
         playModeObservable.set(playMode);
     }
 
-    public Observable getPlayModeObservable() {
-        return playModeObservable;
+    /**
+     * Find a state such that there are indeterministic transitions.
+     *
+     * Indeterminism happens if two transitions from the same state have the same
+     * triggering event.
+     *
+     * @return null if deterministic, a culprit state otherwise.
+     */
+    public State findIndeterminism() {
+        // TODO make this real ...
+        for (Transition t1 : transitions) {
+            for (Transition t2 : transitions) {
+                if(t1 != t2 && t1.getFrom() == t2.getFrom() &&
+                t1.getIn().equals(t2.getIn()))
+                    return t1.getFrom();
+            }
+        }
+
+        return null;
     }
 
+    /**
+     * Add an observer to the playmode
+     *
+     * @param observer a listener which is called whenever the value changes.
+     */
+    public void addPlaymodeObserver(Consumer<BooleanObservable> observer) {
+        playModeObservable.addObserver(observer);
+    }
+
+    /**
+     * Trigger an action from the panel. The user has clicked on a machine element e.g.
+     *
+     * This finds the transition which belongs to this action and changes the active state.
+     *
+     * @param command the action to perform.
+     */
     public void fire(String command) {
         if(activeState != null) {
             for (Transition trans : getTransitions()) {
@@ -90,6 +214,11 @@ public class Machine {
         }
     }
 
+    /**
+     * When a transition is taken, the corresponding output action is performed.
+     *
+     * @param out the output action of a transition.
+     */
     private void output(String out) {
         if (out.isEmpty()) {
             return;
@@ -112,6 +241,17 @@ public class Machine {
         return machineElements.get(name);
     }
 
+    /**
+     * Load the business data from an xml file.
+     *
+     * There are corrupt xml files which may make this crash horribly.
+     * Please only use xml files saved with the very same version of this
+     * application.
+     *
+     * @param file the file to load from
+     * @throws IOException if reading fails
+     * @throws ClassNotFoundException if a class is missing.
+     */
     public void loadScenario(File file) throws IOException, ClassNotFoundException {
         XStream xstream = new XStream();
         xstream.setMode(XStream.ID_REFERENCES);
@@ -121,15 +261,45 @@ public class Machine {
             this.states = newMachine.states;
             this.machineElements = newMachine.machineElements;
             this.transitions = newMachine.transitions;
+            this.setPlayMode(false);
             mainFrame.repaint();
         }
     }
 
+    /**
+     * Save the business data to a file.
+     *
+     * The data itself is not modified.
+     *
+     * @param file the file to save to
+     * @throws IOException if file writing fails.
+     */
     public void saveScenario(File file) throws IOException {
         XStream xstream = new XStream();
         xstream.setMode(XStream.ID_REFERENCES);
         try(ObjectOutputStream oos = xstream.createObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(this);
         }
+    }
+
+    public void addState(State state) {
+        assert !states.containsKey(state.getName());
+        states.put(state.getName(), state);
+    }
+
+    public State getState(String name) {
+        return states.get(name);
+    }
+
+    /**
+     * Reset the business data of this object. All transitions, states,
+     * panel elements are removed. Remove the active state and leave the play mode.
+     */
+    public void reset() {
+        this.transitions.clear();
+        this.states.clear();
+        this.machineElements.clear();
+        this.activeState = null;
+        this.setPlayMode(false);
     }
 }

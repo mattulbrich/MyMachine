@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the tool MyMachine.
  * https://github.com/mattulbrich/MyMachine
  *
@@ -78,7 +78,11 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
             case "addstate":
                 String name = JOptionPane.showInputDialog("Name");
                 if (name != null) {
-                    automataEditor.getStates().add(new State(name, e.getPoint()));
+                    if (automataEditor.getMachine().getState(name) != null) {
+                        JOptionPane.showMessageDialog(this, "Es gibt bereits einen Zustand, der diesen Namen hat.");
+                    } else {
+                        automataEditor.getMachine().addState(new State(name, e.getPoint()));
+                    }
                 }
                 repaint();
                 break;

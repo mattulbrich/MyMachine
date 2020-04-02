@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the tool MyMachine.
  * https://github.com/mattulbrich/MyMachine
  *
@@ -10,6 +10,7 @@
  *
  * (c) 2020 Karlsruhe Institute of Technology
  */
+
 package edu.kit.iti.formal.mymachine.automata;
 
 import java.awt.*;
@@ -65,4 +66,5 @@ public class Transition {
     public String getOut() {
         return out;
     }
+
 }

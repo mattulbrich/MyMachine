@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the tool MyMachine.
  * https://github.com/mattulbrich/MyMachine
  *
@@ -10,11 +10,16 @@
  *
  * (c) 2020 Karlsruhe Institute of Technology
  */
+
 package edu.kit.iti.formal.mymachine;
 
-import java.util.Observable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
-public class BooleanObservable extends Observable {
+public class BooleanObservable {
+
+    private List<Consumer<BooleanObservable>> observers = new ArrayList<>();
 
     private boolean value;
 
@@ -25,9 +30,14 @@ public class BooleanObservable extends Observable {
     public void set(boolean value) {
         if (value != this.value) {
             this.value = value;
-            setChanged();
-            notifyObservers(Boolean.valueOf(value));
+            for (Consumer<BooleanObservable> observer : observers) {
+                observer.accept(this);
+            }
         }
+    }
+
+    public void addObserver(Consumer<BooleanObservable> observer) {
+        observers.add(observer);
     }
 
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the tool MyMachine.
  * https://github.com/mattulbrich/MyMachine
  *
@@ -10,14 +10,13 @@
  *
  * (c) 2020 Karlsruhe Institute of Technology
  */
+
 package edu.kit.iti.formal.mymachine.panel;
 
 import edu.kit.iti.formal.mymachine.Machine;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.io.IOException;
 import java.util.Collection;
 
 public class DesignPane extends JPanel {
@@ -77,12 +76,15 @@ public class DesignPane extends JPanel {
             group.add(b);
         }
 
-        machine.getPlayModeObservable().addObserver((s, o) -> {
-                    boolean playMode = machine.isPlayMode();
-                    for (Component component : selectionPanel.getComponents()) {
-                        component.setEnabled(!playMode);
-                    }
-                });
+        machine.addPlaymodeObserver(playmodeObs -> {
+            boolean playmode = playmodeObs.get();
+            for (Component component : selectionPanel.getComponents()) {
+                component.setEnabled(!playmode);
+            }
+            if (playmode) {
+                group.clearSelection();
+            }
+        });
 
         add(selectionPanel, BorderLayout.NORTH);
         

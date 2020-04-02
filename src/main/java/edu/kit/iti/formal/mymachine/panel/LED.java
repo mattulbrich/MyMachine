@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the tool MyMachine.
  * https://github.com/mattulbrich/MyMachine
  *
@@ -14,6 +14,7 @@ package edu.kit.iti.formal.mymachine.panel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.NoSuchElementException;
 
 public class LED extends MachineElement {
 
@@ -29,7 +30,7 @@ public class LED extends MachineElement {
         if (res != null) {
             setName(res);
         } else {
-            throw new IllegalArgumentException("No name wanted --> abort");
+            throw new NoSuchElementException("No name wanted --> abort");
         }
     }
 
