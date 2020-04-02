@@ -5,7 +5,7 @@ import java.awt.*;
 public class Slot extends MachineElement {
 
     public Slot() {
-        super(new Dimension(20, 100));
+        super("#Coinslot", new Dimension(20, 100), true);
     }
 
     @Override
@@ -25,11 +25,6 @@ public class Slot extends MachineElement {
             g.setColor(Color.yellow);
             g.fillOval(pos.x-50, pos.y-25, 50, 50);
         }
-    }
-
-    @Override
-    public String getCommand() {
-        return "Münze";
     }
 
 }

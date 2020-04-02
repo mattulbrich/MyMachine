@@ -4,11 +4,13 @@ import java.awt.*;
 
 public class Output extends MachineElement {
 
-    public Output() {
-        super(new Dimension(200, 50));
-    }
+    private static final String NAME = "#Output";
 
-    public int schokis = 0;
+    private int schokis = 0;
+
+    public Output() {
+        super(NAME, new Dimension(200, 50));
+    }
 
     @Override
     public void uiConfig() {
@@ -30,11 +32,6 @@ public class Output extends MachineElement {
                     25, 20, 5, 5);
         }
 
-    }
-
-    @Override
-    public String getCommand() {
-        return null;
     }
 
     @Override

@@ -7,16 +7,13 @@ import edu.kit.iti.formal.mymachine.automata.Transition;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Observable;
 
 public class MainFrame extends JFrame {
 
-//    private StateMachinePane stateMachinePane;
-//    private PlayPane playPane;
     private DesignPane designPane;
-    private List<MachineElement> machineElements = new ArrayList<>();
+    private Map<String, MachineElement> machineElements = new HashMap<>();
     private List<State> states = new ArrayList<>();
     private State activeState;
     private final BooleanObservable playModeObservable = new BooleanObservable();
@@ -25,6 +22,24 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         super("MyMachine");
         init();
+
+        State s1 = new State("Z1", new Point(200, 200));
+        states.add(s1);
+        State s2 = new State("Z2", new Point(300, 230));
+        states.add(s2);
+        transitions.add(new Transition(s1, s2, "K", "#Display Hello World!"));
+
+        {
+            Button element = new Button();
+            element.setPosition(new Point(300, 300));
+            element.setName("K");
+            addMachineElement(element);
+        }
+        {
+            Display element = new Display();
+            element.setPosition(new Point(300, 500));
+            addMachineElement(element);
+        }
     }
 
     private void init() {
@@ -53,8 +68,8 @@ public class MainFrame extends JFrame {
 
 
 
-    public List<MachineElement> getMachineElements() {
-        return machineElements;
+    public Collection<MachineElement> getMachineElements() {
+        return machineElements.values();
     }
 
     public List<State> getStates() {
@@ -93,9 +108,21 @@ public class MainFrame extends JFrame {
     }
 
     private void output(String out) {
-        for (MachineElement element : machineElements) {
-            element.output(out);
+        String[] parts = out.split(" ", 2);
+        MachineElement element = machineElements.get(parts[0]);
+        if(element != null) {
+            element.output(parts[1]);
+        } else {
+            throw new NoSuchElementException("Unknown element " + parts[0]);
         }
         repaint();
+    }
+
+    public void addMachineElement(MachineElement element) {
+        machineElements.put(element.getName(), element);
+    }
+
+    public MachineElement getMachineElement(String name) {
+        return machineElements.get(name);
     }
 }

@@ -51,13 +51,6 @@ public class AutomataEditor extends JPanel {
             group.add(b);
         }
         {
-            JToggleButton b = new JToggleButton("Bewegen");
-            b.setActionCommand("move");
-            b.setSelected(true);
-            selectionPanel.add(b);
-            group.add(b);
-        }
-        {
             JToggleButton b = new JToggleButton("Löschen");
             b.setActionCommand("delete");
             selectionPanel.add(b);
@@ -78,24 +71,7 @@ public class AutomataEditor extends JPanel {
     }
 
     public boolean isMoveMode() {
-        return group.getSelection().getActionCommand().equals("move");
-    }
-
-    public boolean isAddMode() {
-        String actCommand = group.getSelection().getActionCommand();
-        return actCommand.startsWith("add ");
-    }
-
-    public MachineElement createElement() {
-        String actCommand = group.getSelection().getActionCommand();
-        assert actCommand.startsWith("add ");
-        String clssName = "edu.kit.iti.formal.mymachine." + actCommand.substring(4);
-        try {
-            return (MachineElement) Class.forName(clssName).getConstructor().newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+        return group.getSelection() == null;
     }
 
     public List<State> getStates() {
@@ -107,7 +83,11 @@ public class AutomataEditor extends JPanel {
     }
 
     public String getMode() {
-        return group.getSelection().getActionCommand();
+        ButtonModel selButton = group.getSelection();
+        if (selButton == null) {
+            return "move";
+        }
+        return selButton.getActionCommand();
     }
 
     public List<Transition> getTransitions() {

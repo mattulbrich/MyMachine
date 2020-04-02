@@ -27,6 +27,14 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
 
         Graphics2D g2 = (Graphics2D) g;
 
+        g2.setRenderingHints(new RenderingHints(
+                RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON));
+
+        g2.setRenderingHints(new RenderingHints(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON));
+
         g.setColor(Color.lightGray);
         g.fillRect(0,0,getWidth(),getHeight());
 
@@ -40,8 +48,8 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
 
         if(designPane.getFrame().isPlayMode()) {
             for (MachineElement element : designPane.getMachineElements()) {
-                if (element.contains(mouseEvent.getPoint())) {
-                    String command = element.getCommand();
+                if (element.contains(mouseEvent.getPoint()) && element.isActive()) {
+                    String command = element.getName();
                     if (command != null) {
                         designPane.getFrame().fire(command);
                     }
@@ -63,10 +71,14 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
 
         if(designPane.isAddMode()) {
             MachineElement element = designPane.createElement();
-            element.uiConfig();
             element.setPosition(mouseEvent.getPoint());
-            designPane.getMachineElements().add(element);
-            designPane.unselectButton();
+            repaint();
+            element.uiConfig();
+            if (designPane.getMachineElement(element.getName()) != null) {
+
+            }
+            designPane.addMachineElement(element);
+            designPane.finishAction();
             repaint();
         }
     }

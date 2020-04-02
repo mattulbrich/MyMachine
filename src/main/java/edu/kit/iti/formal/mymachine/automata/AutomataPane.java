@@ -1,9 +1,5 @@
 package edu.kit.iti.formal.mymachine.automata;
 
-import edu.kit.iti.formal.mymachine.FrontEndPanel;
-import edu.kit.iti.formal.mymachine.MachineElement;
-import edu.kit.iti.formal.mymachine.MachineElement.PaintMode;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -26,6 +22,14 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
+        g2.setRenderingHints(new RenderingHints(
+                RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON));
+
+        g2.setRenderingHints(new RenderingHints(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON));
+
         g.setColor(Color.white);
         g.fillRect(0,0,getWidth(),getHeight());
 
@@ -38,8 +42,6 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
         for (State state : automataEditor.getStates()) {
             state.paint(g2, state == active);
         }
-
-
     }
 
     @Override

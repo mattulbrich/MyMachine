@@ -3,6 +3,7 @@ package edu.kit.iti.formal.mymachine;
 import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.List;
 
 public class DesignPane extends JPanel {
@@ -44,6 +45,18 @@ public class DesignPane extends JPanel {
             group.add(b);
         }
         {
+            JToggleButton b = new JToggleButton("LED");
+            b.setActionCommand("add LED");
+            selectionPanel.add(b);
+            group.add(b);
+        }
+        {
+            JToggleButton b = new JToggleButton("Display");
+            b.setActionCommand("add Display");
+            selectionPanel.add(b);
+            group.add(b);
+        }
+        {
             JToggleButton b = new JToggleButton("Löschen");
             b.setActionCommand("delete");
             selectionPanel.add(b);
@@ -67,7 +80,8 @@ public class DesignPane extends JPanel {
     }
 
     public boolean isDeleteMode() {
-        return group.getSelection().getActionCommand().equals("delete");
+        ButtonModel selection = group.getSelection();
+        return selection != null && selection.getActionCommand().equals("delete");
     }
 
     public boolean isMoveMode() {
@@ -75,7 +89,11 @@ public class DesignPane extends JPanel {
     }
 
     public boolean isAddMode() {
-        String actCommand = group.getSelection().getActionCommand();
+        ButtonModel selection = group.getSelection();
+        if (selection == null) {
+            return false;
+        }
+        String actCommand = selection.getActionCommand();
         return actCommand.startsWith("add ");
     }
 
@@ -95,11 +113,19 @@ public class DesignPane extends JPanel {
         return frame;
     }
 
-    public List<MachineElement> getMachineElements() {
+    public Collection<MachineElement> getMachineElements() {
         return frame.getMachineElements();
     }
 
-    public void unselectButton() {
+    public void finishAction() {
         group.clearSelection();
+    }
+
+    public void addMachineElement(MachineElement element) {
+        frame.addMachineElement(element);
+    }
+
+    public MachineElement getMachineElement(String name) {
+        return frame.getMachineElement(name);
     }
 }
