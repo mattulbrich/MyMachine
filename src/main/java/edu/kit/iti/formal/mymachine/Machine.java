@@ -209,6 +209,8 @@ public class Machine implements Serializable {
                 if (trans.getFrom() == activeState && trans.getIn().equals(command)) {
                     activeState = trans.getTo();
                     output(trans.getOut());
+                    // Command has been processed. Do not look further.
+                    break;
                 }
             }
         }

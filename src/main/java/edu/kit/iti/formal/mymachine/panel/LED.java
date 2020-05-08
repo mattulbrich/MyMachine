@@ -12,6 +12,8 @@
  */
 package edu.kit.iti.formal.mymachine.panel;
 
+import edu.kit.iti.formal.mymachine.Util;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.NoSuchElementException;
@@ -20,8 +22,11 @@ public class LED extends MachineElement {
 
     private boolean on = false;
 
+    private static final Icon ON_ICON = Util.imageResource("ledOn.png");
+    private static final Icon OFF_ICON = Util.imageResource("ledOff.png");
+
     public LED() {
-        super(new Dimension(20, 20));
+        super(Util.getDimension(ON_ICON));
     }
 
     @Override
@@ -36,14 +41,13 @@ public class LED extends MachineElement {
 
     @Override
     public void paint(Graphics2D g, PaintMode neutral) {
-
         Point pos = getPosition();
 
-        g.setColor(on ? Color.red : Color.black);
-        g.fillOval(pos.x - 10, pos.y - 10, 20, 20);
-
-        g.setColor(Color.black);
-        g.drawString(getName(), pos.x, pos.y + 25);
+        if(on) {
+            ON_ICON.paintIcon(null, g, pos.x - ON_ICON.getIconWidth() / 2, pos.y - ON_ICON.getIconHeight() / 2);
+        } else {
+            OFF_ICON.paintIcon(null, g, pos.x - ON_ICON.getIconWidth() / 2, pos.y - ON_ICON.getIconHeight() / 2);
+        }
     }
 
     @Override

@@ -34,6 +34,7 @@ public class MainFrame extends JFrame {
     private final BooleanObservable playModeObservable = new BooleanObservable();
     private List<Transition> transitions = new ArrayList<>();
     private Machine machine;
+    private AutomataEditor automataEditor;
 
     public MainFrame(Machine machine) {
         super("MyMachine");
@@ -42,9 +43,9 @@ public class MainFrame extends JFrame {
     }
 
     private void init() {
-        setContentPane(new JTabbedPane());
-        getContentPane().add(new DesignPane(machine), "G E H Ä U S E");
-        getContentPane().add(new AutomataEditor(machine), "A U T O M A T");
+        designPane = new DesignPane(machine);
+        automataEditor = new AutomataEditor(machine);
+        showAsTabs();
 
         JMenuBar menuBar = new JMenuBar();
         JMenu control = new JMenu("Steuerung");
@@ -74,7 +75,37 @@ public class MainFrame extends JFrame {
         exit.addActionListener(x -> System.exit(0));
         control.add(exit);
 
+        JMenu view = new JMenu("Ansicht");
+        menuBar.add(view);
+
+        ButtonGroup bg = new ButtonGroup();
+        JRadioButtonMenuItem tabs = new JRadioButtonMenuItem("Als Reiter");
+        bg.add(tabs);
+        tabs.setSelected(true);
+        tabs.addActionListener(e -> showAsTabs());
+        view.add(tabs);
+
+        JRadioButtonMenuItem split = new JRadioButtonMenuItem("Nebeneinander");
+        bg.add(split);
+        split.addActionListener(e -> showAsSplitPane());
+        view.add(split);
+
         setJMenuBar(menuBar);
+    }
+
+    private void showAsSplitPane() {
+        System.out.println("MainFrame.showAsSplitPane");
+        JSplitPane pane = new JSplitPane();
+        pane.setLeftComponent(designPane);
+        pane.setRightComponent(automataEditor);
+        setContentPane(pane);
+    }
+
+    private void showAsTabs() {
+        System.out.println("MainFrame.showAsTabs");
+        setContentPane(new JTabbedPane());
+        getContentPane().add(designPane, "G E H Ä U S E");
+        getContentPane().add(automataEditor, "A U T O M A T");
     }
 
     private void loadScenario(ActionEvent actionEvent) {
