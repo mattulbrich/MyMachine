@@ -26,8 +26,22 @@ import java.util.Iterator;
 public class FrontEndPanel extends JComponent implements MouseListener, MouseMotionListener {
 
     private DesignPane designPane;
+
+    /**
+     * The object which is dragged around using Drag'n'Drop
+     */
     private MachineElement draggedElement;
+
+    /**
+     * The position at which the current drag started or the last update to positions has been
+     * performed. May be updated regularly.
+     */
     private Point draggedPos;
+
+    /**
+     * If the mouse is pressed or when we are over a reactive component change this.
+     */
+    private PaintMode paintMode = PaintMode.NEUTRAL;
 
     public FrontEndPanel(DesignPane designPane) {
         this.designPane = designPane;
@@ -52,7 +66,8 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
         g.fillRect(0,0,getWidth(),getHeight());
 
         for (MachineElement machineElement : designPane.getMachineElements()) {
-            machineElement.paint(g2, PaintMode.NEUTRAL);
+            machineElement.paint(g2, paintMode);
+            machineElement.paintLabel(g2);
         }
     }
 
@@ -105,6 +120,7 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
                 if (element.contains(mouseEvent.getPoint())) {
                     draggedElement = element;
                     draggedPos = mouseEvent.getPoint();
+                    paintMode = PaintMode.PRESSED;
                     repaint();
                     return;
                 }
@@ -115,6 +131,8 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
         draggedElement = null;
+        paintMode = PaintMode.NEUTRAL;
+        repaint();
     }
 
     @Override

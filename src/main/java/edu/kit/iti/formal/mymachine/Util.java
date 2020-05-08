@@ -38,4 +38,8 @@ public class Util {
     public static Dimension getDimension(Icon icon) {
         return new Dimension(icon.getIconWidth(), icon.getIconHeight());
     }
+
+    public static void drawCentered(Graphics2D g, Point pos, Icon icon) {
+        icon.paintIcon(null, g, pos.x - icon.getIconWidth()/2, pos.y - icon.getIconHeight()/2);
+    }
 }

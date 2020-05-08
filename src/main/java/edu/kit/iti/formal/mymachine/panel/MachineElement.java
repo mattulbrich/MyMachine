@@ -13,10 +13,13 @@
 
 package edu.kit.iti.formal.mymachine.panel;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.Serializable;
 
 public abstract class MachineElement implements Serializable {
+
+    protected static final Font LABEL_FONT = new Font(Font.DIALOG, Font.PLAIN, 12);
 
     public enum PaintMode { NEUTRAL, PRESSED, MOUSE_OVER}
 
@@ -140,6 +143,17 @@ public abstract class MachineElement implements Serializable {
      * @param mode the mode to paint it in
      */
     public abstract void paint(Graphics2D g, PaintMode mode);
+
+    public void paintLabel(Graphics2D g) {
+        String name = getName();
+        if (!name.startsWith("#")) {
+            g.setColor(Color.black);
+            g.setFont(LABEL_FONT);
+            int sw = SwingUtilities.computeStringWidth(g.getFontMetrics(), name);
+            g.drawString(name, getPosition().x - sw / 2,
+                    getPosition().y + dimension.height / 2 + g.getFontMetrics().getHeight());
+        }
+    }
 
     public String getName() {
         return name;

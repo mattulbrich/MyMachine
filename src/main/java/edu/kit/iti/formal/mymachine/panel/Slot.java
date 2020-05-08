@@ -12,12 +12,18 @@
  */
 package edu.kit.iti.formal.mymachine.panel;
 
+import edu.kit.iti.formal.mymachine.Util;
+
+import javax.swing.*;
 import java.awt.*;
 
 public class Slot extends MachineElement {
 
+    private static final Icon SLOT_NO_COIN = Util.imageResource("coinSlotEmpty.png");
+    private static final Icon SLOT_COIN = Util.imageResource("coinSlotCoin.png");
+
     public Slot() {
-        super("#Coin", new Dimension(20, 100), true);
+        super("#Coin", Util.getDimension(SLOT_COIN), true);
     }
 
     @Override
@@ -26,16 +32,11 @@ public class Slot extends MachineElement {
 
     @Override
     public void paint(Graphics2D g, PaintMode mode) {
-        Point pos = getPosition();
-        g.setColor(Color.black);
-        g.fillRect(pos.x - 10, pos.y - 50, 20, 100);
-        g.setColor(Color.darkGray);
-        g.setStroke(new BasicStroke(5f));
-        g.drawRect(pos.x - 10, pos.y - 50, 20, 100);
 
-        if(mode == PaintMode.MOUSE_OVER) {
-            g.setColor(Color.yellow);
-            g.fillOval(pos.x-50, pos.y-25, 50, 50);
+        if (mode == PaintMode.MOUSE_OVER) {
+            Util.drawCentered(g, getPosition(), SLOT_COIN);
+        } else {
+            Util.drawCentered(g, getPosition(), SLOT_NO_COIN);
         }
     }
 

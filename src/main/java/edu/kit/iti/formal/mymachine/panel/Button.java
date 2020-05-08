@@ -12,13 +12,21 @@
  */
 package edu.kit.iti.formal.mymachine.panel;
 
+import edu.kit.iti.formal.mymachine.Util;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Button extends MachineElement {
 
+    private static final Icon BUTTON_PRESSED =
+            Util.imageResource("buttonPressed.png");
+
+    private static final Icon BUTTON_RELEASED =
+            Util.imageResource("buttonReleased.png");
+
     public Button() {
-        super(new Dimension(100, 100), true);
+        super(Util.getDimension(BUTTON_PRESSED), true);
     }
 
     @Override
@@ -33,13 +41,11 @@ public class Button extends MachineElement {
 
     @Override
     public void paint(Graphics2D g, PaintMode mode) {
-        Point pos = getPosition();
-        g.setColor(Color.red);
-        g.fillOval(pos.x - 50, pos.y - 50, 100, 100);
-        g.setColor(Color.black);
-        g.drawString(getName(), pos.x, pos.y + 70);
-
-        // if(mode) ...
+        if (mode == PaintMode.PRESSED) {
+            Util.drawCentered(g, getPosition(), BUTTON_PRESSED);
+        } else {
+            Util.drawCentered(g, getPosition(), BUTTON_RELEASED);
+        }
     }
 
 }

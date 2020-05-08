@@ -44,9 +44,9 @@ public class LED extends MachineElement {
         Point pos = getPosition();
 
         if(on) {
-            ON_ICON.paintIcon(null, g, pos.x - ON_ICON.getIconWidth() / 2, pos.y - ON_ICON.getIconHeight() / 2);
+            Util.drawCentered(g, pos, ON_ICON);
         } else {
-            OFF_ICON.paintIcon(null, g, pos.x - ON_ICON.getIconWidth() / 2, pos.y - ON_ICON.getIconHeight() / 2);
+            Util.drawCentered(g, pos, OFF_ICON);
         }
     }
 
