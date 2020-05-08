@@ -16,9 +16,19 @@ package edu.kit.iti.formal.mymachine.automata;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * A state in the state in the finite state machine.
+ *
+ * This class servers the purpose of visualisation and of abstraction during
+ * execution of the FSM.
+ */
 public class State {
     public static final int STATE_SIZE_HALF = 40;
     public static final int STATE_SIZE = 2 * STATE_SIZE_HALF;
+
+    /**
+     * Every state must have a unique name.
+     */
     private String name;
 
     private Point position;
@@ -65,5 +75,9 @@ public class State {
         int deltay = point.y - position.y;
 
         return Math.hypot(deltax, deltay) <= STATE_SIZE_HALF;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -12,6 +12,7 @@
  */
 package edu.kit.iti.formal.mymachine.automata;
 
+import edu.kit.iti.formal.mymachine.Util;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
 
 import javax.swing.*;
@@ -19,6 +20,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ResourceBundle;
 import java.util.Vector;
 
 public class AutomataPane extends JComponent implements MouseMotionListener, MouseListener {
@@ -29,6 +31,7 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
     private State firstTransPartner;
     private State draggedState;
     private Point dragStart;
+    private ResourceBundle r = Util.RESOURCE_BUNDLE;
 
     public AutomataPane(AutomataEditor automataEditor) {
         this.automataEditor = automataEditor;
@@ -91,16 +94,35 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(automataEditor.getMode().equals("addstate")) {
-            String name = JOptionPane.showInputDialog("Name");
-            if (name != null) {
-                if (automataEditor.getMachine().getState(name) != null) {
-                    JOptionPane.showMessageDialog(this, "Es gibt bereits einen Zustand, der diesen Namen hat.");
-                } else {
-                    automataEditor.getMachine().addState(new State(name, e.getPoint()));
+        switch(automataEditor.getMode()) {
+            case "addstate":
+                String name = JOptionPane.showInputDialog(r.getString("state.name"));
+                if (name != null) {
+                    if (automataEditor.getMachine().getState(name) != null) {
+                        JOptionPane.showMessageDialog(this, r.getString("state.name_taken"));
+                    } else {
+                        automataEditor.getMachine().addState(new State(name, e.getPoint()));
+                    }
                 }
-            }
-            repaint();
+                repaint();
+                break;
+
+            case "move":
+                if (e.getClickCount() == 2) {
+                    State state = findState(e.getPoint());
+                    if (state != null) {
+                        String newName = JOptionPane.showInputDialog(r.getString("state.name"), state.getName());
+                        if (newName != null && !newName.equals(state.getName())) {
+                            if (automataEditor.getMachine().getState(newName) != null) {
+                                JOptionPane.showMessageDialog(this, r.getString("state.name_taken"));
+                            } else {
+                                state.setName(newName);
+                            }
+                        }
+                        repaint();
+                    }
+                }
+                break;
         }
     }
 
