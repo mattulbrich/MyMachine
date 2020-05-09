@@ -24,25 +24,36 @@ public class Transition {
     private final MachineElement trigger;
     private final MachineElement output;
     private final int messageIndex;
+    private final int messageIndex2;
+    private final MachineElement output2;
 
-    public Transition(State from, State to, MachineElement trigger, MachineElement output, int messageIndex) {
+    public Transition(State from, State to, MachineElement trigger,
+                      MachineElement element, int messageNumber,
+                      MachineElement element2, int messageNumber2) {
         this.from = from;
         this.to = to;
         this.trigger = trigger;
-        this.output = output;
-        this.messageIndex = messageIndex;
+        this.output = element;
+        this.messageIndex = messageNumber;
+        this.output2 = element2;
+        this.messageIndex2 = messageNumber2;
     }
 
     public void paint(Graphics2D g2) {
-        Point toPos = to.getPosition();
-        Point fromPos = from.getPosition();
+        Point toPos = new Point(to.getPosition());
+        Point fromPos = new Point(from.getPosition());
+
+        translatePoints(toPos, fromPos);
+
         int x2 = (toPos.x + fromPos.x) / 2;
         int y2 = (toPos.y + fromPos.y) / 2;
 
         g2.setColor(Color.black);
         g2.drawLine(fromPos.x, fromPos.y, toPos.x, toPos.y);
         g2.drawString(trigger.toString(), x2, y2);
-        g2.drawString(output.toString(), x2, y2+20);
+        if(output != null) {
+            g2.drawString(output.toString(), x2, y2 + 20);
+        }
 
         // Draw arrowhead
         double angle = Math.atan2(toPos.y-fromPos.y, toPos.x-fromPos.x);
@@ -52,6 +63,14 @@ public class Transition {
                 toPos.x- State.STATE_SIZE_HALF - 10, toPos.y - 10);
         gc.drawLine(toPos.x - State.STATE_SIZE_HALF, toPos.y,
                 toPos.x- State.STATE_SIZE_HALF - 10, toPos.y + 10);
+    }
+
+    private void translatePoints(Point a, Point b) {
+        int dx = b.x - a.x;
+        int dy = b.y - a.y;
+        double length = Math.hypot(dx, dy);
+        a.translate((int)(10*dy/length), (int)(-10*dx/length));
+        b.translate((int)(10*dy/length), (int)(-10*dx/length));
     }
 
     public State getFrom() {
@@ -68,6 +87,14 @@ public class Transition {
 
     public MachineElement getOutput() {
         return output;
+    }
+
+    public int getMessageIndex2() {
+        return messageIndex2;
+    }
+
+    public MachineElement getOutput2() {
+        return output2;
     }
 
     public int getMessageIndex() {

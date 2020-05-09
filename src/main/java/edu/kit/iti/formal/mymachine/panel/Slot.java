@@ -34,7 +34,7 @@ public class Slot extends MachineElement {
     @Override
     public void paint(Graphics2D g, PaintMode mode) {
 
-        if (mode == PaintMode.MOUSE_OVER) {
+        if (mode == PaintMode.PRESSED) {
             Util.drawCentered(g, getPosition(), SLOT_COIN);
         } else {
             Util.drawCentered(g, getPosition(), SLOT_NO_COIN);

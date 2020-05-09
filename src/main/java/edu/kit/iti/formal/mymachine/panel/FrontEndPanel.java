@@ -78,7 +78,12 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
         // g.fillRect(0,0,getWidth(),getHeight());
 
         for (MachineElement machineElement : designPane.getMachineElements()) {
-            machineElement.paint(g2, paintMode);
+            PaintMode localPaintMode = paintMode;
+            if (draggedPos != null && !machineElement.contains(draggedPos)) {
+                // only the element under the mouse is concerned
+                localPaintMode = PaintMode.NEUTRAL;
+            }
+            machineElement.paint(g2, localPaintMode);
             machineElement.paintLabel(g2);
         }
     }
@@ -156,7 +161,7 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-        if(draggedElement != null) {
+        if(draggedElement != null && !designPane.getMachine().isPlayMode()) {
             draggedElement.drag(draggedPos, mouseEvent.getPoint());
             draggedPos = mouseEvent.getPoint();
             repaint();

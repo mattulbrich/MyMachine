@@ -66,15 +66,21 @@ public class TransitionEditor extends JDialog {
         result.add(new JLabel(Util.r("transedit.input")), gbc);
         gbc.gridy++;
         result.add(new JLabel(Util.r("transedit.output")), gbc);
+        gbc.gridy++;
+        result.add(new JLabel(Util.r("transedit.output2")), gbc);
         gbc.gridy = 0;
         gbc.gridx = 1;
         gbc.weightx = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         JComboBox<MachineElement> inputs = new JComboBox<>(mkInputs());
-        JComboBox<Event> outputs = new JComboBox<>(mkOutputs());
+        Vector<Event> events = mkOutputs();
+        JComboBox<Event> outputs = new JComboBox<>(events);
+        JComboBox<Event> outputs2 = new JComboBox<>(events);
         result.add(inputs, gbc);
         gbc.gridy++;
         result.add(outputs, gbc);
+        gbc.gridy++;
+        result.add(outputs2, gbc);
         if (transition != null) {
             gbc.gridy++;
             gbc.fill = GridBagConstraints.NONE;
@@ -83,10 +89,12 @@ public class TransitionEditor extends JDialog {
             result.add(delete, gbc);
             inputs.setSelectedItem(transition.getTrigger());
             outputs.setSelectedItem(new Event(transition.getOutput(), transition.getMessageIndex(), ""));
+            outputs2.setSelectedItem(new Event(transition.getOutput2(), transition.getMessageIndex2(), ""));
             result.putClientProperty("transition", transition);
         }
         result.putClientProperty("inputs", inputs);
         result.putClientProperty("outputs", outputs);
+        result.putClientProperty("outputs2", outputs);
         return result;
     }
 
@@ -117,7 +125,7 @@ public class TransitionEditor extends JDialog {
             if (o == null || getClass() != o.getClass()) return false;
             Event event = (Event) o;
             return messageNumber == event.messageNumber &&
-                    element.equals(event.element);
+                    Objects.equals(element, event.element);
         }
 
         @Override
@@ -138,6 +146,7 @@ public class TransitionEditor extends JDialog {
 
     private Vector<Event> mkOutputs() {
         Vector<Event> result = new Vector<>();
+        result.add(new Event(null, 0, Util.r("transedit.no_action")));
         for (MachineElement element : machine.getMachineElements()) {
             if(!element.isActive()) {
                 String[] actions = element.getActions();
@@ -184,13 +193,13 @@ public class TransitionEditor extends JDialog {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.BOTH;
 
-        this.fromLabel = new JLabel("fromState");
+        this.fromLabel = new JLabel(fromState.getName());
         fromLabel.setFont(LABEL_FONT);
         fromLabel.setBorder(makeBorder(Util.r("transedit.from")));
         mainPanel.add(fromLabel, gbc);
 
         gbc.gridy++;
-        this.toLabel = new JLabel("toState");
+        this.toLabel = new JLabel(toState.getName());
         toLabel.setBorder(makeBorder(Util.r("transedit.to")));
         toLabel.setFont(LABEL_FONT);
         mainPanel.add(toLabel, gbc);
@@ -229,12 +238,15 @@ public class TransitionEditor extends JDialog {
 
             JComboBox<?> inputs = (JComboBox<?>) comp.getClientProperty("inputs");
             JComboBox<?> outputs = (JComboBox<?>) comp.getClientProperty("outputs");
+            JComboBox<?> outputs2 = (JComboBox<?>) comp.getClientProperty("outputs2");
 
             MachineElement input = (MachineElement) inputs.getSelectedItem();
             Event event = (Event) outputs.getSelectedItem();
+            Event event2 = (Event) outputs2.getSelectedItem();
 
             Transition newTrans = new Transition(fromState, toState,
-                    input, event.element, event.messageNumber);
+                    input, event.element, event.messageNumber,
+                    event2.element, event2.messageNumber);
 
             Transition trans = (Transition) comp.getClientProperty("transition");
             if (trans != null) {
@@ -280,8 +292,8 @@ public class TransitionEditor extends JDialog {
 
         machine.addState(s0);
         machine.addState(s1);
-        machine.addTransition(new Transition(s0, s1, led, output, 2));
-        machine.addTransition(new Transition(s0, s1, button, display,0));
+        machine.addTransition(new Transition(s0, s1, led, output, 2, null, 1));
+        machine.addTransition(new Transition(s0, s1, button, display,0, output, 2));
 
         TransitionEditor dialog = new TransitionEditor(s0, s1, machine, true);
         dialog.pack();

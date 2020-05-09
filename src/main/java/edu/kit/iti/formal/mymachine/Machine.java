@@ -214,6 +214,10 @@ public class Machine implements Serializable {
                     if (output != null) {
                         output.react(trans.getMessageIndex());
                     }
+                    output = trans.getOutput2();
+                    if (output != null) {
+                        output.react(trans.getMessageIndex2());
+                    }
                     // Command has been processed. Do not look further.
                     mainFrame.repaint();
                     break;
