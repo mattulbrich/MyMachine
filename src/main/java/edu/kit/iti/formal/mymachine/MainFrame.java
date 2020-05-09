@@ -94,7 +94,6 @@ public class MainFrame extends JFrame {
     }
 
     private void showAsSplitPane() {
-        System.out.println("MainFrame.showAsSplitPane");
         JSplitPane pane = new JSplitPane();
         pane.setLeftComponent(designPane);
         pane.setRightComponent(automataEditor);
@@ -102,7 +101,6 @@ public class MainFrame extends JFrame {
     }
 
     private void showAsTabs() {
-        System.out.println("MainFrame.showAsTabs");
         setContentPane(new JTabbedPane());
         getContentPane().add(designPane, "G E H Ä U S E");
         getContentPane().add(automataEditor, "A U T O M A T");

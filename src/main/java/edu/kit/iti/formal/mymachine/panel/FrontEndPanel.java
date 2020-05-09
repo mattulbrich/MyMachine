@@ -14,6 +14,7 @@
 package edu.kit.iti.formal.mymachine.panel;
 
 
+import edu.kit.iti.formal.mymachine.Util;
 import edu.kit.iti.formal.mymachine.panel.MachineElement.PaintMode;
 
 import javax.swing.*;
@@ -24,6 +25,9 @@ import java.awt.event.MouseMotionListener;
 import java.util.Iterator;
 
 public class FrontEndPanel extends JComponent implements MouseListener, MouseMotionListener {
+
+    private static final Icon BACKGROUND =
+            Util.imageResource("metal.jpg");
 
     private DesignPane designPane;
 
@@ -62,8 +66,16 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
                 RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON));
 
-        g.setColor(Color.lightGray);
-        g.fillRect(0,0,getWidth(),getHeight());
+        for (int x = 0; x < getWidth(); ) {
+            for (int y = 0; y < getHeight(); ) {
+                BACKGROUND.paintIcon(this, g, x, y);
+                y += BACKGROUND.getIconHeight();
+            }
+            x += BACKGROUND.getIconWidth();
+        }
+        
+        // g.setColor(Color.lightGray);
+        // g.fillRect(0,0,getWidth(),getHeight());
 
         for (MachineElement machineElement : designPane.getMachineElements()) {
             machineElement.paint(g2, paintMode);

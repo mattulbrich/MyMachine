@@ -150,22 +150,20 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
     public void mouseReleased(MouseEvent e) {
         draggedState = null;
         if (firstTransPartner != null) {
-            State first = firstTransPartner;
-            State partner =  findState(e.getPoint());
-            firstTransPartner = null;
+            State partner = findState(e.getPoint());
+
             if (partner != null) {
-                String in = showTransitionInputDlg();
-                if (in == null) {
-                    return;
-                }
-                String out = JOptionPane.showInputDialog("Transition output");
-                if (out == null) {
-                    return;
-                }
-//                automataEditor.getMachine().
-//                        addTransition(new Transition(first, partner, in, out));
+                TransitionEditor editor =
+                        new TransitionEditor(firstTransPartner, partner,
+                                automataEditor.getMachine(), true);
+
+                editor.pack();
+                editor.setLocationRelativeTo(this);
+                editor.setVisible(true);
                 repaint();
             }
+
+            firstTransPartner = null;
         }
     }
 
