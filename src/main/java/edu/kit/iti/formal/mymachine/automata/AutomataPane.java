@@ -162,7 +162,8 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
                 if (out == null) {
                     return;
                 }
-                automataEditor.getMachine().addTransition(new Transition(first, partner, in, out));
+//                automataEditor.getMachine().
+//                        addTransition(new Transition(first, partner, in, out));
                 repaint();
             }
         }

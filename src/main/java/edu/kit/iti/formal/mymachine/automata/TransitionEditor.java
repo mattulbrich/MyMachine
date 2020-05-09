@@ -1,27 +1,160 @@
 package edu.kit.iti.formal.mymachine.automata;
 
+import edu.kit.iti.formal.mymachine.Machine;
+import edu.kit.iti.formal.mymachine.Util;
+import edu.kit.iti.formal.mymachine.panel.*;
+import edu.kit.iti.formal.mymachine.panel.Button;
+
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Objects;
+import java.util.Vector;
 
 public class TransitionEditor extends JDialog {
     private static final Font LABEL_FONT = new Font(Font.DIALOG, Font.PLAIN, 14);
-    private JLabel fromState;
-    private JLabel toState;
+    private JLabel fromLabel;
+    private JLabel toLabel;
     private JTabbedPane transitions;
 
-    public TransitionEditor() {
-        setModal(true);
+    private final State fromState;
+    private final State toState;
+    private final Machine machine;
+    private boolean newTrans;
+
+    public TransitionEditor(State fromState, State toState, Machine machine, boolean newTrans) {
+        this.fromState = fromState;
+        this.toState = toState;
+        this.machine = machine;
+        this.newTrans = newTrans;
         init();
     }
 
     private void init() {
-
+        setModal(true);
         getContentPane().setLayout(new BorderLayout());
+        initClose();
         initButtons();
         initMainPanel();
+        initTransitions();
+    }
 
+    private void initTransitions() {
+        transitions.removeAll();
+        int number = 1;
+        for (Transition transition : machine.getTransitions()) {
+            if(transition.isFromTo(fromState, toState)) {
+                transitions.add(makeTransitionPanel(transition),
+                        Util.r("transedit.transition") + " " + number);
+                number ++;
+            }
+        }
+        if(newTrans) {
+            transitions.add(makeTransitionPanel(null),
+                    Util.r("transedit.new_trans"));
+        }
+    }
+
+    private JPanel makeTransitionPanel(Transition transition) {
+        JPanel result = new JPanel();
+        result.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        result.add(new JLabel(Util.r("transedit.input")), gbc);
+        gbc.gridy++;
+        result.add(new JLabel(Util.r("transedit.output")), gbc);
+        gbc.gridy = 0;
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        JComboBox<MachineElement> inputs = new JComboBox<>(mkInputs());
+        JComboBox<Event> outputs = new JComboBox<>(mkOutputs());
+        result.add(inputs, gbc);
+        gbc.gridy++;
+        result.add(outputs, gbc);
+        if (transition != null) {
+            gbc.gridy++;
+            gbc.fill = GridBagConstraints.NONE;
+            JButton delete = new JButton(Util.r("transedit.trans_delete"));
+            delete.addActionListener(e -> deleteTrans(transition));
+            result.add(delete, gbc);
+            inputs.setSelectedItem(transition.getTrigger());
+            outputs.setSelectedItem(new Event(transition.getOutput(), transition.getMessageIndex(), ""));
+            result.putClientProperty("transition", transition);
+        }
+        result.putClientProperty("inputs", inputs);
+        result.putClientProperty("outputs", outputs);
+        return result;
+    }
+
+    private void deleteTrans(Transition transition) {
+        machine.removeTransition(transition);
+        initTransitions();
+    }
+
+    private static class Event {
+        final MachineElement element;
+        final int messageNumber;
+        final String string;
+
+        private Event(MachineElement element, int messageNumber, String string) {
+            this.element = element;
+            this.messageNumber = messageNumber;
+            this.string = string;
+        }
+
+        @Override
+        public String toString() {
+            return string;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Event event = (Event) o;
+            return messageNumber == event.messageNumber &&
+                    element.equals(event.element);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(element, messageNumber);
+        }
+    }
+
+    private Vector<MachineElement> mkInputs() {
+        Vector<MachineElement> result = new Vector<>();
+        for (MachineElement element : machine.getMachineElements()) {
+            if(element.isActive()) {
+                result.add(element);
+            }
+        }
+        return result;
+    }
+
+    private Vector<Event> mkOutputs() {
+        Vector<Event> result = new Vector<>();
+        for (MachineElement element : machine.getMachineElements()) {
+            if(!element.isActive()) {
+                String[] actions = element.getActions();
+                if(actions.length > 0) {
+                    for (int i = 0; i < actions.length; i++) {
+                        String action = actions[i];
+                        result.add(new Event(element, i, element + " " + action));
+                    }
+                } else {
+                    result.add(new Event(element, 0, element.toString()));
+                }
+            }
+        }
+        return result;
+    }
+
+    private void initClose() {
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -48,32 +181,25 @@ public class TransitionEditor extends JDialog {
         gbc.gridy = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 0.0;
+        gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.BOTH;
 
-        this.fromState = new JLabel("fromState");
-        fromState.setFont(LABEL_FONT);
-        fromState.setBorder(makeBorder("From state:"));
-        mainPanel.add(fromState, gbc);
+        this.fromLabel = new JLabel("fromState");
+        fromLabel.setFont(LABEL_FONT);
+        fromLabel.setBorder(makeBorder(Util.r("transedit.from")));
+        mainPanel.add(fromLabel, gbc);
 
         gbc.gridy++;
-        this.toState = new JLabel("toState");
-        toState.setBorder(makeBorder("To state:"));
-        toState.setBorder(makeBorder("From state:"));
-        mainPanel.add(toState, gbc);
+        this.toLabel = new JLabel("toState");
+        toLabel.setBorder(makeBorder(Util.r("transedit.to")));
+        toLabel.setFont(LABEL_FONT);
+        mainPanel.add(toLabel, gbc);
 
         gbc.gridy++;
         gbc.weighty = 1.0;
         this.transitions = new JTabbedPane();
         mainPanel.add(transitions, gbc);
 
-        gbc.gridy++;
-        gbc.weighty = 0.0;
-        gbc.weightx = 0.0;
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.fill = GridBagConstraints.NONE;
-        JButton buttonNew = new JButton("Neuer Übergang");
-        buttonNew.addActionListener(e->newTrans());
-        mainPanel.add(buttonNew, gbc);
     }
 
     private static CompoundBorder makeBorder(String title) {
@@ -84,25 +210,40 @@ public class TransitionEditor extends JDialog {
 
     private void initButtons() {
         JPanel buttons = new JPanel();
-        JButton buttonOK = new JButton("OK");
-        getRootPane().setDefaultButton(buttonOK);
+        JButton buttonOK = new JButton(UIManager.getString("OptionPane.okButtonText"));
         buttonOK.addActionListener(this::onOK);
         buttons.add(buttonOK);
+        getRootPane().setDefaultButton(buttonOK);
 
-        JButton buttonCancel = new JButton("Cancel");
+        JButton buttonCancel = new JButton(UIManager.getString("OptionPane.cancelButtonText"));
         buttonCancel.addActionListener(e->onCancel());
         buttons.add(buttonCancel);
-
-        buttons.add(Box.createHorizontalStrut(40));
 
         getContentPane().add(buttons, BorderLayout.SOUTH);
     }
 
-    private void newTrans() {
-    }
-
     private void onOK(ActionEvent e) {
-        // add your code here
+
+        for(int i = 0; i < transitions.getComponentCount(); i++) {
+            JComponent comp = (JComponent) transitions.getComponent(i);
+
+            JComboBox<?> inputs = (JComboBox<?>) comp.getClientProperty("inputs");
+            JComboBox<?> outputs = (JComboBox<?>) comp.getClientProperty("outputs");
+
+            MachineElement input = (MachineElement) inputs.getSelectedItem();
+            Event event = (Event) outputs.getSelectedItem();
+
+            Transition newTrans = new Transition(fromState, toState,
+                    input, event.element, event.messageNumber);
+
+            Transition trans = (Transition) comp.getClientProperty("transition");
+            if (trans != null) {
+                machine.removeTransition(trans);
+            }
+
+            machine.addTransition(newTrans);
+        }
+
         dispose();
     }
 
@@ -112,83 +253,40 @@ public class TransitionEditor extends JDialog {
     }
 
     public static void main(String[] args) {
-        TransitionEditor dialog = new TransitionEditor();
+        Machine machine = new Machine();
+        Point noPoint = new Point(100, 100);
+        State s0 = new State("Start", noPoint);
+        State s1 = new State("S1", noPoint);
+
+        LED led = new LED();
+        led.setName("Leer");
+        machine.addMachineElement(led);
+
+        machine.addMachineElement(new Slot());
+
+        Display display = new Display();
+        display.uiConfig(machine);
+        machine.addMachineElement(display);
+
+        Output output = new Output();
+        machine.addMachineElement(output);
+
+        Button button = new Button();
+        button.setName("Ausgabe");
+        machine.addMachineElement(button);
+
+        machine.getDisplayStrings().add("Hallo Welt");
+        machine.getDisplayStrings().add("langer, langer, langer Text!");
+
+        machine.addState(s0);
+        machine.addState(s1);
+        machine.addTransition(new Transition(s0, s1, led, output, 2));
+        machine.addTransition(new Transition(s0, s1, button, display,0));
+
+        TransitionEditor dialog = new TransitionEditor(s0, s1, machine, true);
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
     }
 
-    {
-// GUI initializer generated by IntelliJ IDEA GUI Designer
-// >>> IMPORTANT!! <<<
-// DO NOT EDIT OR ADD ANY CODE HERE!
-    //    $$$setupUI$$$();
-    }
-
-    /**
-     * Method generated by IntelliJ IDEA GUI Designer
-     * >>> IMPORTANT!! <<<
-     * DO NOT edit this method OR call it in your code!
-     *
-     * @noinspection ALL
-     */
-  /*  private void $$$setupUI$$$() {
-        final JPanel panel1 = new JPanel();
-        panel1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        GridBagConstraints gbc;
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        contentPane.add(panel1, gbc);
-        buttonOK = new JButton();
-        buttonOK.setText("OK");
-        panel1.add(buttonOK);
-        buttonCancel = new JButton();
-        buttonCancel.setText("Cancel");
-        panel1.add(buttonCancel);
-        final JPanel panel2 = new JPanel();
-        panel2.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        contentPane.add(panel2, gbc);
-        final JPanel panel3 = new JPanel();
-        panel3.setLayout(new BorderLayout(0, 0));
-        panel2.add(panel3, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        panel3.setBorder(BorderFactory.createTitledBorder(null, this.$$$getMessageFromBundle$$$("edu/kit/iti/formal/mymachine/MyMachine", "transedit.from"), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
-        final JLabel label1 = new JLabel();
-        label1.setText("Label");
-        panel3.add(label1, BorderLayout.CENTER);
-        final JPanel panel4 = new JPanel();
-        panel4.setLayout(new GridBagLayout());
-        panel2.add(panel4, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        panel4.setBorder(BorderFactory.createTitledBorder(null, this.$$$getMessageFromBundle$$$("edu/kit/iti/formal/mymachine/MyMachine", "transedit.to"), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
-    }
-
-    private static Method $$$cachedGetBundleMethod$$$ = null;
-
-    private String $$$getMessageFromBundle$$$(String path, String key) {
-        ResourceBundle bundle;
-        try {
-            Class<?> thisClass = this.getClass();
-            if ($$$cachedGetBundleMethod$$$ == null) {
-                Class<?> dynamicBundleClass = thisClass.getClassLoader().loadClass("com.intellij.DynamicBundle");
-                $$$cachedGetBundleMethod$$$ = dynamicBundleClass.getMethod("getBundle", String.class, Class.class);
-            }
-            bundle = (ResourceBundle) $$$cachedGetBundleMethod$$$.invoke(null, path, thisClass);
-        } catch (Exception e) {
-            bundle = ResourceBundle.getBundle(path);
-        }
-        return bundle.getString(key);
-    }
-
-    public JComponent $$$getRootComponent$$$() {
-        return contentPane;
-    }
-*/
 }

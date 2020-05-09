@@ -68,6 +68,8 @@ public class Machine implements Serializable {
     private transient final BooleanObservable playModeObservable = new BooleanObservable();
 
 
+    private final List<String> displayStrings = new ArrayList<>();
+
     /**
      * Make a new, empty model.
      */
@@ -179,7 +181,7 @@ public class Machine implements Serializable {
         for (Transition t1 : transitions) {
             for (Transition t2 : transitions) {
                 if(t1 != t2 && t1.getFrom() == t2.getFrom() &&
-                t1.getIn().equals(t2.getIn()))
+                        t1.getTrigger() == t2.getTrigger())
                     return t1.getFrom();
             }
         }
@@ -201,38 +203,23 @@ public class Machine implements Serializable {
      *
      * This finds the transition which belongs to this action and changes the active state.
      *
-     * @param command the action to perform.
+     * @param element the trigger action to perform.
      */
-    public void fire(String command) {
+    public void fire(MachineElement element) {
         if(activeState != null) {
             for (Transition trans : getTransitions()) {
-                if (trans.getFrom() == activeState && trans.getIn().equals(command)) {
+                if (trans.getFrom() == activeState && trans.getTrigger() == element) {
                     activeState = trans.getTo();
-                    output(trans.getOut());
+                    MachineElement output = trans.getOutput();
+                    if (output != null) {
+                        output.react(trans.getMessageIndex());
+                    }
                     // Command has been processed. Do not look further.
+                    mainFrame.repaint();
                     break;
                 }
             }
         }
-    }
-
-    /**
-     * When a transition is taken, the corresponding output action is performed.
-     *
-     * @param out the output action of a transition.
-     */
-    private void output(String out) {
-        if (out.isEmpty()) {
-            return;
-        }
-        String[] parts = out.split(" ", 2);
-        MachineElement element = machineElements.get(parts[0]);
-        if(element != null) {
-            element.output(parts[1]);
-        } else {
-            throw new NoSuchElementException("Unknown element in command '" + out + "'");
-        }
-        mainFrame.repaint();
     }
 
     public void addMachineElement(MachineElement element) {
@@ -297,6 +284,10 @@ public class Machine implements Serializable {
         return states.get(name);
     }
 
+    public List<String> getDisplayStrings() {
+        return displayStrings;
+    }
+
     /**
      * Reset the business data of this object. All transitions, states,
      * panel elements are removed. Remove the active state and leave the play mode.
@@ -305,7 +296,12 @@ public class Machine implements Serializable {
         this.transitions.clear();
         this.states.clear();
         this.machineElements.clear();
+        this.displayStrings.clear();
         this.activeState = null;
         this.setPlayMode(false);
+    }
+
+    public void removeTransition(Transition trans) {
+        this.transitions.remove(trans);
     }
 }

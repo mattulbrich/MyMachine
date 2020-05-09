@@ -12,6 +12,7 @@
  */
 package edu.kit.iti.formal.mymachine.panel;
 
+import edu.kit.iti.formal.mymachine.Machine;
 import edu.kit.iti.formal.mymachine.Util;
 
 import javax.swing.*;
@@ -27,7 +28,7 @@ public class Slot extends MachineElement {
     }
 
     @Override
-    public void uiConfig() {
+    public void uiConfig(Machine machine) {
     }
 
     @Override
@@ -38,6 +39,11 @@ public class Slot extends MachineElement {
         } else {
             Util.drawCentered(g, getPosition(), SLOT_NO_COIN);
         }
+    }
+
+    @Override
+    public String toString() {
+        return Util.r("panel.slot");
     }
 
 }

@@ -13,6 +13,8 @@
 
 package edu.kit.iti.formal.mymachine.panel;
 
+import edu.kit.iti.formal.mymachine.Machine;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.Serializable;
@@ -20,6 +22,8 @@ import java.io.Serializable;
 public abstract class MachineElement implements Serializable {
 
     protected static final Font LABEL_FONT = new Font(Font.DIALOG, Font.PLAIN, 12);
+
+    protected static final String[] NO_ACTIONS = {};
 
     public enum PaintMode { NEUTRAL, PRESSED, MOUSE_OVER}
 
@@ -132,8 +136,9 @@ public abstract class MachineElement implements Serializable {
      *
      * @throws java.util.NoSuchElementException if the methods decides the element
      * should not exist
+     * @param machine
      */
-    public abstract void uiConfig();
+    public abstract void uiConfig(Machine machine);
 
     /**
      * Paint this element at its position. Currently,
@@ -167,12 +172,16 @@ public abstract class MachineElement implements Serializable {
         this.name = name;
     }
 
+    public String[] getActions() {
+        return NO_ACTIONS;
+    }
+
     /**
      * React to an output action from a transition in the automaton.
      *
-     * @param out the argument string
+     * @param messageIndex an index into the set of possible actions
      */
-    public void output(String out) {
+    public void react(int messageIndex) {
         // by default do nothing
     }
 }

@@ -12,11 +12,15 @@
  */
 package edu.kit.iti.formal.mymachine.panel;
 
+import edu.kit.iti.formal.mymachine.Machine;
+import edu.kit.iti.formal.mymachine.Util;
+
 import java.awt.*;
 
 public class Output extends MachineElement {
 
     private static final String NAME = "#Output";
+    private static final String[] ACTIONS = { "1 Stück", "2 Stück", "3 Stück", "4 Stück" };
 
     private int schokis = 0;
 
@@ -25,7 +29,7 @@ public class Output extends MachineElement {
     }
 
     @Override
-    public void uiConfig() {
+    public void uiConfig(Machine machine) {
     }
 
     @Override
@@ -40,18 +44,23 @@ public class Output extends MachineElement {
 
         g.setColor(Color.red);
         for (int i = 0; i < schokis; i++) {
-            g.fillRoundRect(pos.x - 80 + i*30, pos.y-10,
+            g.fillRoundRect(pos.x - 80 + i * 30, pos.y - 10,
                     25, 20, 5, 5);
         }
-
     }
 
     @Override
-    public void output(String out) {
-        try {
-            schokis = Integer.parseInt(out);
-        } catch (NumberFormatException ex) {
-            schokis = 0;
-        }
+    public String[] getActions() {
+        return ACTIONS;
+    }
+
+    @Override
+    public void react(int messageIndex) {
+        schokis = messageIndex;
+    }
+
+    @Override
+    public String toString() {
+        return Util.r("panel.output");
     }
 }

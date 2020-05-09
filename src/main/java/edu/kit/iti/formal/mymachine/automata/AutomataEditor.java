@@ -14,10 +14,12 @@ package edu.kit.iti.formal.mymachine.automata;
 
 import edu.kit.iti.formal.mymachine.DeselectButtonGroup;
 import edu.kit.iti.formal.mymachine.Machine;
+import edu.kit.iti.formal.mymachine.Util;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
@@ -37,19 +39,19 @@ public class AutomataEditor extends JPanel {
     private void init() {
         JToolBar selectionPanel = new JToolBar();
         {
-            JToggleButton b = new JToggleButton(" L A U F ");
+            JToggleButton b = new JToggleButton(Util.r("automata.run"));
             selectionPanel.add(b);
             b.addActionListener(this::run);
         }
         selectionPanel.add(new JSeparator());
         {
-            JToggleButton b = new JToggleButton("Neuer Zustand");
+            JToggleButton b = new JToggleButton(Util.r("automata.new_state"));
             b.setActionCommand("addstate");
             selectionPanel.add(b);
             buttonGroup.add(b);
         }
         {
-            JToggleButton b = new JToggleButton("Neuer Übergang");
+            JToggleButton b = new JToggleButton(Util.r("automata.new_transition"));
             b.setActionCommand("addtrans");
             b.addActionListener(e-> {
                 this.panel.removeTransitionInfo();
@@ -58,13 +60,13 @@ public class AutomataEditor extends JPanel {
             buttonGroup.add(b);
         }
         {
-            JToggleButton b = new JToggleButton("Bearbeiten");
+            JToggleButton b = new JToggleButton(Util.r("automata.edit"));
             b.setActionCommand("edit");
             selectionPanel.add(b);
             buttonGroup.add(b);
         }
         {
-            JToggleButton b = new JToggleButton("Löschen");
+            JToggleButton b = new JToggleButton(Util.r("automata.delete"));
             b.setActionCommand("delete");
             selectionPanel.add(b);
             buttonGroup.add(b);
@@ -94,7 +96,7 @@ public class AutomataEditor extends JPanel {
         if(button.isSelected()) {
             if(machine.getStartState() == null) {
                 JOptionPane.showMessageDialog(this,
-                        "Dieser Automat hat keinen Zustand der 'Start' heißt.");
+                        Util.r("automata.no_start"));
                 button.setSelected(false);
                 return;
             }
@@ -102,8 +104,7 @@ public class AutomataEditor extends JPanel {
             State indet = machine.findIndeterminism();
             if (indet != null) {
                 JOptionPane.showMessageDialog(this,
-                        "Der Zustand '" + indet.getName() +
-                                "' hat zwei ausgehende Kanten, die auf dasselbe Signal reagieren.");
+                        MessageFormat.format(Util.r("automata.name_clash"), indet.getName()));
                 button.setSelected(false);
                 return;
             }

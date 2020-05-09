@@ -12,7 +12,11 @@
  */
 package edu.kit.iti.formal.mymachine.panel;
 
+import edu.kit.iti.formal.mymachine.Machine;
+import edu.kit.iti.formal.mymachine.Util;
+
 import java.awt.*;
+import java.util.List;
 
 public class Display extends MachineElement {
 
@@ -20,17 +24,19 @@ public class Display extends MachineElement {
     private static final String NAME = "#Display";
 
     private String text = "";
+    private Machine machine;
 
     public Display() {
         super(NAME, new Dimension(200, 20));
     }
+
     @Override
-    public void uiConfig() {
+    public void uiConfig(Machine machine) {
+        this.machine = machine;
     }
 
     @Override
     public void paint(Graphics2D g, PaintMode neutral) {
-
         Point pos = getPosition();
         g.setColor(Color.black);
         g.fill3DRect(pos.x - 100, pos.y - 10, 200, 20, true);
@@ -43,7 +49,18 @@ public class Display extends MachineElement {
     }
 
     @Override
-    public void output(String out) {
-        text = out;
+    public String[] getActions() {
+        List<String> list = machine.getDisplayStrings();
+        return list.toArray(new String[list.size()]);
+    }
+
+    @Override
+    public void react(int messageIndex) {
+        text = machine.getDisplayStrings().get(messageIndex);
+    }
+
+    @Override
+    public String toString() {
+        return Util.r("panel.display");
     }
 }

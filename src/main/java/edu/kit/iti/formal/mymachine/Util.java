@@ -46,4 +46,15 @@ public class Util {
     public static void drawCentered(Graphics2D g, Point pos, Icon icon) {
         icon.paintIcon(null, g, pos.x - icon.getIconWidth()/2, pos.y - icon.getIconHeight()/2);
     }
+
+    public static String r(String s) {
+        try {
+            return RESOURCE_BUNDLE.getString(s);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return s;
+        }
+    }
+
+
 }

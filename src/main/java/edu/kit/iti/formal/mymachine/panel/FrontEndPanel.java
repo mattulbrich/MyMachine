@@ -77,10 +77,7 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
         if(designPane.getMachine().isPlayMode()) {
             for (MachineElement element : designPane.getMachineElements()) {
                 if (element.contains(mouseEvent.getPoint()) && element.isActive()) {
-                    String command = element.getName();
-                    if (command != null) {
-                        designPane.getMachine().fire(command);
-                    }
+                    designPane.getMachine().fire(element);
                 }
             }
             return;
@@ -101,7 +98,7 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
             MachineElement element = designPane.createElement();
             element.setPosition(mouseEvent.getPoint());
             repaint();
-            element.uiConfig();
+            element.uiConfig(designPane.getMachine());
             if (designPane.getMachineElement(element.getName()) != null) {
 
             }

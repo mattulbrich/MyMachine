@@ -13,19 +13,24 @@
 
 package edu.kit.iti.formal.mymachine.automata;
 
+import edu.kit.iti.formal.mymachine.panel.MachineElement;
+
+import javax.swing.*;
 import java.awt.*;
 
 public class Transition {
     private final State from;
     private final State to;
-    private final String in;
-    private final String out;
+    private final MachineElement trigger;
+    private final MachineElement output;
+    private final int messageIndex;
 
-    public Transition(State from, State to, String in, String out) {
+    public Transition(State from, State to, MachineElement trigger, MachineElement output, int messageIndex) {
         this.from = from;
         this.to = to;
-        this.in = in;
-        this.out = out;
+        this.trigger = trigger;
+        this.output = output;
+        this.messageIndex = messageIndex;
     }
 
     public void paint(Graphics2D g2) {
@@ -36,11 +41,10 @@ public class Transition {
 
         g2.setColor(Color.black);
         g2.drawLine(fromPos.x, fromPos.y, toPos.x, toPos.y);
-        g2.drawString(in, x2, y2);
-        g2.drawString(out, x2, y2+20);
+        g2.drawString(trigger.toString(), x2, y2);
+        g2.drawString(output.toString(), x2, y2+20);
 
         // Draw arrowhead
-
         double angle = Math.atan2(toPos.y-fromPos.y, toPos.x-fromPos.x);
         Graphics2D gc = (Graphics2D) g2.create();
         gc.rotate(angle, toPos.x, toPos.y);
@@ -58,12 +62,19 @@ public class Transition {
         return to;
     }
 
-    public String getIn() {
-        return in;
+    public MachineElement getTrigger() {
+        return trigger;
     }
 
-    public String getOut() {
-        return out;
+    public MachineElement getOutput() {
+        return output;
     }
 
+    public int getMessageIndex() {
+        return messageIndex;
+    }
+
+    public boolean isFromTo(State fromState, State toState) {
+        return this.from == fromState && this.to == toState;
+    }
 }

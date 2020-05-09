@@ -12,6 +12,7 @@
  */
 package edu.kit.iti.formal.mymachine.panel;
 
+import edu.kit.iti.formal.mymachine.Machine;
 import edu.kit.iti.formal.mymachine.Util;
 
 import javax.swing.*;
@@ -30,7 +31,7 @@ public class Button extends MachineElement {
     }
 
     @Override
-    public void uiConfig() {
+    public void uiConfig(Machine machine) {
         String res = JOptionPane.showInputDialog("Wie soll der Knopf benannt sein (1 Wort)");
         if (res != null) {
             setName(res);
@@ -48,4 +49,8 @@ public class Button extends MachineElement {
         }
     }
 
+    @Override
+    public String toString() {
+        return Util.r("panel.button") + " " + getName();
+    }
 }

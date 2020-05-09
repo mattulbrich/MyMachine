@@ -12,6 +12,7 @@
  */
 package edu.kit.iti.formal.mymachine.panel;
 
+import edu.kit.iti.formal.mymachine.Machine;
 import edu.kit.iti.formal.mymachine.Util;
 
 import javax.swing.*;
@@ -19,6 +20,11 @@ import java.awt.*;
 import java.util.NoSuchElementException;
 
 public class LED extends MachineElement {
+
+    private static final String[] ACTIONS = Util.r("panel.led_actions").split(",");
+    static {
+        assert ACTIONS.length == 3;
+    }
 
     private boolean on = false;
 
@@ -30,7 +36,7 @@ public class LED extends MachineElement {
     }
 
     @Override
-    public void uiConfig() {
+    public void uiConfig(Machine machine) {
         String res = JOptionPane.showInputDialog("Wie soll die LED benannt werden (1 Wort)");
         if (res != null) {
             setName(res);
@@ -51,12 +57,23 @@ public class LED extends MachineElement {
     }
 
     @Override
-    public void output(String out) {
-        switch(out) {
-            case "an" : on = true; break;
-            case "aus" : on = false; break;
-            case "wechseln" : on = !on; break;
-            // TODO default: Error!
+    public String[] getActions() {
+        return ACTIONS;
+    }
+
+    @Override
+    public void react(int messageIndex) {
+        switch(messageIndex) {
+            case 0 : on = true; break;
+            case 1 : on = false; break;
+            case 2 : on = !on; break;
+            default:
+                throw new IllegalArgumentException("" + messageIndex);
         }
+    }
+
+    @Override
+    public String toString() {
+        return Util.r("panel.led") + " " + getName();
     }
 }
