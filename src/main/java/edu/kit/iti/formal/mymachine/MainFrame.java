@@ -28,11 +28,6 @@ import java.util.List;
 public class MainFrame extends JFrame {
 
     private DesignPane designPane;
-    private Map<String, MachineElement> machineElements = new HashMap<>();
-    private List<State> states = new ArrayList<>();
-    private State activeState;
-    private final BooleanObservable playModeObservable = new BooleanObservable();
-    private List<Transition> transitions = new ArrayList<>();
     private Machine machine;
     private AutomataEditor automataEditor;
 
@@ -48,44 +43,44 @@ public class MainFrame extends JFrame {
         showAsTabs();
 
         JMenuBar menuBar = new JMenuBar();
-        JMenu control = new JMenu("Steuerung");
+        JMenu control = new JMenu(Util.r("menu.control"));
         menuBar.add(control);
 
-        JMenuItem load = new JMenuItem("Szenario laden ...");
+        JMenuItem load = new JMenuItem(Util.r("menu.control.load"));
         load.addActionListener(this::loadScenario);
         control.add(load);
 
-        JMenuItem save = new JMenuItem("Szenario speichern ...");
+        JMenuItem save = new JMenuItem(Util.r("menu.control.save"));
         save.addActionListener(this::saveScenario);
         control.add(save);
 
-        JMenuItem reset = new JMenuItem("Zurücksetzen");
+        JMenuItem reset = new JMenuItem(Util.r("menu.control.reset"));
         reset.addActionListener(e -> { machine.reset(); repaint(); });
         control.add(reset);
 
         control.add(new JSeparator());
 
-        JMenuItem connect = new JMenuItem("Mit Anlage Verbinden ...");
+        JMenuItem connect = new JMenuItem(Util.r("menu.control.connect"));
         connect.setEnabled(false);
         control.add(connect);
 
         control.add(new JSeparator());
 
-        JMenuItem exit = new JMenuItem("Beenden");
+        JMenuItem exit = new JMenuItem(Util.r("menu.control.exit"));
         exit.addActionListener(x -> System.exit(0));
         control.add(exit);
 
-        JMenu view = new JMenu("Ansicht");
+        JMenu view = new JMenu(Util.r("menu.view"));
         menuBar.add(view);
 
         ButtonGroup bg = new ButtonGroup();
-        JRadioButtonMenuItem tabs = new JRadioButtonMenuItem("Als Reiter");
+        JRadioButtonMenuItem tabs = new JRadioButtonMenuItem(Util.r("menu.view.asTabs"));
         bg.add(tabs);
         tabs.setSelected(true);
         tabs.addActionListener(e -> showAsTabs());
         view.add(tabs);
 
-        JRadioButtonMenuItem split = new JRadioButtonMenuItem("Nebeneinander");
+        JRadioButtonMenuItem split = new JRadioButtonMenuItem(Util.r("menu.view.split"));
         bg.add(split);
         split.addActionListener(e -> showAsSplitPane());
         view.add(split);
