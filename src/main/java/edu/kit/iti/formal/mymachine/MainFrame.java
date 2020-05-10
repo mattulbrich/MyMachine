@@ -27,6 +27,8 @@ import java.util.List;
 
 public class MainFrame extends JFrame {
 
+    private static final boolean DEBUG = true;
+
     private DesignPane designPane;
     private Machine machine;
     private AutomataEditor automataEditor;
@@ -84,6 +86,15 @@ public class MainFrame extends JFrame {
         bg.add(split);
         split.addActionListener(e -> showAsSplitPane());
         view.add(split);
+
+        if(DEBUG) {
+            JMenu debug = new JMenu("Debug");
+            menuBar.add(debug);
+
+            JMenuItem item = new JMenuItem("Dump machine");
+            item.addActionListener(e -> machine.dump());
+            debug.add(item);
+        }
 
         setJMenuBar(menuBar);
     }

@@ -16,6 +16,7 @@ import com.thoughtworks.xstream.XStream;
 import edu.kit.iti.formal.mymachine.automata.State;
 import edu.kit.iti.formal.mymachine.automata.Transition;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
+import org.w3c.dom.ls.LSOutput;
 
 import javax.swing.*;
 import java.io.*;
@@ -312,5 +313,19 @@ public class Machine implements Serializable {
 
     public void removeTransition(Transition trans) {
         this.transitions.remove(trans);
+    }
+
+    public void dump() {
+        System.out.println("States:");
+        System.out.println("  " + states.values());
+
+        System.out.println("Active state: " + activeState);
+
+        System.out.println("Transitions:");
+        for (Transition transition : transitions) {
+            System.out.println("  " + transition.getFrom() + " -> " + transition.getTo());
+            System.out.println("     " + transition.getOutput() + " " + transition.getMessageIndex());
+            System.out.println("     " + transition.getOutput2() + " " + transition.getMessageIndex2());
+        }
     }
 }
