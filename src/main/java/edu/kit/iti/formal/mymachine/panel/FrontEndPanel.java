@@ -79,8 +79,10 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
 
         for (MachineElement machineElement : designPane.getMachineElements()) {
             PaintMode localPaintMode = paintMode;
-            if (draggedPos != null && !machineElement.contains(draggedPos)) {
+            if (draggedPos != null && !machineElement.contains(draggedPos) ||
+                 !designPane.getMachine().isPlayMode()) {
                 // only the element under the mouse is concerned
+                // and only in play mode
                 localPaintMode = PaintMode.NEUTRAL;
             }
             machineElement.paint(g2, localPaintMode);

@@ -149,6 +149,12 @@ public abstract class MachineElement implements Serializable {
      */
     public abstract void paint(Graphics2D g, PaintMode mode);
 
+    /**
+     * Paint a label on a machine in the from end.
+     * It paints its name (if not internal) beneath the image.
+     *
+     * @param g graphcs to draw with
+     */
     public void paintLabel(Graphics2D g) {
         String name = getName();
         if (!name.startsWith("#")) {
@@ -157,6 +163,24 @@ public abstract class MachineElement implements Serializable {
             int sw = SwingUtilities.computeStringWidth(g.getFontMetrics(), name);
             g.drawString(name, getPosition().x - sw / 2,
                     getPosition().y + dimension.height / 2 + g.getFontMetrics().getHeight());
+        }
+    }
+
+    /**
+     * Get the string to be printed in transition labels for a given message index.
+     *
+     * By default, returns the name of the element, but this should be overridden by
+     * machine elements that take parameters.
+     *
+     * @param messageIndex the index of the applied message
+     * @return a non-null string
+     */
+    public String getOutputLabel(int messageIndex) {
+        String[] actions = getActions();
+        if(actions.length == 0) {
+            return getName();
+        } else {
+            return actions[messageIndex];
         }
     }
 

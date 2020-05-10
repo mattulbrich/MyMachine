@@ -60,7 +60,7 @@ public class MainFrame extends JFrame {
         control.add(save);
 
         JMenuItem reset = new JMenuItem("Zurücksetzen");
-        reset.addActionListener(e -> machine.reset());
+        reset.addActionListener(e -> { machine.reset(); repaint(); });
         control.add(reset);
 
         control.add(new JSeparator());

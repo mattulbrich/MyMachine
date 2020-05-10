@@ -38,41 +38,6 @@ public class Transition {
         this.output2 = element2;
         this.messageIndex2 = messageNumber2;
     }
-
-    public void paint(Graphics2D g2) {
-        Point toPos = new Point(to.getPosition());
-        Point fromPos = new Point(from.getPosition());
-
-        translatePoints(toPos, fromPos);
-
-        int x2 = (toPos.x + fromPos.x) / 2;
-        int y2 = (toPos.y + fromPos.y) / 2;
-
-        g2.setColor(Color.black);
-        g2.drawLine(fromPos.x, fromPos.y, toPos.x, toPos.y);
-        g2.drawString(trigger.toString(), x2, y2);
-        if(output != null) {
-            g2.drawString(output.toString(), x2, y2 + 20);
-        }
-
-        // Draw arrowhead
-        double angle = Math.atan2(toPos.y-fromPos.y, toPos.x-fromPos.x);
-        Graphics2D gc = (Graphics2D) g2.create();
-        gc.rotate(angle, toPos.x, toPos.y);
-        gc.drawLine(toPos.x - State.STATE_SIZE_HALF, toPos.y,
-                toPos.x- State.STATE_SIZE_HALF - 10, toPos.y - 10);
-        gc.drawLine(toPos.x - State.STATE_SIZE_HALF, toPos.y,
-                toPos.x- State.STATE_SIZE_HALF - 10, toPos.y + 10);
-    }
-
-    private void translatePoints(Point a, Point b) {
-        int dx = b.x - a.x;
-        int dy = b.y - a.y;
-        double length = Math.hypot(dx, dy);
-        a.translate((int)(10*dy/length), (int)(-10*dx/length));
-        b.translate((int)(10*dy/length), (int)(-10*dx/length));
-    }
-
     public State getFrom() {
         return from;
     }
@@ -104,4 +69,5 @@ public class Transition {
     public boolean isFromTo(State fromState, State toState) {
         return this.from == fromState && this.to == toState;
     }
+
 }

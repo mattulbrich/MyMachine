@@ -91,8 +91,13 @@ public class Machine implements Serializable {
      *
      * @param args command line args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         Machine machine = new Machine();
+
+        if (args.length > 0) {
+            machine.loadScenario(new File(args[0]));
+        }
+
         machine.mainFrame.setSize(700,700);
         machine.mainFrame.setLocationRelativeTo(null);
         machine.mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

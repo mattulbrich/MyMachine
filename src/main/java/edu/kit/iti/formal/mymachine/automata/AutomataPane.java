@@ -57,9 +57,7 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
 
         State active = automataEditor.getActiveState();
 
-        for (Transition transition : automataEditor.getTransitions()) {
-            transition.paint(g2);
-        }
+        TransitionPainter.INSTANCE.paintTransitions(g2, automataEditor.getTransitions());
 
         if(firstTransPartner != null) {
             Graphics2D g3 = (Graphics2D) g2.create();

@@ -1,8 +1,9 @@
 
 # List of open points to be implemented
 
-[ ] There should be at most one coin slot, at most one output
-    No two elements must have same name
+[*] There should be at most one coin slot, at most one output
+
+[*] No two elements must have same name
 
 [*] No double named states
 
@@ -30,6 +31,11 @@
 [ ] States can only be deleted if not used in transitions any more.
 
 [ ] Have a decent display for transitions on edges:
-    [ ] color code input and output
+    [*] color code input and output
     [ ] abbreviate output if needed
-    [ ] aggregate edge annotations into one text.
+    [*] aggregate edge annotations into one text.
+    [ ] Click to edit
+
+[ ] Decent graphics for display and output
+
+[ ] Return money bay
