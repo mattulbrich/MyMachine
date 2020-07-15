@@ -97,13 +97,13 @@ public class MainFrame extends JFrame {
 
     private void showAsTabs() {
         setContentPane(new JTabbedPane());
-        getContentPane().add(designPane, "G E H Ä U S E");
-        getContentPane().add(automataEditor, "A U T O M A T");
+        getContentPane().add(designPane, Util.r("body"));
+        getContentPane().add(automataEditor, Util.r("automaton"));
     }
 
     private void loadScenario(ActionEvent actionEvent) {
         JFileChooser jfc = new JFileChooser(".");
-        if (jfc.showDialog(this, "Laden") == JFileChooser.APPROVE_OPTION) {
+        if (jfc.showDialog(this, Util.r("file.load")) == JFileChooser.APPROVE_OPTION) {
             try {
                 machine.loadScenario(jfc.getSelectedFile());
             } catch (IOException e) {
@@ -116,7 +116,7 @@ public class MainFrame extends JFrame {
 
     private void saveScenario(ActionEvent actionEvent) {
         JFileChooser jfc = new JFileChooser(".");
-        if (jfc.showDialog(this, "Speichern") == JFileChooser.APPROVE_OPTION) {
+        if (jfc.showDialog(this, Util.r("file.save")) == JFileChooser.APPROVE_OPTION) {
             try {
                 machine.saveScenario(jfc.getSelectedFile());
             } catch (IOException e) {

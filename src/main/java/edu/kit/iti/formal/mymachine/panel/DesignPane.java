@@ -15,6 +15,7 @@ package edu.kit.iti.formal.mymachine.panel;
 
 import edu.kit.iti.formal.mymachine.DeselectButtonGroup;
 import edu.kit.iti.formal.mymachine.Machine;
+import edu.kit.iti.formal.mymachine.Util;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,25 +36,25 @@ public class DesignPane extends JPanel {
     private void init() {
         JToolBar selectionPanel = new JToolBar();
         {
-            JToggleButton b = new JToggleButton("Knopf");
+            JToggleButton b = new JToggleButton(Util.r("panel.button"));
             b.setActionCommand("add Button");
             selectionPanel.add(b);
             buttonGroup.add(b);
         }
         {
-            JToggleButton b = new JToggleButton("Münzschlitz");
+            JToggleButton b = new JToggleButton(Util.r("panel.coinslot"));
             b.setActionCommand("add Slot");
             selectionPanel.add(b);
             buttonGroup.add(b);
         }
         {
-            JToggleButton b = new JToggleButton("Bild");
+            JToggleButton b = new JToggleButton(Util.r("panel.image"));
             b.setEnabled(false);
             selectionPanel.add(b);
             buttonGroup.add(b);
         }
         {
-            JToggleButton b = new JToggleButton("Ausgabeschacht");
+            JToggleButton b = new JToggleButton(Util.r("panel.output"));
             b.setActionCommand("add Output");
             selectionPanel.add(b);
             buttonGroup.add(b);
@@ -68,13 +69,13 @@ public class DesignPane extends JPanel {
             buttonGroup.add(b);
         }
         {
-            JToggleButton b = new JToggleButton("Display");
+            JToggleButton b = new JToggleButton(Util.r("panel.display"));
             b.setActionCommand("add Display");
             selectionPanel.add(b);
             buttonGroup.add(b);
         }
         {
-            JToggleButton b = new JToggleButton("Löschen");
+            JToggleButton b = new JToggleButton(Util.r("panel.delete"));
             b.setActionCommand("delete");
             selectionPanel.add(b);
             buttonGroup.add(b);

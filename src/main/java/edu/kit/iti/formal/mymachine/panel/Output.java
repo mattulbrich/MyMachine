@@ -20,7 +20,8 @@ import java.awt.*;
 public class Output extends MachineElement {
 
     private static final String NAME = "#Output";
-    private static final String[] ACTIONS = { "1 Stück", "2 Stück", "3 Stück", "4 Stück" };
+    private static final String[] ACTIONS =
+            Util.r("automata.actions").split(", *");
 
     private int schokis = 0;
 
