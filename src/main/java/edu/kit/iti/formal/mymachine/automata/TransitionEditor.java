@@ -94,7 +94,7 @@ public class TransitionEditor extends JDialog {
         }
         result.putClientProperty("inputs", inputs);
         result.putClientProperty("outputs", outputs);
-        result.putClientProperty("outputs2", outputs);
+        result.putClientProperty("outputs2", outputs2);
         return result;
     }
 
