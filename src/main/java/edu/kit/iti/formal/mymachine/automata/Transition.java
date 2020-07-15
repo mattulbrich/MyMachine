@@ -13,10 +13,12 @@
 
 package edu.kit.iti.formal.mymachine.automata;
 
+import edu.kit.iti.formal.mymachine.Vector;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class Transition {
     private final State from;
@@ -70,4 +72,37 @@ public class Transition {
         return this.from == fromState && this.to == toState;
     }
 
+    public boolean isNear(Point point) {
+
+        if(from == to) {
+            Point p = new Point(from.getPosition());
+            p.translate(State.STATE_SIZE_HALF, State.STATE_SIZE_HALF);
+            double distance = Math.abs(point.distance(p) - State.STATE_SIZE_HALF);
+            // System.out.println("loop: " + from + "->" + to + " " + distance);
+            return distance < 5.0;
+        }
+
+        Point fromPos = new Point(from.getPosition());
+        Point toPos = new Point(to.getPosition());
+        TransitionPainter.translatePoints(fromPos, toPos);
+
+        // Projection onto line
+        Vector dir = Vector.minus(toPos, fromPos);
+        Vector dirNorm = dir.normalize();
+        Vector pvec = Vector.minus(point, fromPos);
+        double dotProd = dirNorm.dotProd(pvec);
+        double distance;
+        if (dotProd < 0.0) {
+            distance = fromPos.distance(point);
+        } else if(dotProd > dir.length()) {
+            distance = toPos.distance(point);
+        } else {
+            Vector normal = dirNorm.normal();
+            double prod = pvec.dotProd(normal);
+            distance = Math.abs(prod);
+        }
+
+        // System.out.println("D: " + from + "->" + to + " " + distance);
+        return distance < 5;
+    }
 }

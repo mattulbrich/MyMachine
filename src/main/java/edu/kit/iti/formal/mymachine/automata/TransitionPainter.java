@@ -16,6 +16,7 @@ public class TransitionPainter {
     private static final Color OUTPUT_COLOR = Color.ORANGE.darker();
     private static final Color TRIGGER_COLOR = Color.GREEN.darker();
     private static final Color PARAM_COLOR = Color.gray;
+    private static final int SEPARATION_DIST = 10;
 
     public void paintTransitions(Graphics2D g, List<Transition> transitions) {
         Map<Pair<State,State>, List<Transition>> collected = collectTransitions(transitions);
@@ -175,12 +176,12 @@ public class TransitionPainter {
         return result;
     }
 
-    private static void translatePoints(Point a, Point b) {
+    public static void translatePoints(Point a, Point b) {
         int dx = b.x - a.x;
         int dy = b.y - a.y;
         double length = Math.hypot(dx, dy);
-        a.translate((int)(10*dy/length), (int)(-10*dx/length));
-        b.translate((int)(10*dy/length), (int)(-10*dx/length));
+        a.translate((int) (SEPARATION_DIST * dy / length), (int) (-SEPARATION_DIST * dx / length));
+        b.translate((int) (SEPARATION_DIST * dy / length), (int) (-SEPARATION_DIST * dx / length));
     }
 
 }
