@@ -16,6 +16,7 @@ import edu.kit.iti.formal.mymachine.Machine;
 import edu.kit.iti.formal.mymachine.Util;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Display extends MachineElement {
@@ -50,13 +51,20 @@ public class Display extends MachineElement {
 
     @Override
     public String[] getActions() {
-        List<String> list = machine.getDisplayStrings();
+        List<String> list = new ArrayList<>();
+        list.add(Util.r("panel.clear_display"));
+        list.addAll(machine.getDisplayStrings());
         return list.toArray(new String[list.size()]);
     }
 
     @Override
     public void react(int messageIndex) {
-        text = machine.getDisplayStrings().get(messageIndex);
+        List<String> displayStrings = machine.getDisplayStrings();
+        if(messageIndex < displayStrings.size()) {
+            text = displayStrings.get(messageIndex);
+        } else {
+            text = "";
+        }
     }
 
     @Override

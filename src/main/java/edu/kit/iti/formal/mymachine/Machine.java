@@ -68,7 +68,6 @@ public class Machine implements Serializable {
      */
     private transient final BooleanObservable playModeObservable = new BooleanObservable();
 
-
     private final List<String> displayStrings = new ArrayList<>();
 
     /**
@@ -327,5 +326,10 @@ public class Machine implements Serializable {
             System.out.println("     " + transition.getOutput() + " " + transition.getMessageIndex());
             System.out.println("     " + transition.getOutput2() + " " + transition.getMessageIndex2());
         }
+    }
+
+    public void setDisplayStrings(Collection<String> strings) {
+        displayStrings.clear();
+        displayStrings.addAll(strings);
     }
 }

@@ -20,6 +20,8 @@ import edu.kit.iti.formal.mymachine.panel.DesignPane;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.*;
@@ -34,7 +36,7 @@ public class MainFrame extends JFrame {
     private AutomataEditor automataEditor;
 
     public MainFrame(Machine machine) {
-        super("MyMachine");
+        super(Util.r("title"));
         this.machine = machine;
         init();
     }
@@ -72,6 +74,13 @@ public class MainFrame extends JFrame {
         exit.addActionListener(x -> System.exit(0));
         control.add(exit);
 
+        JMenu setup = new JMenu(Util.r("menu.setup"));
+        menuBar.add(setup);
+
+        JMenuItem strings = new JMenuItem(Util.r("menu.setup.display_strings"));
+        strings.addActionListener(e -> editStrings());
+        setup.add(strings);
+
         JMenu view = new JMenu(Util.r("menu.view"));
         menuBar.add(view);
 
@@ -97,6 +106,36 @@ public class MainFrame extends JFrame {
         }
 
         setJMenuBar(menuBar);
+    }
+
+    private void editStrings() {
+        String[] columName = { Util.r("setup.display_string") };
+        TableModel tm = new DefaultTableModel(columName, 10);
+        int r = 0;
+        for (String str : machine.getDisplayStrings()) {
+            tm.setValueAt(str, r++, 0);
+        }
+
+        JTable table = new JTable(tm);
+        table.setFont(table.getFont().deriveFont(14.f));
+
+        int response = JOptionPane.showConfirmDialog(this,
+                new JScrollPane(table), Util.r("setup.display_strings"),
+                JOptionPane.OK_CANCEL_OPTION);
+
+
+        if (response == JOptionPane.OK_OPTION) {
+            List<String> strings = new ArrayList<>();
+            for (int i = 0; i < tm.getRowCount(); i++) {
+                Object value = tm.getValueAt(i, 0);
+                if (value == null) {
+                    value = "";
+                }
+                strings.add(value.toString());
+            }
+            machine.setDisplayStrings(strings);
+        }
+
     }
 
     private void showAsSplitPane() {
