@@ -105,9 +105,15 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
         if(designPane.isDeleteMode()) {
             Iterator<MachineElement> it = designPane.getMachineElements().iterator();
             while (it.hasNext()) {
-                if (it.next().contains(mouseEvent.getPoint())) {
-                    it.remove();
-                    repaint();
+                MachineElement element = it.next();
+                if (element.contains(mouseEvent.getPoint())) {
+                    if(element.canBeDeleted(designPane.getMachine())) {
+                        it.remove();
+                        repaint();
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                                Util.r("panel.cannotDelete"));
+                    }
                     return;
                 }
             }

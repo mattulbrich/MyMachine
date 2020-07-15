@@ -14,6 +14,7 @@
 package edu.kit.iti.formal.mymachine.panel;
 
 import edu.kit.iti.formal.mymachine.Machine;
+import edu.kit.iti.formal.mymachine.automata.Transition;
 
 import javax.swing.*;
 import java.awt.*;
@@ -207,5 +208,23 @@ public abstract class MachineElement implements Serializable {
      */
     public void react(int messageIndex) {
         // by default do nothing
+    }
+
+    /**
+     * Elements can only be deleted if they are not referenced from the automaton.
+     *
+     * @param machine the machine to look up elements
+     *
+     * @return true iff this element can be deleted
+     */
+    public boolean canBeDeleted(Machine machine) {
+        for (Transition trans : machine.getTransitions()) {
+            if (trans.getTrigger() == this ||
+                    trans.getOutput() == this ||
+                    trans.getOutput2() == this) {
+                return false;
+            }
+        }
+        return true;
     }
 }
