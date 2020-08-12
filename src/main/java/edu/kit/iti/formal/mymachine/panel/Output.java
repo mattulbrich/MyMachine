@@ -23,9 +23,12 @@ public class Output extends MachineElement {
     private static final String NAME = "#Output";
     private static final String[] ACTIONS =
             Util.r("automata.actions").split(", *");
-    private static final Icon SLOT = Util.imageResource("output.png");;
+    private static final Icon SLOT = Util.imageResource("output.png");
+    private static final Icon BLOCK = Util.imageResource("block.png");
+    private static final Icon COIN = Util.imageResource("returnCoin.png");
 
-    private int schokis = 0;
+    private transient int schokis = 0;
+
 
     public Output() {
         super(NAME, new Dimension(200, 50));
@@ -39,13 +42,12 @@ public class Output extends MachineElement {
     public void paint(Graphics2D g, PaintMode mode) {
 
         Util.drawCentered(g, getPosition(), SLOT);
-
-        // TODO Make this nice!
         Point pos = getPosition();
-        g.setColor(Color.red);
-        for (int i = 0; i < schokis; i++) {
-            g.fillRoundRect(pos.x - 80 + i * 30, pos.y - 10,
-                    25, 20, 5, 5);
+        // TODO Make this nice!
+        if(schokis <= 4) {
+            for (int i = 0; i < schokis; i++) {
+                BLOCK.paintIcon(null, g, pos.x - 200 + i*90, pos.y - 20);
+            }
         }
     }
 
@@ -56,7 +58,7 @@ public class Output extends MachineElement {
 
     @Override
     public void react(int messageIndex) {
-        schokis = messageIndex;
+        schokis = messageIndex + 1;
     }
 
     @Override

@@ -115,7 +115,7 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
                             if (automataEditor.getMachine().getState(newName) != null) {
                                 JOptionPane.showMessageDialog(this, r.getString("state.name_taken"));
                             } else {
-                                state.setName(newName);
+                                automataEditor.getMachine().renameState(state, newName);
                             }
                         }
                         repaint();
@@ -174,6 +174,14 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
             State partner = findState(e.getPoint());
 
             if (partner != null) {
+
+                if(automataEditor.getMachine().getMachineElements().
+                        stream().allMatch(x -> !x.isActive())) {
+                    JOptionPane.showMessageDialog(this, Util.r("transedit.no_actions_error"),
+                           Util.r("error"), JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 TransitionEditor editor =
                         new TransitionEditor(firstTransPartner, partner,
                                 automataEditor.getMachine(), true);

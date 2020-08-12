@@ -26,7 +26,7 @@ public class LED extends MachineElement {
         assert ACTIONS.length == 3;
     }
 
-    private boolean on = false;
+    private transient boolean on = false;
 
     private static final Icon ON_ICON = Util.imageResource("ledOn.png");
     private static final Icon OFF_ICON = Util.imageResource("ledOff.png");

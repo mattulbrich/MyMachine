@@ -88,6 +88,10 @@ public class DesignPane extends JPanel {
             }
             if (playmode) {
                 buttonGroup.clearSelection();
+                // reset all output labels to neutral
+                for (MachineElement element : getMachineElements()) {
+                    element.react(0);
+                }
             }
         });
 

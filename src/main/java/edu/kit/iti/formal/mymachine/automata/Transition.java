@@ -26,8 +26,8 @@ public class Transition {
     private final MachineElement trigger;
     private final MachineElement output;
     private final int messageIndex;
-    private final int messageIndex2;
     private final MachineElement output2;
+    private final int messageIndex2;
 
     public Transition(State from, State to, MachineElement trigger,
                       MachineElement element, int messageNumber,

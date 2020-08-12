@@ -13,6 +13,7 @@
 package edu.kit.iti.formal.mymachine;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 import edu.kit.iti.formal.mymachine.automata.State;
 import edu.kit.iti.formal.mymachine.automata.Transition;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
@@ -68,7 +69,7 @@ public class Machine implements Serializable {
      */
     private transient final BooleanObservable playModeObservable = new BooleanObservable();
 
-    private final List<String> displayStrings = new ArrayList<>();
+    private List<String> displayStrings = new ArrayList<>();
 
     /**
      * Make a new, empty model.
@@ -252,6 +253,10 @@ public class Machine implements Serializable {
      */
     public void loadScenario(File file) throws IOException, ClassNotFoundException {
         XStream xstream = new XStream();
+        XStream.setupDefaultSecurity(xstream); // to be removed after 1.5
+        xstream.allowTypesByWildcard(new String[] {
+                "edu.kit.iti.formal.**"
+        });
         xstream.setMode(XStream.ID_REFERENCES);
         try (ObjectInputStream ois = xstream.createObjectInputStream(new FileInputStream(file))) {
             Machine newMachine = (Machine) ois.readObject();
@@ -259,6 +264,7 @@ public class Machine implements Serializable {
             this.states = newMachine.states;
             this.machineElements = newMachine.machineElements;
             this.transitions = newMachine.transitions;
+            this.displayStrings = newMachine.displayStrings;
             this.setPlayMode(false);
             mainFrame.repaint();
         }
@@ -274,6 +280,10 @@ public class Machine implements Serializable {
      */
     public void saveScenario(File file) throws IOException {
         XStream xstream = new XStream();
+        XStream.setupDefaultSecurity(xstream); // to be removed after 1.5
+        xstream.allowTypesByWildcard(new String[] {
+                "edu.kit.iti.formal.**"
+        });
         xstream.setMode(XStream.ID_REFERENCES);
         try(ObjectOutputStream oos = xstream.createObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(this);
@@ -331,5 +341,11 @@ public class Machine implements Serializable {
     public void setDisplayStrings(Collection<String> strings) {
         displayStrings.clear();
         displayStrings.addAll(strings);
+    }
+
+    public void renameState(State state, String newName) {
+        states.remove(state.getName());
+        state.setName(newName);
+        states.put(newName, state);
     }
 }

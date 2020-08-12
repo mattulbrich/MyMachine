@@ -128,10 +128,12 @@ public class MainFrame extends JFrame {
             List<String> strings = new ArrayList<>();
             for (int i = 0; i < tm.getRowCount(); i++) {
                 Object value = tm.getValueAt(i, 0);
-                if (value == null) {
-                    value = "";
+                if (value != null) {
+                    String trimmed = value.toString().trim();
+                    if (!trimmed.isEmpty()) {
+                        strings.add(trimmed);
+                    }
                 }
-                strings.add(value.toString());
             }
             machine.setDisplayStrings(strings);
         }
