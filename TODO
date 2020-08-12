@@ -34,8 +34,11 @@
     [*] color code input and output
     [ ] abbreviate output if needed
     [*] aggregate edge annotations into one text.
-    [ ] Click to edit
+    [*] Click to edit
 
-[ ] Decent graphics for display and output
+[*] Decent graphics for display and output
 
 [ ] Return money bay
+
+[ ] BUG: Add display strings, and an action upon them;
+    then clear the strings. Exception is thrown.

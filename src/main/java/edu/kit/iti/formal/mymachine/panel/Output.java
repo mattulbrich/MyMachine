@@ -31,7 +31,7 @@ public class Output extends MachineElement {
 
 
     public Output() {
-        super(NAME, new Dimension(200, 50));
+        super(NAME, Util.getDimension(SLOT));
     }
 
     @Override
@@ -46,7 +46,11 @@ public class Output extends MachineElement {
         // TODO Make this nice!
         if(schokis <= 4) {
             for (int i = 0; i < schokis; i++) {
-                BLOCK.paintIcon(null, g, pos.x - 200 + i*90, pos.y - 20);
+                BLOCK.paintIcon(null, g, pos.x - 130 + i*50, pos.y);
+            }
+        } else {
+            for (int i = 0; i < schokis - 4; i++) {
+                COIN.paintIcon(null, g, pos.x - 90 + i*50, pos.y + 15);
             }
         }
     }
