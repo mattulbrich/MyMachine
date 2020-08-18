@@ -17,10 +17,11 @@ import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider
 import edu.kit.iti.formal.mymachine.automata.State;
 import edu.kit.iti.formal.mymachine.automata.Transition;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
-import org.w3c.dom.ls.LSOutput;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.io.*;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.List;
 import java.util.function.Consumer;
@@ -287,6 +288,27 @@ public class Machine implements Serializable {
         xstream.setMode(XStream.ID_REFERENCES);
         try(ObjectOutputStream oos = xstream.createObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(this);
+        }
+    }
+
+    /**
+     * Export the machine to a json file which can be interpreted by the
+     * hardware machine.
+     *
+     * The data itself is not modified.
+     *
+     * @param file the file to save to
+     * @throws IOException if file writing fails.
+     */
+    public void exportScenario(File file) throws IOException {
+
+        JSONMachineExporter exporter = new JSONMachineExporter(this, mainFrame);
+        JSONObject json = exporter.export();
+
+        if(json != null) {
+            try (FileWriter writer = new FileWriter(file)) {
+                writer.write(json.toString(2));
+            }
         }
     }
 

@@ -1,0 +1,21 @@
+Kommentiert Version des JSON-Files eines Beispiel Automaten
+{
+  "States": ["State0", "State1", "State2", "State3", "State4"], //hier alle States als Liste angeben
+  "Transitions": { //je ein key im Transitions-Dictonary pro Element in States-Liste
+    "State0": {
+      "button1_p": { //für jeden relevanten Input des States die Outputs und "NextState" angeben
+        "Output": ["led1_on", "led2_off", "led3_off"], //mehrere Outputs möglich, daher als Liste anlegen
+        "NextState": 1 //Index des nächsten States von States-Liste
+      },
+      "button2_p": {
+      	...
+	usw.
+}      
+
+'''
+Die States könnnen beliebige Strings sein und werden als Liste angegeben.
+Die Transitions sind als Dictionary angegeben mit dem jeweiligen State als key und den weiteren Informationen als Wert
+Inputs und Outputs feste Werte, nur aus dieser Auswahl:
+Inputs: ["button1_p", "button2_p", "button3_p", "coin1_in", "coin2_in"]
+Outputs: ["Nothing", "led1_on", "led2_on", "led3_on", "led1_off", "led2_off", "led3_off", "item1", "item2", "item3", "coin1_out", "coin2_out", "buzzer"]
+'''

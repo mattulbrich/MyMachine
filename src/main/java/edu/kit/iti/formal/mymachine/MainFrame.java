@@ -64,6 +64,10 @@ public class MainFrame extends JFrame {
 
         control.add(new JSeparator());
 
+        JMenuItem export = new JMenuItem(Util.r("menu.control.export"));
+        export.addActionListener(this::exportScenario);
+        control.add(export);
+
         JMenuItem connect = new JMenuItem(Util.r("menu.control.connect"));
         connect.setEnabled(false);
         control.add(connect);
@@ -171,6 +175,17 @@ public class MainFrame extends JFrame {
         if (jfc.showDialog(this, Util.r("file.save")) == JFileChooser.APPROVE_OPTION) {
             try {
                 machine.saveScenario(jfc.getSelectedFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void exportScenario(ActionEvent actionEvent) {
+        JFileChooser jfc = new JFileChooser(".");
+        if (jfc.showDialog(this, Util.r("file.export")) == JFileChooser.APPROVE_OPTION) {
+            try {
+                machine.exportScenario(jfc.getSelectedFile());
             } catch (IOException e) {
                 e.printStackTrace();
             }

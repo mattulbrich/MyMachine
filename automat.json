@@ -1,0 +1,64 @@
+{
+  "States": ["State0", "State1", "State2", "State3", "State4"],
+  "Transitions": {
+    "State0": {
+      "button1_p": {
+        "Output": ["led1_on", "led2_off", "led3_off"],
+        "NextState": 1
+      },
+      "button2_p": {
+        "Output": ["led2_on", "led1_off", "led3_off"],
+        "NextState": 2
+      },
+      "button3_p": {
+        "Output": ["led2_off", "led1_off", "led3_on"],
+        "NextState": 4
+      }
+    },
+    "State1": {
+      "button1_p": {
+        "Output": ["led3_on", "led1_on", "led2_off"],
+        "NextState": 1
+      },
+      "button2_p": {
+        "Output": ["item1", "led2_on", "led1_on", "led3_off"],
+        "NextState": 3
+      }
+    },
+    "State2": {
+      "button1_p": {
+        "Output": ["item1", "led2_on", "led1_on", "led3_off"],
+        "NextState": 3
+      },
+      "button2_p": {
+        "Output": ["led3_on", "led1_off", "led2_on"],
+        "NextState": 2
+      }
+    },
+    "State3": {
+      "button1_p": {
+        "Output": ["led1_off", "led2_off", "led3_off"],
+        "NextState": 0
+      },
+      "button2_p": {
+        "Output":  ["led1_off", "led2_off", "led3_off"],
+        "NextState": 0
+      }
+    },
+    "State4" : {
+      "button1_p": {
+        "Output": ["led1_on"],
+        "NextState": 4
+      },
+      "button2_p": {
+        "Output":  ["led2_on"],
+        "NextState": 4
+      },
+      "button3_p": {
+        "Output":  ["led1_off", "led2_off", "led3_off"],
+        "NextState": 0
+      }
+    }
+  }
+}
+
