@@ -14,7 +14,7 @@
 package edu.kit.iti.formal.mymachine.panel;
 
 
-import edu.kit.iti.formal.mymachine.Util;
+import edu.kit.iti.formal.mymachine.util.Util;
 import edu.kit.iti.formal.mymachine.panel.MachineElement.PaintMode;
 
 import javax.swing.*;

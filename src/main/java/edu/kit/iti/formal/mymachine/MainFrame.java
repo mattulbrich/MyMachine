@@ -14,10 +14,8 @@
 package edu.kit.iti.formal.mymachine;
 
 import edu.kit.iti.formal.mymachine.automata.AutomataEditor;
-import edu.kit.iti.formal.mymachine.automata.State;
-import edu.kit.iti.formal.mymachine.automata.Transition;
 import edu.kit.iti.formal.mymachine.panel.DesignPane;
-import edu.kit.iti.formal.mymachine.panel.MachineElement;
+import edu.kit.iti.formal.mymachine.util.Util;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

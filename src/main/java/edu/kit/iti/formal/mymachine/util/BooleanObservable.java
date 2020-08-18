@@ -11,7 +11,7 @@
  * (c) 2020 Karlsruhe Institute of Technology
  */
 
-package edu.kit.iti.formal.mymachine;
+package edu.kit.iti.formal.mymachine.util;
 
 import java.util.ArrayList;
 import java.util.List;

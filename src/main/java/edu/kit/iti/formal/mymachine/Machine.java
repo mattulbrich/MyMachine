@@ -13,10 +13,11 @@
 package edu.kit.iti.formal.mymachine;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 import edu.kit.iti.formal.mymachine.automata.State;
 import edu.kit.iti.formal.mymachine.automata.Transition;
+import edu.kit.iti.formal.mymachine.json.JSONMachineExporter;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
+import edu.kit.iti.formal.mymachine.util.BooleanObservable;
 import org.json.JSONObject;
 
 import javax.swing.*;

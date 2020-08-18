@@ -13,8 +13,8 @@
 
 package edu.kit.iti.formal.mymachine.automata;
 
-import edu.kit.iti.formal.mymachine.Vector;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
+import edu.kit.iti.formal.mymachine.util.Vector;
 
 import javax.swing.*;
 import java.awt.*;

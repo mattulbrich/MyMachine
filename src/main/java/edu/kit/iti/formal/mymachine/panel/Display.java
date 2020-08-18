@@ -13,7 +13,7 @@
 package edu.kit.iti.formal.mymachine.panel;
 
 import edu.kit.iti.formal.mymachine.Machine;
-import edu.kit.iti.formal.mymachine.Util;
+import edu.kit.iti.formal.mymachine.util.Util;
 
 import java.awt.*;
 import java.util.ArrayList;

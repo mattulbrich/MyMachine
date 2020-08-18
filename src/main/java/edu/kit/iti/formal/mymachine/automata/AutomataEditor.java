@@ -12,9 +12,9 @@
  */
 package edu.kit.iti.formal.mymachine.automata;
 
-import edu.kit.iti.formal.mymachine.DeselectButtonGroup;
 import edu.kit.iti.formal.mymachine.Machine;
-import edu.kit.iti.formal.mymachine.Util;
+import edu.kit.iti.formal.mymachine.util.DeselectButtonGroup;
+import edu.kit.iti.formal.mymachine.util.Util;
 
 import javax.swing.*;
 import java.awt.*;

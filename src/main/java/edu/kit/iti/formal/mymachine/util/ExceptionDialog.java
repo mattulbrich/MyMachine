@@ -9,7 +9,7 @@
  * this class has originally been written for "verbtrainer"
  */
 
-package edu.kit.iti.formal.mymachine;
+package edu.kit.iti.formal.mymachine.util;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;

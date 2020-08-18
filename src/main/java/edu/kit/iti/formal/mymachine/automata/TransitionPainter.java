@@ -1,7 +1,6 @@
 package edu.kit.iti.formal.mymachine.automata;
 
-
-import edu.kit.iti.formal.mymachine.Pair;
+import edu.kit.iti.formal.mymachine.util.Pair;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
 
 import javax.swing.*;

@@ -12,7 +12,7 @@
  */
 package edu.kit.iti.formal.mymachine.automata;
 
-import edu.kit.iti.formal.mymachine.Util;
+import edu.kit.iti.formal.mymachine.util.Util;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
 
 import javax.swing.*;

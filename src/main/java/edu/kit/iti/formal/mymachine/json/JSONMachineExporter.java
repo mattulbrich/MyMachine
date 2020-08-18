@@ -1,10 +1,12 @@
-package edu.kit.iti.formal.mymachine;
+package edu.kit.iti.formal.mymachine.json;
 
+import edu.kit.iti.formal.mymachine.Machine;
 import edu.kit.iti.formal.mymachine.automata.State;
 import edu.kit.iti.formal.mymachine.automata.Transition;
 import edu.kit.iti.formal.mymachine.panel.Display;
 import edu.kit.iti.formal.mymachine.panel.LED;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
+import edu.kit.iti.formal.mymachine.util.Util;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

@@ -1,4 +1,4 @@
-package edu.kit.iti.formal.mymachine;
+package edu.kit.iti.formal.mymachine.util;
 
 import java.awt.*;
 import java.util.Objects;
