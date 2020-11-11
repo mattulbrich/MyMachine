@@ -21,6 +21,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Collection;
 
+/**
+ * That is the button panel for the machine front end.
+ * Plus all the actions associated within it.
+ */
 public class DesignPane extends JPanel {
 
     ButtonGroup buttonGroup = new DeselectButtonGroup();
@@ -47,12 +51,12 @@ public class DesignPane extends JPanel {
             selectionPanel.add(b);
             buttonGroup.add(b);
         }
-        {
+        /*{
             JToggleButton b = new JToggleButton(Util.r("panel.image"));
             b.setEnabled(false);
             selectionPanel.add(b);
             buttonGroup.add(b);
-        }
+        }*/
         {
             JToggleButton b = new JToggleButton(Util.r("panel.output"));
             b.setActionCommand("add Output");
@@ -83,8 +87,9 @@ public class DesignPane extends JPanel {
 
         machine.addPlaymodeObserver(playmodeObs -> {
             boolean playmode = playmodeObs.get();
+            boolean enable = !playmode && !machine.isFixedInterface();
             for (Component component : selectionPanel.getComponents()) {
-                component.setEnabled(!playmode);
+                component.setEnabled(enable);
             }
             if (playmode) {
                 buttonGroup.clearSelection();

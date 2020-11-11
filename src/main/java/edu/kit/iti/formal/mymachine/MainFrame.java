@@ -60,6 +60,10 @@ public class MainFrame extends JFrame {
         reset.addActionListener(e -> { machine.reset(); repaint(); });
         control.add(reset);
 
+        JMenuItem newFixedMachine = new JMenuItem(Util.r("menu.control.newFixedMachine"));
+        newFixedMachine.addActionListener(this::newFixedMachine);
+        control.add(newFixedMachine);
+
         control.add(new JSeparator());
 
         JMenuItem export = new JMenuItem(Util.r("menu.control.export"));
@@ -153,6 +157,14 @@ public class MainFrame extends JFrame {
         setContentPane(new JTabbedPane());
         getContentPane().add(designPane, Util.r("body"));
         getContentPane().add(automataEditor, Util.r("automaton"));
+    }
+
+    private void newFixedMachine(ActionEvent e) {
+        try {
+            machine.resetFixedInterface();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void loadScenario(ActionEvent actionEvent) {

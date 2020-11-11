@@ -15,6 +15,7 @@ package edu.kit.iti.formal.mymachine;
 import com.thoughtworks.xstream.XStream;
 import edu.kit.iti.formal.mymachine.automata.State;
 import edu.kit.iti.formal.mymachine.automata.Transition;
+import edu.kit.iti.formal.mymachine.panel.fixed.FixedInterfaces;
 import edu.kit.iti.formal.mymachine.json.JSONMachineExporter;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
 import edu.kit.iti.formal.mymachine.util.BooleanObservable;
@@ -39,6 +40,7 @@ import java.util.function.Consumer;
  */
 public class Machine implements Serializable {
 
+    public static final String FIXED_INTERFACE_XML = "fixedInterface.xml";
     /**
      * A link to the frame of this application.
      * Not to be serialised
@@ -60,6 +62,11 @@ public class Machine implements Serializable {
      * play mode.
      */
     private State activeState;
+
+    /**
+     * Is this machine meant to be executed on the Hardware component?
+     */
+    private boolean fixedInterface;
 
     /**
      * The collection of transitions. not indexed.
@@ -163,6 +170,15 @@ public class Machine implements Serializable {
     }
 
     /**
+     * Has this machine the fixed hardware interface?
+     *
+     * @return true iff this corresponds to the hardwired interface
+     */
+    public boolean isFixedInterface() {
+        return fixedInterface;
+    }
+
+    /**
      * Set the playmode.
      *
      * If this is to be set to true, make sure that:
@@ -235,7 +251,7 @@ public class Machine implements Serializable {
     }
 
     public void addMachineElement(MachineElement element) {
-        machineElements.put(element.getName(), element);
+        machineElements.put(element.toString(), element);
     }
 
     public MachineElement getMachineElement(String name) {
@@ -254,13 +270,28 @@ public class Machine implements Serializable {
      * @throws ClassNotFoundException if a class is missing.
      */
     public void loadScenario(File file) throws IOException, ClassNotFoundException {
+        loadScenario(new FileInputStream(file));
+    }
+
+    /**
+     * Load the business data from an xml file.
+     *
+     * There are corrupt xml files which may make this crash horribly.
+     * Please only use xml files saved with the very same version of this
+     * application.
+     *
+     * @param istream the stream to load from
+     * @throws IOException if reading fails
+     * @throws ClassNotFoundException if a class is missing.
+     */
+    public void loadScenario(InputStream istream) throws IOException, ClassNotFoundException {
         XStream xstream = new XStream();
         XStream.setupDefaultSecurity(xstream); // to be removed after 1.5
         xstream.allowTypesByWildcard(new String[] {
                 "edu.kit.iti.formal.**"
         });
         xstream.setMode(XStream.ID_REFERENCES);
-        try (ObjectInputStream ois = xstream.createObjectInputStream(new FileInputStream(file))) {
+        try (ObjectInputStream ois = xstream.createObjectInputStream(istream)) {
             Machine newMachine = (Machine) ois.readObject();
             this.activeState = null;
             this.states = newMachine.states;
@@ -271,6 +302,8 @@ public class Machine implements Serializable {
             mainFrame.repaint();
         }
     }
+
+
 
     /**
      * Save the business data to a file.
@@ -340,6 +373,20 @@ public class Machine implements Serializable {
         this.machineElements.clear();
         this.displayStrings.clear();
         this.activeState = null;
+        this.fixedInterface = false;
+        this.setPlayMode(false);
+    }
+
+    /**
+     * Make this machine comply to the fixed interface mode.
+     */
+    public void resetFixedInterface() throws IOException, ClassNotFoundException {
+        this.reset();
+        this.fixedInterface = true;
+        // HACK: Temporarily set play mode to trigger enable/disable routine in DesignPane
+        this.setPlayMode(true);
+        // Add the default elements from the reference file.
+        FixedInterfaces.addFixedInterfaceElements(this);
         this.setPlayMode(false);
     }
 

@@ -227,4 +227,10 @@ public abstract class MachineElement implements Serializable {
         }
         return true;
     }
+
+    public abstract String toString();
+
+    public Dimension getDimension() {
+        return dimension;
+    }
 }

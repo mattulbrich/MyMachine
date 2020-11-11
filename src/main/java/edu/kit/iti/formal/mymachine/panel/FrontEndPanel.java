@@ -24,6 +24,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Iterator;
 
+/**
+ * This is the component that actually realises the machine's swing UI.
+ */
 public class FrontEndPanel extends JComponent implements MouseListener, MouseMotionListener {
 
     private static final Icon BACKGROUND =
@@ -124,8 +127,10 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
             element.setPosition(mouseEvent.getPoint());
             repaint();
             element.uiConfig(designPane.getMachine());
-            if (designPane.getMachineElement(element.getName()) != null) {
-
+            if (designPane.getMachineElement(element.toString()) != null) {
+                JOptionPane.showMessageDialog(this,
+                                Util.r("panel.nameAlreadyUsed"));
+                return;
             }
             designPane.addMachineElement(element);
             designPane.finishAction();
@@ -169,7 +174,8 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-        if(draggedElement != null && !designPane.getMachine().isPlayMode()) {
+        if(draggedElement != null && !designPane.getMachine().isPlayMode() &&
+                !designPane.getMachine().isFixedInterface()) {
             draggedElement.drag(draggedPos, mouseEvent.getPoint());
             draggedPos = mouseEvent.getPoint();
             repaint();

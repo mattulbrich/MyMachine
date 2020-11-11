@@ -3,9 +3,12 @@ package edu.kit.iti.formal.mymachine.json;
 import edu.kit.iti.formal.mymachine.Machine;
 import edu.kit.iti.formal.mymachine.automata.State;
 import edu.kit.iti.formal.mymachine.automata.Transition;
+import edu.kit.iti.formal.mymachine.panel.Button;
 import edu.kit.iti.formal.mymachine.panel.Display;
 import edu.kit.iti.formal.mymachine.panel.LED;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
+import edu.kit.iti.formal.mymachine.panel.Output;
+import edu.kit.iti.formal.mymachine.panel.Slot;
 import edu.kit.iti.formal.mymachine.util.Util;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -50,6 +53,12 @@ public class JSONMachineExporter {
             JOptionPane.showMessageDialog(frame, Util.r("automata.no_start"));
             return null;
         }
+
+        if(!machine.isFixedInterface()) {
+            JOptionPane.showMessageDialog(frame, Util.r("automata.not_fixed"));
+            return null;
+        }
+
         State indet = machine.findIndeterminism();
         if (indet != null) {
             JOptionPane.showMessageDialog(frame,
@@ -65,7 +74,7 @@ public class JSONMachineExporter {
 
     private JSONArray exportStates() {
         JSONArray jsonStates = new JSONArray();
-        // "Start" has been ensures to be there. Mention that first.
+        // "Start" has been ensured to be there. Mention that first.
         for (State state : orderedStates) {
             String name = state.getName();
             jsonStates.put(name);
@@ -106,28 +115,45 @@ public class JSONMachineExporter {
         result.put("Output", actions);
         result.put("NextState", orderedStates.indexOf(transition.getTo()));
 
-        json.put(transition.getTrigger().getName(), result);
+        json.put(getTrigger(transition.getTrigger()), result);
     }
 
-    private void addAction(MachineElement output, int messageIndex, JSONArray actions) {
-        if (output != null) {
-            if (output instanceof LED) {
-                String action = output.getName() + "_";
+    private String getTrigger(MachineElement element) {
+        if (element instanceof Button) {
+            return "Knopf" + element.getName();
+        }
+
+        if (element instanceof Slot) {
+            // TODO MAKE THIS MORE FLEXIBLE!
+            return "Münze1";
+        }
+
+        throw new IllegalStateException("Cannot export this machine element: " + element.getClass());
+    }
+
+    private void addAction(MachineElement element, int messageIndex, JSONArray actions) {
+        if (element != null) {
+            if (element instanceof LED) {
+                String action = "LED" + element.getName();
                 switch (messageIndex) {
                     case 0:
-                        action += "off";
+                        action += " aus";
                         break;
                     case 1:
-                        action += "on";
+                        action += " an";
+                        break;
+                    case 2:
+                        action += " toggle";
                         break;
                     default:
-                        throw new IllegalStateException("Cannot export LED toggles (should have been detected)");
+                        throw new IllegalStateException("Unexpected LED message");
                 }
                 actions.put(action);
-            } else if(output instanceof Display) {
-                // to be done ...
+            } else if(element instanceof Output) {
+                String action = "Item" + (messageIndex + 1);
+                actions.put(action);
             } else {
-                throw new IllegalStateException("Cannot do this action (should have been detected)");
+                throw new IllegalStateException("Cannot export this machine element: " + element.getClass());
             }
         }
     }
