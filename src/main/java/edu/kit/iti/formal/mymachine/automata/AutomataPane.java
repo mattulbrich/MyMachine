@@ -13,7 +13,6 @@
 package edu.kit.iti.formal.mymachine.automata;
 
 import edu.kit.iti.formal.mymachine.util.Util;
-import edu.kit.iti.formal.mymachine.panel.MachineElement;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,17 +20,19 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 public class AutomataPane extends JComponent implements MouseMotionListener, MouseListener {
 
     private static final Stroke DASHED_STROKE = new BasicStroke(3f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);;
     private static final Stroke SOLID_STROKE = new BasicStroke(3f);
+    private static final Icon LOGO = Util.imageResource("logo.png");
     private AutomataEditor automataEditor;
     private State firstTransPartner;
     private State draggedState;
     private Point dragStart;
     private ResourceBundle r = Util.RESOURCE_BUNDLE;
+
+
 
     public AutomataPane(AutomataEditor automataEditor) {
         this.automataEditor = automataEditor;
@@ -70,6 +71,9 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
         for (State state : automataEditor.getStates()) {
             state.paint(g2, state == active);
         }
+
+        LOGO.paintIcon(this, g,
+                getWidth() - LOGO.getIconWidth() - 10, getHeight() - LOGO.getIconHeight() - 10);
     }
 
     @Override
