@@ -30,6 +30,11 @@ public class ShowPicture extends Picture {
     }
 
     public ShowPicture() {
-        super("#ShowPicture", IMAGE);
+        super("#ShowPicture", getDim(IMAGE));
+    }
+
+    @Override
+    protected Image getImage() {
+        return IMAGE;
     }
 }

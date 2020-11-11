@@ -19,6 +19,11 @@ import edu.kit.iti.formal.mymachine.util.Util;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * There is lots of code duplication with the original
+ * {@link edu.kit.iti.formal.mymachine.panel.Output} class.
+ *  Consider unifying them.
+ */
 public class MultiTypeOutput extends MachineElement {
 
     private static final String NAME = "#MultiOutput";

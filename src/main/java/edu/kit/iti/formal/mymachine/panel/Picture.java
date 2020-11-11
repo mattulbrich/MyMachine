@@ -5,16 +5,13 @@ import edu.kit.iti.formal.mymachine.util.Util;
 
 import java.awt.*;
 
-public class Picture extends MachineElement {
+public abstract class Picture extends MachineElement {
 
-    private transient final Image image;
-
-    public Picture(String name, Image image) {
-        super(name, getDim(image));
-        this.image = image;
+    public Picture(String name, Dimension dim) {
+        super(name, dim);
     }
 
-    private static Dimension getDim(Image image) {
+    protected static Dimension getDim(Image image) {
         return new Dimension(image.getWidth(null), image.getHeight(null));
     }
 
@@ -26,8 +23,10 @@ public class Picture extends MachineElement {
     public void paint(Graphics2D g, PaintMode neutral) {
         Point pos = getPosition();
         Dimension d = getDimension();
-        g.drawImage(image, pos.x - d.width/2, pos.y - d.height/2, null);
+        g.drawImage(getImage(), pos.x - d.width/2, pos.y - d.height/2, null);
     }
+
+    protected abstract Image getImage();
 
     @Override
     public String toString() {
