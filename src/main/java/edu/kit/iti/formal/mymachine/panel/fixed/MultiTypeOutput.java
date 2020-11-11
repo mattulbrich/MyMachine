@@ -30,9 +30,10 @@ public class MultiTypeOutput extends MachineElement {
     private static final String[] ACTIONS =
             Util.r("multi.output.actions").split(", *");
     private static final Icon SLOT = Util.imageResource("output.png");
-    private static final Icon BLOCK1 = Util.imageResource("block.png");
+    // colours are a little different
+    private static final Icon BLOCK1 = Util.imageResource("block3.png");
     private static final Icon BLOCK2 = Util.imageResource("block2.png");
-    private static final Icon BLOCK3 = Util.imageResource("block3.png");
+    private static final Icon BLOCK3 = Util.imageResource("block.png");
     private static final Icon COIN1 = Util.imageResource("returnCoin.png");
     private static final Icon COIN2 = Util.imageResource("returnCoin2.png");
 
@@ -48,6 +49,10 @@ public class MultiTypeOutput extends MachineElement {
 
     @Override
     public void paint(Graphics2D g, PaintMode mode) {
+
+        if(mode == PaintMode.PRESSED) {
+            output = -1;
+        }
 
         Util.drawCentered(g, getPosition(), SLOT);
         Point pos = getPosition();

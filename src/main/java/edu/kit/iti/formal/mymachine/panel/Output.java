@@ -27,7 +27,7 @@ public class Output extends MachineElement {
     private static final Icon BLOCK = Util.imageResource("block.png");
     private static final Icon COIN = Util.imageResource("returnCoin.png");
 
-    private transient int schokis = 0;
+    private transient int output = 0;
 
     public Output() {
         super(NAME, Util.getDimension(SLOT));
@@ -40,15 +40,19 @@ public class Output extends MachineElement {
     @Override
     public void paint(Graphics2D g, PaintMode mode) {
 
+        if(mode == PaintMode.PRESSED) {
+            output = 0;
+        }
+
         Util.drawCentered(g, getPosition(), SLOT);
         Point pos = getPosition();
         // TODO Make this nice!
-        if(schokis <= 4) {
-            for (int i = 0; i < schokis; i++) {
+        if(output <= 4) {
+            for (int i = 0; i < output; i++) {
                 BLOCK.paintIcon(null, g, pos.x - 130 + i*50, pos.y - 15);
             }
         } else {
-            for (int i = 0; i < schokis - 4; i++) {
+            for (int i = 0; i < output - 4; i++) {
                 COIN.paintIcon(null, g, pos.x - 90 + i*50, pos.y + 15);
             }
         }
@@ -61,7 +65,7 @@ public class Output extends MachineElement {
 
     @Override
     public void react(int messageIndex) {
-        schokis = messageIndex + 1;
+        output = messageIndex + 1;
     }
 
     @Override

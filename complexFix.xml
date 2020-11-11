@@ -1,0 +1,334 @@
+<object-stream>
+  <edu.kit.iti.formal.mymachine.Machine id="1">
+    <machineElements id="2">
+      <entry>
+        <string>LED 3</string>
+        <edu.kit.iti.formal.mymachine.panel.LED id="3">
+          <position id="4">
+            <x>530</x>
+            <y>40</y>
+          </position>
+          <dimension id="5">
+            <width>50</width>
+            <height>50</height>
+          </dimension>
+          <active>false</active>
+          <name>3</name>
+        </edu.kit.iti.formal.mymachine.panel.LED>
+      </entry>
+      <entry>
+        <string>LED 2</string>
+        <edu.kit.iti.formal.mymachine.panel.LED id="6">
+          <position id="7">
+            <x>450</x>
+            <y>40</y>
+          </position>
+          <dimension id="8">
+            <width>50</width>
+            <height>50</height>
+          </dimension>
+          <active>false</active>
+          <name>2</name>
+        </edu.kit.iti.formal.mymachine.panel.LED>
+      </entry>
+      <entry>
+        <string>LED 1</string>
+        <edu.kit.iti.formal.mymachine.panel.LED id="9">
+          <position id="10">
+            <x>370</x>
+            <y>40</y>
+          </position>
+          <dimension id="11">
+            <width>50</width>
+            <height>50</height>
+          </dimension>
+          <active>false</active>
+          <name>1</name>
+        </edu.kit.iti.formal.mymachine.panel.LED>
+      </entry>
+      <entry>
+        <string>Slot for 2-coins</string>
+        <edu.kit.iti.formal.mymachine.panel.fixed.CoinTwoSlot id="12">
+          <position id="13">
+            <x>532</x>
+            <y>650</y>
+          </position>
+          <dimension id="14">
+            <width>34</width>
+            <height>115</height>
+          </dimension>
+          <active>true</active>
+          <name>#Coin2</name>
+        </edu.kit.iti.formal.mymachine.panel.fixed.CoinTwoSlot>
+      </entry>
+      <entry>
+        <string>Output</string>
+        <edu.kit.iti.formal.mymachine.panel.fixed.MultiTypeOutput id="15">
+          <position id="16">
+            <x>180</x>
+            <y>650</y>
+          </position>
+          <dimension id="17">
+            <width>316</width>
+            <height>102</height>
+          </dimension>
+          <active>false</active>
+          <name>#MultiOutput</name>
+        </edu.kit.iti.formal.mymachine.panel.fixed.MultiTypeOutput>
+      </entry>
+      <entry>
+        <string>Button 3</string>
+        <edu.kit.iti.formal.mymachine.panel.Button id="18">
+          <position id="19">
+            <x>450</x>
+            <y>480</y>
+          </position>
+          <dimension id="20">
+            <width>100</width>
+            <height>100</height>
+          </dimension>
+          <active>true</active>
+          <name>3</name>
+        </edu.kit.iti.formal.mymachine.panel.Button>
+      </entry>
+      <entry>
+        <string>Coin slot</string>
+        <edu.kit.iti.formal.mymachine.panel.Slot id="21">
+          <position id="22">
+            <x>450</x>
+            <y>650</y>
+          </position>
+          <dimension id="23">
+            <width>128</width>
+            <height>115</height>
+          </dimension>
+          <active>true</active>
+          <name>#Coin</name>
+        </edu.kit.iti.formal.mymachine.panel.Slot>
+      </entry>
+      <entry>
+        <string>Button 2</string>
+        <edu.kit.iti.formal.mymachine.panel.Button id="24">
+          <position id="25">
+            <x>450</x>
+            <y>340</y>
+          </position>
+          <dimension id="26">
+            <width>100</width>
+            <height>100</height>
+          </dimension>
+          <active>true</active>
+          <name>2</name>
+        </edu.kit.iti.formal.mymachine.panel.Button>
+      </entry>
+      <entry>
+        <string>Button 1</string>
+        <edu.kit.iti.formal.mymachine.panel.Button id="27">
+          <position id="28">
+            <x>450</x>
+            <y>200</y>
+          </position>
+          <dimension id="29">
+            <width>100</width>
+            <height>100</height>
+          </dimension>
+          <active>true</active>
+          <name>1</name>
+        </edu.kit.iti.formal.mymachine.panel.Button>
+      </entry>
+      <entry>
+        <string>Picture #ShowPicture</string>
+        <edu.kit.iti.formal.mymachine.panel.fixed.ShowPicture id="30">
+          <position id="31">
+            <x>180</x>
+            <y>340</y>
+          </position>
+          <dimension id="32">
+            <width>205</width>
+            <height>408</height>
+          </dimension>
+          <active>false</active>
+          <name>#ShowPicture</name>
+        </edu.kit.iti.formal.mymachine.panel.fixed.ShowPicture>
+      </entry>
+    </machineElements>
+    <states id="33">
+      <entry>
+        <string>M1</string>
+        <edu.kit.iti.formal.mymachine.automata.State id="34">
+          <name>M1</name>
+          <position id="35">
+            <x>686</x>
+            <y>127</y>
+          </position>
+        </edu.kit.iti.formal.mymachine.automata.State>
+      </entry>
+      <entry>
+        <string>Start</string>
+        <edu.kit.iti.formal.mymachine.automata.State id="36">
+          <name>Start</name>
+          <position id="37">
+            <x>252</x>
+            <y>157</y>
+          </position>
+        </edu.kit.iti.formal.mymachine.automata.State>
+      </entry>
+      <entry>
+        <string>M2</string>
+        <edu.kit.iti.formal.mymachine.automata.State id="38">
+          <name>M2</name>
+          <position id="39">
+            <x>438</x>
+            <y>331</y>
+          </position>
+        </edu.kit.iti.formal.mymachine.automata.State>
+      </entry>
+      <entry>
+        <string>M3</string>
+        <edu.kit.iti.formal.mymachine.automata.State id="40">
+          <name>M3</name>
+          <position id="41">
+            <x>294</x>
+            <y>635</y>
+          </position>
+        </edu.kit.iti.formal.mymachine.automata.State>
+      </entry>
+    </states>
+    <fixedInterface>false</fixedInterface>
+    <transitions id="42">
+      <edu.kit.iti.formal.mymachine.automata.Transition id="43">
+        <from reference="36"/>
+        <to reference="34"/>
+        <trigger class="edu.kit.iti.formal.mymachine.panel.Slot" reference="21"/>
+        <messageIndex>0</messageIndex>
+        <messageIndex2>0</messageIndex2>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="44">
+        <from reference="36"/>
+        <to reference="38"/>
+        <trigger class="edu.kit.iti.formal.mymachine.panel.fixed.CoinTwoSlot" reference="12"/>
+        <messageIndex>0</messageIndex>
+        <messageIndex2>0</messageIndex2>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="45">
+        <from reference="34"/>
+        <to reference="38"/>
+        <trigger class="edu.kit.iti.formal.mymachine.panel.Slot" reference="21"/>
+        <messageIndex>0</messageIndex>
+        <messageIndex2>0</messageIndex2>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="46">
+        <from reference="34"/>
+        <to reference="40"/>
+        <trigger class="edu.kit.iti.formal.mymachine.panel.fixed.CoinTwoSlot" reference="12"/>
+        <messageIndex>0</messageIndex>
+        <messageIndex2>0</messageIndex2>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="47">
+        <from reference="40"/>
+        <to reference="40"/>
+        <trigger class="edu.kit.iti.formal.mymachine.panel.Slot" reference="21"/>
+        <output class="edu.kit.iti.formal.mymachine.panel.fixed.MultiTypeOutput" reference="15"/>
+        <messageIndex>3</messageIndex>
+        <messageIndex2>0</messageIndex2>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="48">
+        <from reference="40"/>
+        <to reference="40"/>
+        <trigger class="edu.kit.iti.formal.mymachine.panel.fixed.CoinTwoSlot" reference="12"/>
+        <output class="edu.kit.iti.formal.mymachine.panel.fixed.MultiTypeOutput" reference="15"/>
+        <messageIndex>4</messageIndex>
+        <messageIndex2>0</messageIndex2>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="49">
+        <from reference="40"/>
+        <to reference="38"/>
+        <trigger class="edu.kit.iti.formal.mymachine.panel.Button" reference="27"/>
+        <output class="edu.kit.iti.formal.mymachine.panel.fixed.MultiTypeOutput" reference="15"/>
+        <messageIndex>0</messageIndex>
+        <messageIndex2>0</messageIndex2>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="50">
+        <from reference="38"/>
+        <to reference="34"/>
+        <trigger class="edu.kit.iti.formal.mymachine.panel.Button" reference="27"/>
+        <output class="edu.kit.iti.formal.mymachine.panel.fixed.MultiTypeOutput" reference="15"/>
+        <messageIndex>0</messageIndex>
+        <messageIndex2>0</messageIndex2>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="51">
+        <from reference="40"/>
+        <to reference="36"/>
+        <trigger class="edu.kit.iti.formal.mymachine.panel.Button" reference="18"/>
+        <output class="edu.kit.iti.formal.mymachine.panel.fixed.MultiTypeOutput" reference="15"/>
+        <messageIndex>3</messageIndex>
+        <output2 class="edu.kit.iti.formal.mymachine.panel.fixed.MultiTypeOutput" reference="15"/>
+        <messageIndex2>4</messageIndex2>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="52">
+        <from reference="40"/>
+        <to reference="36"/>
+        <trigger class="edu.kit.iti.formal.mymachine.panel.Button" reference="24"/>
+        <output class="edu.kit.iti.formal.mymachine.panel.fixed.MultiTypeOutput" reference="15"/>
+        <messageIndex>2</messageIndex>
+        <messageIndex2>0</messageIndex2>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="53">
+        <from reference="38"/>
+        <to reference="36"/>
+        <trigger class="edu.kit.iti.formal.mymachine.panel.Button" reference="24"/>
+        <output class="edu.kit.iti.formal.mymachine.panel.fixed.MultiTypeOutput" reference="15"/>
+        <messageIndex>1</messageIndex>
+        <messageIndex2>0</messageIndex2>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="54">
+        <from reference="38"/>
+        <to reference="36"/>
+        <trigger class="edu.kit.iti.formal.mymachine.panel.Button" reference="18"/>
+        <output class="edu.kit.iti.formal.mymachine.panel.fixed.MultiTypeOutput" reference="15"/>
+        <messageIndex>4</messageIndex>
+        <messageIndex2>0</messageIndex2>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="55">
+        <from reference="34"/>
+        <to reference="36"/>
+        <trigger class="edu.kit.iti.formal.mymachine.panel.Button" reference="27"/>
+        <output class="edu.kit.iti.formal.mymachine.panel.fixed.MultiTypeOutput" reference="15"/>
+        <messageIndex>0</messageIndex>
+        <messageIndex2>0</messageIndex2>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="56">
+        <from reference="34"/>
+        <to reference="36"/>
+        <trigger class="edu.kit.iti.formal.mymachine.panel.Button" reference="24"/>
+        <output class="edu.kit.iti.formal.mymachine.panel.fixed.MultiTypeOutput" reference="15"/>
+        <messageIndex>0</messageIndex>
+        <messageIndex2>0</messageIndex2>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="57">
+        <from reference="34"/>
+        <to reference="36"/>
+        <trigger class="edu.kit.iti.formal.mymachine.panel.Button" reference="18"/>
+        <output class="edu.kit.iti.formal.mymachine.panel.fixed.MultiTypeOutput" reference="15"/>
+        <messageIndex>3</messageIndex>
+        <messageIndex2>0</messageIndex2>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="58">
+        <from reference="38"/>
+        <to reference="40"/>
+        <trigger class="edu.kit.iti.formal.mymachine.panel.fixed.CoinTwoSlot" reference="12"/>
+        <output class="edu.kit.iti.formal.mymachine.panel.fixed.MultiTypeOutput" reference="15"/>
+        <messageIndex>3</messageIndex>
+        <messageIndex2>0</messageIndex2>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+      <edu.kit.iti.formal.mymachine.automata.Transition id="59">
+        <from reference="38"/>
+        <to reference="40"/>
+        <trigger class="edu.kit.iti.formal.mymachine.panel.Slot" reference="21"/>
+        <messageIndex>0</messageIndex>
+        <messageIndex2>0</messageIndex2>
+      </edu.kit.iti.formal.mymachine.automata.Transition>
+    </transitions>
+    <displayStrings id="60"/>
+  </edu.kit.iti.formal.mymachine.Machine>
+</object-stream>

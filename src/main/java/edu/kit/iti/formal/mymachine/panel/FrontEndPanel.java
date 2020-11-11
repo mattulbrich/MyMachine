@@ -175,8 +175,7 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
                 if (element.contains(point)) {
                     draggedElement = element;
                     draggedPos = point;
-                    paintMode = (mouseEvent.getModifiers() & MouseEvent.SHIFT_DOWN_MASK) != 0 ?
-                            PaintMode.SHIFT_PRESSED : PaintMode.PRESSED;
+                    paintMode = PaintMode.PRESSED;
                     repaint();
                     return;
                 }

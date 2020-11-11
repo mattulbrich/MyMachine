@@ -26,7 +26,7 @@ public abstract class MachineElement implements Serializable {
 
     protected static final String[] NO_ACTIONS = {};
 
-    public enum PaintMode { NEUTRAL, PRESSED, SHIFT_PRESSED, MOUSE_OVER}
+    public enum PaintMode { NEUTRAL, PRESSED, MOUSE_OVER}
 
     /**
      * Current position on screen.
