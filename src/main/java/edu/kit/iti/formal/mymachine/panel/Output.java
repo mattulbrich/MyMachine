@@ -29,7 +29,6 @@ public class Output extends MachineElement {
 
     private transient int schokis = 0;
 
-
     public Output() {
         super(NAME, Util.getDimension(SLOT));
     }
@@ -46,7 +45,7 @@ public class Output extends MachineElement {
         // TODO Make this nice!
         if(schokis <= 4) {
             for (int i = 0; i < schokis; i++) {
-                BLOCK.paintIcon(null, g, pos.x - 130 + i*50, pos.y);
+                BLOCK.paintIcon(null, g, pos.x - 130 + i*50, pos.y - 15);
             }
         } else {
             for (int i = 0; i < schokis - 4; i++) {

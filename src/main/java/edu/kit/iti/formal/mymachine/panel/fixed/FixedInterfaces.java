@@ -10,12 +10,11 @@ import java.awt.*;
 
 public class FixedInterfaces {
 
-
-    public static final int SECOND_COL = 380;
+    public static final int SECOND_COL = 450;
     private static final int LED_X_SEP = 80;
-    private static final int BUTTON_Y_SEP = 150;
+    private static final int BUTTON_Y_SEP = 140;
     private static final int FIRST_BUTTON_Y = 200;
-
+    public static final int OUTPUT_HEIGHT = 650;
 
     public static void addFixedInterfaceElements(Machine machine) {
         {
@@ -58,17 +57,22 @@ public class FixedInterfaces {
         }
         {
             ShowPicture picture = new ShowPicture();
-            picture.setPosition(new Point(120, 300));
+            picture.setPosition(new Point(180, 340));
             machine.addMachineElement(picture);
         }
         {
-            Output output = new Output();
-            output.setPosition(new Point(140, 700));
+            MultiTypeOutput output = new MultiTypeOutput();
+            output.setPosition(new Point(180, OUTPUT_HEIGHT));
             machine.addMachineElement(output);
         }
         {
             Slot slot = new Slot();
-            slot.setPosition(new Point(SECOND_COL, 700));
+            slot.setPosition(new Point(SECOND_COL, OUTPUT_HEIGHT));
+            machine.addMachineElement(slot);
+        }
+        {
+            CoinTwoSlot slot = new CoinTwoSlot();
+            slot.setPosition(new Point(SECOND_COL + 82, OUTPUT_HEIGHT));
             machine.addMachineElement(slot);
         }
     }
