@@ -417,4 +417,14 @@ public class Machine implements Serializable {
         state.setName(newName);
         states.put(newName, state);
     }
+
+    public boolean removeState(State state) {
+        for (Transition transition : transitions) {
+            if (transition.getFrom() == state || transition.getTo() == state) {
+                return false;
+            }
+        }
+        states.remove(state.getName());
+        return true;
+    }
 }

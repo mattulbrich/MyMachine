@@ -110,8 +110,14 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
                 if (e.getClickCount() == 2) {
                     State state = findState(e.getPoint());
                     if (state != null) {
-                        String newName = JOptionPane.showInputDialog(r.getString("state.name"), state.getName());
-                        if (newName != null && !newName.equals(state.getName())) {
+                        String newName = JOptionPane.showInputDialog(r.getString("state.rename"), state.getName());
+                        if(newName != null && newName.trim().isEmpty()) {
+                            boolean succ = automataEditor.getMachine().removeState(state);
+                            if (!succ) {
+                                JOptionPane.showMessageDialog(this,
+                                        r.getString("state.still_in_use"));
+                            }
+                        } else if (newName != null && !newName.equals(state.getName())) {
                             if (automataEditor.getMachine().getState(newName) != null) {
                                 JOptionPane.showMessageDialog(this, r.getString("state.name_taken"));
                             } else {
@@ -194,22 +200,6 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
 
             firstTransPartner = null;
         }
-    }
-
-    private String showTransitionInputDlg() {
-        Vector<String> list = new Vector<>();
-        for (MachineElement element : automataEditor.getMachine().getMachineElements()) {
-            if (element.isActive()) {
-                list.add(element.getName());
-            }
-        }
-        JComboBox<String> jcb = new JComboBox<>(list);
-        int res = JOptionPane.showConfirmDialog(this, jcb,
-                "Eingabe-Ereignis", JOptionPane.OK_CANCEL_OPTION);
-        if (res == JOptionPane.OK_OPTION) {
-            return (String) jcb.getSelectedItem();
-        }
-        return null;
     }
 
     @Override

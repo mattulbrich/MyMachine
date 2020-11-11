@@ -65,12 +65,12 @@ public class AutomataEditor extends JPanel {
             selectionPanel.add(b);
             buttonGroup.add(b);
         }*/
-        {
+        /*{
             JToggleButton b = new JToggleButton(Util.r("automata.delete"));
             b.setActionCommand("delete");
             selectionPanel.add(b);
             buttonGroup.add(b);
-        }
+        }*/
 
         add(selectionPanel, BorderLayout.NORTH);
 
@@ -112,10 +112,6 @@ public class AutomataEditor extends JPanel {
         } else {
             machine.setPlayMode(false);
         }
-    }
-
-    public boolean isDeleteMode() {
-        return buttonGroup.getSelection().getActionCommand().equals("delete");
     }
 
     public boolean isMoveMode() {

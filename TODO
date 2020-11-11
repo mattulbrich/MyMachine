@@ -24,11 +24,11 @@
 
 [ ] "Do you want to overwrite?"
 
-[ ] Schoki must disappear when clicked on.
+[x] Schoki must disappear when clicked on.
 
-[ ] Elements can only be deleted if not used in transitions any more
+[x] Elements can only be deleted if not used in transitions any more
 
-[ ] States can only be deleted if not used in transitions any more.
+[x] States can only be deleted if not used in transitions any more.
 
 [ ] Have a decent display for transitions on edges:
     [*] color code input and output
@@ -38,7 +38,7 @@
 
 [*] Decent graphics for display and output
 
-[ ] Return money bay
+[½] Return money bay
 
 [ ] BUG: Add display strings, and an action upon them;
     then clear the strings. Exception is thrown.
