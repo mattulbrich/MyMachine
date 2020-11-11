@@ -51,8 +51,9 @@ public class TransitionEditor extends JDialog {
             }
         }
         if(newTrans) {
-            transitions.add(makeTransitionPanel(null),
-                    Util.r("transedit.new_trans"));
+            JPanel panel = makeTransitionPanel(null);
+            transitions.add(panel, Util.r("transedit.new_trans"));
+            transitions.setSelectedComponent(panel);
         }
     }
 
