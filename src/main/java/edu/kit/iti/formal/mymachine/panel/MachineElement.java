@@ -142,6 +142,20 @@ public abstract class MachineElement implements Serializable {
     public abstract void uiConfig(Machine machine);
 
     /**
+     * Every element is given the possibility to react to its creation.
+     *
+     * Here the name may be queried from the user or an exception be raised if a
+     * name already exists etc.
+     *
+     * @throws java.util.NoSuchElementException if the methods decides the element
+     * should not exist
+     * @param designPane
+     */
+    public void uiConfig(DesignPane designPane) {
+        uiConfig(designPane.getMachine());
+    }
+
+    /**
      * Paint this element at its position. Currently,
      * it is always painted in its neutral position
      *

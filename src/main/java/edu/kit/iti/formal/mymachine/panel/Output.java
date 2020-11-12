@@ -17,6 +17,7 @@ import edu.kit.iti.formal.mymachine.util.Util;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class Output extends MachineElement {
 
@@ -28,6 +29,8 @@ public class Output extends MachineElement {
     private static final Icon COIN = Util.imageResource("returnCoin.png");
 
     private transient int output = 0;
+    private int animationOffset;
+    private Machine machine;
 
     public Output() {
         super(NAME, Util.getDimension(SLOT));
@@ -35,6 +38,7 @@ public class Output extends MachineElement {
 
     @Override
     public void uiConfig(Machine machine) {
+        this.machine = machine;
     }
 
     @Override
@@ -44,16 +48,21 @@ public class Output extends MachineElement {
             output = 0;
         }
 
-        Util.drawCentered(g, getPosition(), SLOT);
         Point pos = getPosition();
+        Util.drawCentered(g, pos, SLOT);
+
+        g = (Graphics2D) g.create();
+        g.setClip(pos.x - SLOT.getIconWidth()/2, pos.y - SLOT.getIconHeight()/2+5,
+                SLOT.getIconWidth(), SLOT.getIconHeight());
+
         // TODO Make this nice!
         if(output <= 4) {
             for (int i = 0; i < output; i++) {
-                BLOCK.paintIcon(null, g, pos.x - 130 + i*50, pos.y - 15);
+                BLOCK.paintIcon(null, g, pos.x - 130 + i*50, pos.y - 15 - animationOffset);
             }
         } else {
             for (int i = 0; i < output - 4; i++) {
-                COIN.paintIcon(null, g, pos.x - 90 + i*50, pos.y + 15);
+                COIN.paintIcon(null, g, pos.x - 90 + i*50, pos.y + 15 - animationOffset);
             }
         }
     }
@@ -66,10 +75,23 @@ public class Output extends MachineElement {
     @Override
     public void react(int messageIndex) {
         output = messageIndex + 1;
+        animationOffset = 100;
+        Timer t = new Timer(20, this::animationStep);
+        t.start();
     }
 
     @Override
     public String toString() {
         return Util.r("panel.output");
+    }
+
+    private void animationStep(ActionEvent e) {
+        if(animationOffset > 0) {
+            animationOffset -= 10;
+            machine.repaint();
+        } else {
+            animationOffset = 0;
+            ((Timer)e.getSource()).stop();
+        }
     }
 }

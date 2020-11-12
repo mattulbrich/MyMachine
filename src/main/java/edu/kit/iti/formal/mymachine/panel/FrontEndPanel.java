@@ -145,7 +145,7 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
             MachineElement element = designPane.createElement();
             element.setPosition(point);
             repaint();
-            element.uiConfig(designPane.getMachine());
+            element.uiConfig(designPane);
             if (designPane.getMachineElement(element.toString()) != null) {
                 JOptionPane.showMessageDialog(this,
                                 Util.r("panel.nameAlreadyUsed"));

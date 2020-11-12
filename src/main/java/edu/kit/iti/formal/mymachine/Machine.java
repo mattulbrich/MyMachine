@@ -427,4 +427,9 @@ public class Machine implements Serializable {
         states.remove(state.getName());
         return true;
     }
+
+    public void repaint() {
+        mainFrame.repaint();
+    }
+
 }
