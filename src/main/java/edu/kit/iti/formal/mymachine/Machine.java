@@ -12,13 +12,11 @@
  */
 package edu.kit.iti.formal.mymachine;
 
-import com.thoughtworks.xstream.XStream;
 import edu.kit.iti.formal.mymachine.automata.State;
 import edu.kit.iti.formal.mymachine.automata.Transition;
 import edu.kit.iti.formal.mymachine.panel.fixed.FixedInterfaces;
 import edu.kit.iti.formal.mymachine.json.JSONMachineExporter;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
-import edu.kit.iti.formal.mymachine.serialise.JSONSerialiser;
 import edu.kit.iti.formal.mymachine.serialise.MachineSerialiser;
 import edu.kit.iti.formal.mymachine.serialise.XStreamSerialiser;
 import edu.kit.iti.formal.mymachine.util.BooleanObservable;
@@ -53,7 +51,7 @@ public class Machine implements Serializable {
     /**
      * A collection of all machine (=panel) elements. They are indexed by their name.
      */
-    private Map<String, MachineElement> machineElements = new HashMap<>();
+    private Map<String, MachineElement> machineElements = new LinkedHashMap<>();
 
     /**
      * A collection of all automata states. They are indexed by their name.
@@ -69,7 +67,7 @@ public class Machine implements Serializable {
     /**
      * Is this machine meant to be executed on the Hardware component?
      */
-    private boolean fixedInterface;
+    private BooleanObservable fixedInterface = new BooleanObservable();
 
     /**
      * The collection of transitions. not indexed.
@@ -178,7 +176,7 @@ public class Machine implements Serializable {
      * @return true iff this corresponds to the hardwired interface
      */
     public boolean isFixedInterface() {
-        return fixedInterface;
+        return fixedInterface.get();
     }
 
     /**
@@ -224,6 +222,16 @@ public class Machine implements Serializable {
     public void addPlaymodeObserver(Consumer<BooleanObservable> observer) {
         playModeObservable.addObserver(observer);
     }
+
+    /**
+     * Add an observer to the fixedMode
+     *
+     * @param observer a listener which is called whenever the value changes.
+     */
+    public void addFixedInterfaceObserver(Consumer<BooleanObservable> observer) {
+        fixedInterface.addObserver(observer);
+    }
+
 
     /**
      * Trigger an action from the panel. The user has clicked on a machine element e.g.
@@ -294,7 +302,7 @@ public class Machine implements Serializable {
         this.machineElements = newMachine.machineElements;
         this.transitions = newMachine.transitions;
         this.displayStrings = newMachine.displayStrings;
-        this.fixedInterface = newMachine.fixedInterface;
+        this.fixedInterface.set(newMachine.isFixedInterface());
         this.setPlayMode(false);
         mainFrame.repaint();
     }
@@ -359,7 +367,7 @@ public class Machine implements Serializable {
         this.machineElements.clear();
         this.displayStrings.clear();
         this.activeState = null;
-        this.fixedInterface = false;
+        this.fixedInterface.set(false);
         this.setPlayMode(false);
     }
 
@@ -368,12 +376,11 @@ public class Machine implements Serializable {
      */
     public void resetFixedInterface() throws IOException, ClassNotFoundException {
         this.reset();
-        this.fixedInterface = true;
-        // HACK: Temporarily set play mode to trigger enable/disable routine in DesignPane
-        this.setPlayMode(true);
         // Add the default elements from the reference file.
         FixedInterfaces.addFixedInterfaceElements(this);
+        this.fixedInterface.set(true);
         this.setPlayMode(false);
+        this.mainFrame.repaint();
     }
 
     public void removeTransition(Transition trans) {

@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 
 public class BooleanObservable {
 
-    private List<Consumer<BooleanObservable>> observers = new ArrayList<>();
+    private transient List<Consumer<BooleanObservable>> observers = new ArrayList<>();
 
     private boolean value;
 

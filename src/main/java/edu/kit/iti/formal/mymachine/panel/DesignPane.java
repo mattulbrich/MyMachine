@@ -20,6 +20,7 @@ import edu.kit.iti.formal.mymachine.util.Util;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * That is the button panel for the machine front end.
@@ -85,20 +86,8 @@ public class DesignPane extends JPanel {
             buttonGroup.add(b);
         }
 
-        machine.addPlaymodeObserver(playmodeObs -> {
-            boolean playmode = playmodeObs.get();
-            boolean enable = !playmode && !machine.isFixedInterface();
-            for (Component component : selectionPanel.getComponents()) {
-                component.setEnabled(enable);
-            }
-            if (playmode) {
-                buttonGroup.clearSelection();
-                // reset all output labels to neutral
-                for (MachineElement element : getMachineElements()) {
-                    element.react(getMachine(),-1);
-                }
-            }
-        });
+        machine.addPlaymodeObserver(x -> checkButtonEnabling());
+        machine.addFixedInterfaceObserver(x -> checkButtonEnabling());
 
         add(selectionPanel, BorderLayout.NORTH);
         
@@ -107,6 +96,21 @@ public class DesignPane extends JPanel {
         add(new JScrollPane(frontEndPanel));
 
         repaint();
+    }
+
+    private void checkButtonEnabling() {
+        boolean playmode = machine.isPlayMode();
+        boolean enable = !playmode && !machine.isFixedInterface();
+        for (Component component : Collections.list(buttonGroup.getElements())) {
+            component.setEnabled(enable);
+        }
+        if (playmode) {
+            buttonGroup.clearSelection();
+            // reset all output labels to neutral
+            for (MachineElement element : getMachineElements()) {
+                element.react(getMachine(),-1);
+            }
+        }
     }
 
     public boolean isDeleteMode() {
