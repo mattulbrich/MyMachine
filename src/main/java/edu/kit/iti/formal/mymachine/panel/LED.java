@@ -64,9 +64,9 @@ public class LED extends MachineElement {
     @Override
     public void react(int messageIndex) {
         switch(messageIndex) {
-            case 0: on = true; break;
             case -1:
-            case 1: on = false; break;
+            case 0: on = false; break;
+            case 1: on = true; break;
             case 2: on = !on; break;
             default:
                 throw new IllegalArgumentException("" + messageIndex);

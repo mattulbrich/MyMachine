@@ -37,7 +37,7 @@ public class MultiTypeOutput extends MachineElement {
     private static final Icon COIN1 = Util.imageResource("returnCoin.png");
     private static final Icon COIN2 = Util.imageResource("returnCoin2.png");
 
-    private transient int output = 0;
+    private transient int output = -1;
 
     public MultiTypeOutput() {
         super(NAME, Util.getDimension(SLOT));
