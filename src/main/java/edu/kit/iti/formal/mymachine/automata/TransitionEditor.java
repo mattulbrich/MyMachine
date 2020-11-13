@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -104,7 +105,7 @@ public class TransitionEditor extends JDialog {
         initTransitions();
     }
 
-    private static class Event {
+    private static class Event implements Comparable<Event> {
         final MachineElement element;
         final int messageNumber;
         final String string;
@@ -132,6 +133,11 @@ public class TransitionEditor extends JDialog {
         @Override
         public int hashCode() {
             return Objects.hash(element, messageNumber);
+        }
+
+        @Override
+        public int compareTo(Event o) {
+            return string.compareTo(o.string);
         }
     }
 
@@ -161,6 +167,7 @@ public class TransitionEditor extends JDialog {
                 }
             }
         }
+        Collections.sort(result);
         return result;
     }
 
