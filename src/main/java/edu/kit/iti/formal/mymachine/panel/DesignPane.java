@@ -95,7 +95,7 @@ public class DesignPane extends JPanel {
                 buttonGroup.clearSelection();
                 // reset all output labels to neutral
                 for (MachineElement element : getMachineElements()) {
-                    element.react(-1);
+                    element.react(getMachine(),-1);
                 }
             }
         });

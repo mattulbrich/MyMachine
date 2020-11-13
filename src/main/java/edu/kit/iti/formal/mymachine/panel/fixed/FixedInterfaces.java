@@ -3,7 +3,6 @@ package edu.kit.iti.formal.mymachine.panel.fixed;
 import edu.kit.iti.formal.mymachine.Machine;
 import edu.kit.iti.formal.mymachine.panel.LED;
 import edu.kit.iti.formal.mymachine.panel.Button;
-import edu.kit.iti.formal.mymachine.panel.Output;
 import edu.kit.iti.formal.mymachine.panel.Slot;
 
 import java.awt.*;

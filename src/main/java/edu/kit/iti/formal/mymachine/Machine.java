@@ -18,6 +18,9 @@ import edu.kit.iti.formal.mymachine.automata.Transition;
 import edu.kit.iti.formal.mymachine.panel.fixed.FixedInterfaces;
 import edu.kit.iti.formal.mymachine.json.JSONMachineExporter;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
+import edu.kit.iti.formal.mymachine.serialise.JSONSerialiser;
+import edu.kit.iti.formal.mymachine.serialise.MachineSerialiser;
+import edu.kit.iti.formal.mymachine.serialise.XStreamSerialiser;
 import edu.kit.iti.formal.mymachine.util.BooleanObservable;
 import org.json.JSONObject;
 
@@ -39,7 +42,8 @@ import java.util.function.Consumer;
  */
 public class Machine implements Serializable {
 
-    public static final String FIXED_INTERFACE_XML = "fixedInterface.xml";
+    public static final MachineSerialiser SERIALISER = new XStreamSerialiser();
+
     /**
      * A link to the frame of this application.
      * Not to be serialised
@@ -235,11 +239,11 @@ public class Machine implements Serializable {
                     activeState = trans.getTo();
                     MachineElement output = trans.getOutput();
                     if (output != null) {
-                        output.react(trans.getMessageIndex());
+                        output.react(this, trans.getMessageIndex());
                     }
                     output = trans.getOutput2();
                     if (output != null) {
-                        output.react(trans.getMessageIndex2());
+                        output.react(this, trans.getMessageIndex2());
                     }
                     // Command has been processed. Do not look further.
                     mainFrame.repaint();
@@ -284,25 +288,16 @@ public class Machine implements Serializable {
      * @throws ClassNotFoundException if a class is missing.
      */
     public void loadScenario(InputStream istream) throws IOException, ClassNotFoundException {
-        XStream xstream = new XStream();
-        XStream.setupDefaultSecurity(xstream); // to be removed after 1.5
-        xstream.allowTypesByWildcard(new String[] {
-                "edu.kit.iti.formal.**"
-        });
-        xstream.setMode(XStream.ID_REFERENCES);
-        try (ObjectInputStream ois = xstream.createObjectInputStream(istream)) {
-            Machine newMachine = (Machine) ois.readObject();
-            this.activeState = null;
-            this.states = newMachine.states;
-            this.machineElements = newMachine.machineElements;
-            this.transitions = newMachine.transitions;
-            this.displayStrings = newMachine.displayStrings;
-            this.setPlayMode(false);
-            mainFrame.repaint();
-        }
+        Machine newMachine = SERIALISER.deserialise(istream);
+        this.activeState = null;
+        this.states = newMachine.states;
+        this.machineElements = newMachine.machineElements;
+        this.transitions = newMachine.transitions;
+        this.displayStrings = newMachine.displayStrings;
+        this.fixedInterface = newMachine.fixedInterface;
+        this.setPlayMode(false);
+        mainFrame.repaint();
     }
-
-
 
     /**
      * Save the business data to a file.
@@ -313,15 +308,7 @@ public class Machine implements Serializable {
      * @throws IOException if file writing fails.
      */
     public void saveScenario(File file) throws IOException {
-        XStream xstream = new XStream();
-        XStream.setupDefaultSecurity(xstream); // to be removed after 1.5
-        xstream.allowTypesByWildcard(new String[] {
-                "edu.kit.iti.formal.**"
-        });
-        xstream.setMode(XStream.ID_REFERENCES);
-        try(ObjectOutputStream oos = xstream.createObjectOutputStream(new FileOutputStream(file))) {
-            oos.writeObject(this);
-        }
+        SERIALISER.serialise(this, new FileOutputStream(file));
     }
 
     /**

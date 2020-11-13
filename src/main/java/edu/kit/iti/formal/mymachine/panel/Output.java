@@ -30,7 +30,6 @@ public class Output extends MachineElement {
 
     private transient int output = 0;
     private int animationOffset;
-    private Machine machine;
 
     public Output() {
         super(NAME, Util.getDimension(SLOT));
@@ -38,12 +37,10 @@ public class Output extends MachineElement {
 
     @Override
     public void uiConfig(Machine machine) {
-        this.machine = machine;
     }
 
     @Override
     public void paint(Graphics2D g, PaintMode mode) {
-
         if(mode == PaintMode.PRESSED) {
             output = 0;
         }
@@ -73,10 +70,10 @@ public class Output extends MachineElement {
     }
 
     @Override
-    public void react(int messageIndex) {
+    public void react(Machine machine, int messageIndex) {
         output = messageIndex + 1;
         animationOffset = 100;
-        Timer t = new Timer(20, this::animationStep);
+        Timer t = new Timer(20, e -> animationStep(e, machine));
         t.start();
     }
 
@@ -85,7 +82,7 @@ public class Output extends MachineElement {
         return Util.r("panel.output");
     }
 
-    private void animationStep(ActionEvent e) {
+    private void animationStep(ActionEvent e, Machine machine) {
         if(animationOffset > 0) {
             animationOffset -= 10;
             machine.repaint();

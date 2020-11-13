@@ -9,6 +9,8 @@ import edu.kit.iti.formal.mymachine.panel.LED;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
 import edu.kit.iti.formal.mymachine.panel.Output;
 import edu.kit.iti.formal.mymachine.panel.Slot;
+import edu.kit.iti.formal.mymachine.panel.fixed.CoinTwoSlot;
+import edu.kit.iti.formal.mymachine.panel.fixed.MultiTypeOutput;
 import edu.kit.iti.formal.mymachine.util.Util;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -124,8 +126,11 @@ public class JSONMachineExporter {
         }
 
         if (element instanceof Slot) {
-            // TODO MAKE THIS MORE FLEXIBLE!
             return "Münze1";
+        }
+
+        if (element instanceof CoinTwoSlot) {
+            return "Münze2";
         }
 
         throw new IllegalStateException("Cannot export this machine element: " + element.getClass());
@@ -152,6 +157,12 @@ public class JSONMachineExporter {
             } else if(element instanceof Output) {
                 String action = "Item" + (messageIndex + 1);
                 actions.put(action);
+            } else if(element instanceof MultiTypeOutput) {
+                if(messageIndex < 3) {
+                    actions.put("Item" + (messageIndex + 1));
+                } else {
+                    actions.put("Münze" + (messageIndex - 2));
+                }
             } else {
                 throw new IllegalStateException("Cannot export this machine element: " + element.getClass());
             }

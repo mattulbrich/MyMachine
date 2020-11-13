@@ -58,8 +58,7 @@ public abstract class MachineElement implements Serializable {
      * @param dimension size on screen
      */
     public MachineElement(Dimension dimension) {
-        this.dimension = dimension;
-        this.active = false;
+        this(dimension, false);
     }
 
     /**
@@ -80,8 +79,7 @@ public abstract class MachineElement implements Serializable {
      * @param active true iff it is active
      */
     public MachineElement(Dimension dimension, boolean active) {
-        this.dimension = dimension;
-        this.active = active;
+       this(null, dimension, active);
     }
 
     /**
@@ -213,6 +211,19 @@ public abstract class MachineElement implements Serializable {
 
     public String[] getActions() {
         return NO_ACTIONS;
+    }
+
+
+    /**
+     * React to an output action from a transition in the automaton.
+     *
+     * By default, this delegates to {@link #react(int)}.
+     *
+     * @param machine the machine to which this element belongs
+     * @param messageIndex an index into the set of possible actions
+     */
+    public void react(Machine machine, int messageIndex) {
+        react(messageIndex);
     }
 
     /**
