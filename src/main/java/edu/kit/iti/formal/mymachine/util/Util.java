@@ -8,7 +8,8 @@ import java.util.ResourceBundle;
 
 public class Util {
     public static final ResourceBundle RESOURCE_BUNDLE =
-            ResourceBundle.getBundle("edu.kit.iti.formal.mymachine.MyMachine");
+            //ResourceBundle.getBundle("edu.kit.iti.formal.mymachine.MyMachine"); // für englische Sprache
+    		 ResourceBundle.getBundle("edu.kit.iti.formal.mymachine.MyMachine_de"); // für deutsche Sprache
 
     private static final Font FONT = new Font(Font.DIALOG, Font.BOLD, 20);
     private static final Icon FAIL_ICON = new Icon() {

@@ -48,6 +48,7 @@ public class DesignPane extends JPanel {
         }
         {
             JToggleButton b = new JToggleButton(Util.r("panel.coinslot"));
+            
             b.setActionCommand("add Slot");
             selectionPanel.add(b);
             buttonGroup.add(b);
@@ -102,6 +103,9 @@ public class DesignPane extends JPanel {
         boolean playmode = machine.isPlayMode();
         boolean enable = !playmode && !machine.isFixedInterface();
         for (Component component : Collections.list(buttonGroup.getElements())) {
+        	/*
+        	 * Alle Buttons werden im Spiel-Modus und bei einem festen Interface deaktiviert.
+        	 */
             component.setEnabled(enable);
         }
         if (playmode) {
@@ -146,7 +150,10 @@ public class DesignPane extends JPanel {
     public Machine getMachine() {
         return machine;
     }
-
+    /**
+     * 
+     * @return gibt eine Collection aller aktiven Elemente der Maschine zurück
+     */
     public Collection<MachineElement> getMachineElements() {
         return machine.getMachineElements();
     }
@@ -157,6 +164,31 @@ public class DesignPane extends JPanel {
 
     public void addMachineElement(MachineElement element) {
         machine.addMachineElement(element);
+        
+        /*
+         * Nach dem Hinzufügen eines Elements soll geprüft werden, ob ein Button deaktiviert werden soll.
+         */
+        
+    	for (Component component : Collections.list( buttonGroup.getElements() ) ) {
+    		
+    		if ( ((JToggleButton) component).getText().equals(Util.r("panel.display")) && element.getName().equals("#Display")) {
+    			component.setEnabled(false);
+    		}
+    		
+    		else if ( ((JToggleButton) component).getText().equals(Util.r("panel.output")) && element.getName().equals("#Output" ) ) {
+    	        	component.setEnabled(false);
+    	        }
+    		
+    		if (((JToggleButton) component).getText().equals(Util.r("panel.coinslot") )  && element.getName().equals("#Coin" ) ) {
+    			component.setEnabled(false);
+            }
+    		
+    	}
+    	
+    	/*
+    	 * 
+    	 */
+        
     }
 
     public MachineElement getMachineElement(String name) {

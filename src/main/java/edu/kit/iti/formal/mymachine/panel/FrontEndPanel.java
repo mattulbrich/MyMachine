@@ -22,6 +22,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Collections;
 import java.util.Iterator;
 
 /**
@@ -132,6 +133,32 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
                     if(element.canBeDeleted(designPane.getMachine())) {
                         it.remove();
                         repaint();
+                        
+                        /*
+                         * Nach dem Löschen eines Elements soll geprüft werden, ob ein Button aktiviert werden soll.
+                         */
+                        
+                        for (Component component : Collections.list( designPane.buttonGroup.getElements() ) ) {
+                    		
+                    		if ( ((JToggleButton) component).getText().equals(Util.r("panel.display")) && element.getName().equals("#Display")) {
+                    			component.setEnabled(true);
+                    		}
+                    		
+                    		else if ( ((JToggleButton) component).getText().equals(Util.r("panel.output")) && element.getName().equals("#Output" ) ) {
+                    	        	component.setEnabled(true);
+                    	        }
+                    		
+                    		if (((JToggleButton) component).getText().equals(Util.r("panel.coinslot") )  && element.getName().equals("#Coin" ) ) {
+                    			component.setEnabled(true);
+                            }
+                    		
+                    	}
+                        
+                        /*
+                         * 
+                         */
+                        
+                        
                     } else {
                         JOptionPane.showMessageDialog(this,
                                 Util.r("panel.cannotDelete"));
@@ -192,7 +219,7 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-
+    	
     }
 
     @Override

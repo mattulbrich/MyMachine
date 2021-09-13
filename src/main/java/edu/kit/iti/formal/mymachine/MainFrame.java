@@ -148,6 +148,14 @@ public class MainFrame extends JFrame {
 
     private void showAsSplitPane() {
         JSplitPane pane = new JSplitPane();
+        /*
+         * SplitPane wird gleichmäßig(er) aufgeteilt
+         */
+        pane.setDividerLocation(0.5);
+        pane.setResizeWeight(0.5);
+        /*
+         * 
+         */
         pane.setLeftComponent(designPane);
         pane.setRightComponent(automataEditor);
         setContentPane(pane);
