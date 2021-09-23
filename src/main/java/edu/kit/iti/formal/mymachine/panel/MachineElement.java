@@ -22,7 +22,7 @@ import java.io.Serializable;
 
 public abstract class MachineElement implements Serializable {
 
-    protected static final Font LABEL_FONT = new Font(Font.DIALOG, Font.PLAIN, 12);
+    protected static final Font LABEL_FONT = new Font(Font.DIALOG, Font.BOLD, 18);
 
     protected static final String[] NO_ACTIONS = {};
 
@@ -258,4 +258,9 @@ public abstract class MachineElement implements Serializable {
     public Dimension getDimension() {
         return dimension;
     }
+    
+    /*
+     * 
+     */
+    public abstract void changeDesign();
 }

@@ -30,8 +30,12 @@ import java.util.Iterator;
  */
 public class FrontEndPanel extends JComponent implements MouseListener, MouseMotionListener {
 
-    private static final Icon BACKGROUND =
-            Util.imageResource("metal.jpg");
+    // private static final Icon BACKGROUND =
+    //        Util.imageResource("metal.jpg");
+	// private static final Icon BACKGROUND =
+	// 	            Util.imageResource("paperboard.png");
+	
+	private static Icon BACKGROUND = Util.imageResource("background");
 
     private static final double SCALE_FACTOR;
     static {
@@ -241,5 +245,14 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
 
+    }
+    
+//    @Override
+//    public void repaint() {
+//    	
+//    }
+    
+    public void changeDesign() {
+    	BACKGROUND = Util.imageResource("background");
     }
 }

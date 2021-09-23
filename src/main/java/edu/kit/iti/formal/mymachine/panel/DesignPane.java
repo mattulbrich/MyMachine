@@ -21,6 +21,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Enumeration;
 
 /**
  * That is the button panel for the machine front end.
@@ -31,7 +32,7 @@ public class DesignPane extends JPanel {
     ButtonGroup buttonGroup = new DeselectButtonGroup();
     private Machine machine;
     private FrontEndPanel frontEndPanel;
-
+    
     public DesignPane(Machine machine) {
         super(new BorderLayout());
         this.machine = machine;
@@ -193,5 +194,10 @@ public class DesignPane extends JPanel {
 
     public MachineElement getMachineElement(String name) {
         return machine.getMachineElement(name);
+    }
+    
+    public void changeDesign() {
+    	frontEndPanel.changeDesign();
+    	repaint();
     }
 }

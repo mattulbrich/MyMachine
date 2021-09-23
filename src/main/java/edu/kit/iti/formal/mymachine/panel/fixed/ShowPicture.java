@@ -37,4 +37,10 @@ public class ShowPicture extends Picture {
     protected Image getImage() {
         return IMAGE;
     }
+
+	@Override
+	public void changeDesign() {
+		// TODO Auto-generated method stub
+		
+	}
 }

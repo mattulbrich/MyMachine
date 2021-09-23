@@ -88,4 +88,10 @@ public class Display extends MachineElement {
     public String toString() {
         return Util.r("panel.display");
     }
+
+	@Override
+	public void changeDesign() {
+		// TODO Auto-generated method stub
+		
+	}
 }

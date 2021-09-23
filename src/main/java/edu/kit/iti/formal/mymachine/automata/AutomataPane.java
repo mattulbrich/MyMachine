@@ -25,7 +25,7 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
 
     private static final Stroke DASHED_STROKE = new BasicStroke(3f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);;
     private static final Stroke SOLID_STROKE = new BasicStroke(3f);
-    private static final Icon LOGO = Util.imageResource("logo.png");
+    private static final Icon LOGO = Util.imageResource("logo");
     private AutomataEditor automataEditor;
     private State firstTransPartner;
     private State draggedState;

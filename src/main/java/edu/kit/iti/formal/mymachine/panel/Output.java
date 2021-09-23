@@ -24,9 +24,9 @@ public class Output extends MachineElement {
     private static final String NAME = "#Output";
     private static final String[] ACTIONS =
             Util.r("automata.actions").split(", *");
-    private static final Icon SLOT = Util.imageResource("output.png");
-    private static final Icon BLOCK = Util.imageResource("block.png");
-    private static final Icon COIN = Util.imageResource("returnCoin.png");
+    private static final Icon SLOT = Util.imageResource("output");
+    private static final Icon BLOCK = Util.imageResource("block");
+    private static final Icon COIN = Util.imageResource("returnCoin");
 
     private transient int output = 0;
     private int animationOffset;
@@ -91,4 +91,10 @@ public class Output extends MachineElement {
             ((Timer)e.getSource()).stop();
         }
     }
+
+	@Override
+	public void changeDesign() {
+		// TODO Auto-generated method stub
+		
+	}
 }

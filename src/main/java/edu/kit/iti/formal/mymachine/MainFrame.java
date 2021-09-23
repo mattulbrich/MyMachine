@@ -101,6 +101,15 @@ public class MainFrame extends JFrame {
         bg.add(split);
         split.addActionListener(e -> showAsSplitPane());
         view.add(split);
+        
+        view.add(new JSeparator());
+        
+        JCheckBox schokomatViewSet = new JCheckBox(Util.r("menu.view.schokomatView"));
+        schokomatViewSet.setSelected(false);
+        schokomatViewSet.addActionListener(e -> schokomatView(schokomatViewSet.isSelected()));
+        view.add(schokomatViewSet);
+        schokomatView(schokomatViewSet.isSelected());
+        
 
         if(DEBUG) {
             JMenu debug = new JMenu("Debug");
@@ -112,9 +121,10 @@ public class MainFrame extends JFrame {
         }
 
         setJMenuBar(menuBar);
+       
     }
 
-    private void editStrings() {
+	private void editStrings() {
         String[] columName = { Util.r("setup.display_string") };
         TableModel tm = new DefaultTableModel(columName, 10);
         int r = 0;
@@ -209,4 +219,13 @@ public class MainFrame extends JFrame {
             }
         }
     }
+    
+    private void schokomatView(boolean schokomatViewSet) {
+    	
+  		Util.setSchokomatView(schokomatViewSet);
+  		designPane.changeDesign();
+  		
+  		machine.changeDesign();
+  		
+  	}
 }

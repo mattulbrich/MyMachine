@@ -11,8 +11,11 @@ import java.awt.*;
 public class CoinTwoSlot extends MachineElement {
 
 
-    private static final Icon SLOT_NO_COIN = Util.imageResource("coin2SlotEmpty.png");
-    private static final Icon SLOT_COIN = Util.imageResource("coin2SlotCoin.png");
+    // private static final Icon SLOT_NO_COIN = Util.imageResource("coin2SlotEmpty.png");
+	private static Icon SLOT_NO_COIN = Util.imageResource("coin2SlotEmpty");
+	
+	// private static final Icon SLOT_COIN = Util.imageResource("coin2SlotCoin.png");
+	private static Icon SLOT_COIN = Util.imageResource("coin2SlotCoin");
 
     public CoinTwoSlot() {
         super("#Coin2", Util.getDimension(SLOT_NO_COIN), true);
@@ -43,5 +46,11 @@ public class CoinTwoSlot extends MachineElement {
     public String toString() {
         return Util.r("panel.slot_coin2");
     }
+
+	@Override
+	public void changeDesign() {
+		SLOT_NO_COIN = Util.imageResource("coin2SlotEmpty");
+		SLOT_COIN = Util.imageResource("coin2SlotCoin");
+	}
 
 }

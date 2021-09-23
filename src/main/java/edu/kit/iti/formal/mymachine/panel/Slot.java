@@ -20,8 +20,11 @@ import java.awt.*;
 
 public class Slot extends MachineElement {
 
-    private static final Icon SLOT_NO_COIN = Util.imageResource("coinSlotEmpty.png");
-    private static final Icon SLOT_COIN = Util.imageResource("coinSlotCoin.png");
+    // private static final Icon SLOT_NO_COIN = Util.imageResource("coinSlotEmpty.png");
+	private static Icon SLOT_NO_COIN = Util.imageResource("coinSlotEmpty");
+	
+    // private static final Icon SLOT_COIN = Util.imageResource("coinSlotCoin.png");
+	private static Icon SLOT_COIN = Util.imageResource("coinSlotCoin");
 
     public Slot() {
         super("#Coin", Util.getDimension(SLOT_COIN), true);
@@ -45,5 +48,11 @@ public class Slot extends MachineElement {
     public String toString() {
         return Util.r("panel.slot");
     }
+
+	@Override
+	public void changeDesign() {
+		SLOT_NO_COIN = Util.imageResource("coinSlotEmpty");
+		SLOT_COIN = Util.imageResource("coinSlotCoin");
+	}
 
 }

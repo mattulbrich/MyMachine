@@ -425,5 +425,17 @@ public class Machine implements Serializable {
     public void repaint() {
         mainFrame.repaint();
     }
+    
+    public void changeDesign() {
+    	
+    	for (String key : machineElements.keySet()) {
+    		MachineElement element = machineElements.get(key);
+    		element.changeDesign();
+    	}
+    	
+    	if (mainFrame != null) {
+    		repaint();
+    	}
+    }
 
 }

@@ -10,9 +10,12 @@ public class Util {
     public static final ResourceBundle RESOURCE_BUNDLE =
             //ResourceBundle.getBundle("edu.kit.iti.formal.mymachine.MyMachine"); // für englische Sprache
     		 ResourceBundle.getBundle("edu.kit.iti.formal.mymachine.MyMachine_de"); // für deutsche Sprache
+    
+    private static boolean schokomatView; 
 
     private static final Font FONT = new Font(Font.DIALOG, Font.BOLD, 20);
     private static final Icon FAIL_ICON = new Icon() {
+    	
         @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             g.setColor(Color.red);
@@ -32,12 +35,26 @@ public class Util {
     };
 
     public static Icon imageResource(String filename) {
-        URL url = ClassLoader.getSystemResource("img/" + filename);
-        if(url == null) {
-            return FAIL_ICON;
-        } else {
-            return new ImageIcon(url);
-        }
+    
+    	URL url = null;
+    	
+    	if (schokomatView) {
+    		url = ClassLoader.getSystemResource("img/" + filename + "_schokomat.png");
+    		
+    		if (url == null) {
+    			url = ClassLoader.getSystemResource("img/" + filename + ".png");
+    			
+    			if (url == null) {
+    				return FAIL_ICON;
+    			} 
+    		} 
+    	} else {
+    	    url = ClassLoader.getSystemResource("img/" + filename + ".png");
+    	}
+    	
+    	
+    	return new ImageIcon(url);
+    	
     }
 
     public static Dimension getDimension(Icon icon) {
@@ -56,6 +73,14 @@ public class Util {
             return s;
         }
     }
+
+	public static boolean isSchokomatView() {
+		return schokomatView;
+	}
+
+	public static void setSchokomatView(boolean schokomatView) {
+		Util.schokomatView = schokomatView;
+	}
 
 
 }

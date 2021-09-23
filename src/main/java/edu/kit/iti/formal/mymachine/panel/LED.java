@@ -28,8 +28,11 @@ public class LED extends MachineElement {
 
     private transient boolean on = false;
 
-    private static final Icon ON_ICON = Util.imageResource("ledOn.png");
-    private static final Icon OFF_ICON = Util.imageResource("ledOff.png");
+    // private static final Icon ON_ICON = Util.imageResource("ledOn.png");
+    private static Icon ON_ICON = Util.imageResource("ledOn");
+    
+    // private static final Icon OFF_ICON = Util.imageResource("ledOff.png");
+    private static Icon OFF_ICON = Util.imageResource("ledOff");
 
     public LED() {
         super(Util.getDimension(ON_ICON));
@@ -77,4 +80,11 @@ public class LED extends MachineElement {
     public String toString() {
         return Util.r("panel.led") + " " + getName();
     }
+
+	@Override
+	public void changeDesign() {
+		ON_ICON = Util.imageResource("ledOn");
+		OFF_ICON = Util.imageResource("ledOff");
+			
+	}
 }

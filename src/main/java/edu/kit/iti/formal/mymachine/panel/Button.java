@@ -20,11 +20,9 @@ import java.awt.*;
 
 public class Button extends MachineElement {
 
-    private static final Icon BUTTON_PRESSED =
-            Util.imageResource("buttonPressed.png");
-
-    private static final Icon BUTTON_RELEASED =
-            Util.imageResource("buttonReleased.png");
+	private static Icon BUTTON_PRESSED = Util.imageResource("buttonPressed");
+	
+	private static Icon BUTTON_RELEASED = Util.imageResource("buttonReleased");
 
     public Button() {
         super(Util.getDimension(BUTTON_PRESSED), true);
@@ -53,4 +51,10 @@ public class Button extends MachineElement {
     public String toString() {
         return Util.r("panel.button") + " " + getName();
     }
+
+	@Override
+	public void changeDesign() {
+		BUTTON_PRESSED = Util.imageResource("buttonPressed");
+		BUTTON_RELEASED = Util.imageResource("buttonReleased"); 
+	}
 }
