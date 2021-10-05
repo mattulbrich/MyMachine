@@ -59,6 +59,9 @@ public class AutomataEditor extends JPanel {
             selectionPanel.add(b);
             buttonGroup.add(b);
         }
+        
+        //TODO
+        
         /*{
             JToggleButton b = new JToggleButton(Util.r("automata.edit"));
             b.setActionCommand("edit");

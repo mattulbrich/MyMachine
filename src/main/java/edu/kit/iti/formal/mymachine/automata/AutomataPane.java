@@ -145,6 +145,11 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
                     }
                 }
                 break;
+                
+            case "delete":
+            	System.out.println("Delete mode");
+            	// TODO
+            	
         }
     }
 

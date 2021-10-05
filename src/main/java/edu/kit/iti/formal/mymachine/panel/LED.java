@@ -87,4 +87,8 @@ public class LED extends MachineElement {
 		OFF_ICON = Util.imageResource("ledOff");
 			
 	}
+	
+	public void halloWelt() {
+		System.out.println("Hallo Welt");
+	}
 }

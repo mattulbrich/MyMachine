@@ -19,6 +19,7 @@ import edu.kit.iti.formal.mymachine.panel.MachineElement.PaintMode;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -36,6 +37,8 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
 	// 	            Util.imageResource("paperboard.png");
 	
 	private static Icon BACKGROUND = Util.imageResource("background");
+	
+	private boolean toolTipActivated;
 
     private static final double SCALE_FACTOR;
     static {
@@ -109,6 +112,7 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
                 // only the element under the mouse is concerned
                 // and only in play mode
                 localPaintMode = PaintMode.NEUTRAL;
+                
             }
             machineElement.paint(g2, localPaintMode);
             machineElement.paintLabel(g2);
@@ -170,6 +174,10 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
                     return;
                 }
             }
+            /*
+             * Wenn im Löschen-Modus auf das Bedienfeld geklickt wird, soll der Löschen-Modus beendet werden. 
+             */
+            designPane.finishAction();
         }
 
         if(designPane.isAddMode()) {
@@ -244,15 +252,68 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
 
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
-
+    	
     }
     
-//    @Override
-//    public void repaint() {
-//    	
-//    }
+    /**
+     * This method is called automatically when the mouse is over the component.
+     * Based on the location of the event, we detect if we are over one of 
+     * the circles. If so, we display some information relative to that circle
+     * If the mouse is not over any circle we return the tooltip of the 
+     * component.
+     */
+     @Override
+     public String getToolTipText(MouseEvent event) {
+    	 
+         Point point = new Point(event.getX(), event.getY());
+         
+         Iterator<MachineElement> it = designPane.getMachineElements().iterator();
+         
+         while (it.hasNext()) {
+             MachineElement element = it.next();
+             if (element.contains(point)) {
+            	 if (toolTipActivated) {
+            		 return infoText(element);
+            	 } else {
+            		 return ""; 
+            	 }
+             }
+         }
+         
+         return "";
+         
+     }
     
     public void changeDesign() {
     	BACKGROUND = Util.imageResource("background");
+    }
+    
+    private String infoText(MachineElement element) {
+    	String str = element.getClass().getSimpleName();
+    	
+    	switch(str) {
+    		case "Button": return Util.r("tooltip.info_button");
+    	
+    		case "LED": return Util.r("tooltip.info_led");
+    		
+    		case "Output": return Util.r("tooltip.info_output");
+    		
+    		case "Slot": return Util.r("tooltip.info_coinslot");
+    		
+    		case "Display": return Util.r("tooltip.info_display");
+    		
+    		default: return "";
+    	}
+    	
+    }
+    
+    public void activateToolTips() {
+    	toolTipActivated = true;
+    	setToolTipText("");
+    }
+    
+    public void deactivateToolTips() {
+    	toolTipActivated = false;
+    	setToolTipText("");
     }
 }

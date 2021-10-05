@@ -40,6 +40,12 @@ public class MainFrame extends JFrame {
     }
 
     private void init() {
+    	
+    	/* Show and delay time of tooltip */
+    	javax.swing.ToolTipManager.sharedInstance().setDismissDelay(20000); 
+		javax.swing.ToolTipManager.sharedInstance().setInitialDelay(200);
+		
+    	
         designPane = new DesignPane(machine);
         automataEditor = new AutomataEditor(machine);
         showAsTabs();
@@ -119,6 +125,18 @@ public class MainFrame extends JFrame {
             item.addActionListener(e -> machine.dump());
             debug.add(item);
         }
+        
+        JMenu help = new JMenu(Util.r("menu.help"));
+        menuBar.add(help);
+        
+        JMenuItem example = new JMenuItem(Util.r("menu.help.example"));
+        // example.addActionListener();
+        help.add(example);
+        
+        JCheckBox tooltipActivate = new JCheckBox(Util.r("menu.help.tooltip"));
+        tooltipActivate.setToolTipText(Util.r("menu.help.tooltip_tooltip"));
+        tooltipActivate.addActionListener(e -> setTooltipToButtons(tooltipActivate.isSelected()));
+        help.add(tooltipActivate);
 
         setJMenuBar(menuBar);
        
@@ -228,4 +246,12 @@ public class MainFrame extends JFrame {
   		machine.changeDesign();
   		
   	}
+    
+    private void setTooltipToButtons(boolean isSelected) {
+    	if (isSelected) {
+    		designPane.activateTooltipToButtons();
+    	} else {
+    		designPane.deactivateTooltipToButtons();
+    	}
+    }
 }

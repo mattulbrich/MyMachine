@@ -200,4 +200,30 @@ public class DesignPane extends JPanel {
     	frontEndPanel.changeDesign();
     	repaint();
     }
+    
+    public void activateTooltipToButtons() {
+    	Enumeration<AbstractButton> e = buttonGroup.getElements();
+    	while(e.hasMoreElements()) {
+    		AbstractButton b = e.nextElement();
+    		if (b.getText().equals(Util.r("panel.delete"))) {
+    			b.setToolTipText(Util.r("tooltip.delete_button"));
+    		} else {
+    			b.setToolTipText(Util.r("tooltip.element_buttons"));
+    		}
+    	}
+    	
+    	frontEndPanel.activateToolTips();
+    }
+    
+    // TODO
+	public void deactivateTooltipToButtons() {
+		Enumeration<AbstractButton> e = buttonGroup.getElements();
+    	while(e.hasMoreElements()) {
+    		AbstractButton b = e.nextElement();
+    		b.setToolTipText("");
+    	}
+    	frontEndPanel.deactivateToolTips();
+		
+	}
+	
 }
