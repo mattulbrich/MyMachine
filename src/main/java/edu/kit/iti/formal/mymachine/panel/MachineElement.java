@@ -263,4 +263,8 @@ public abstract class MachineElement implements Serializable {
      * 
      */
     public abstract void changeDesign();
+    
+    public abstract int getElementHeightHalf();
+    
+    public abstract int getElementWidthHalf();
 }

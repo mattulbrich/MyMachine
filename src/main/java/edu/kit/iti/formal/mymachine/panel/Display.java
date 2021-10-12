@@ -94,4 +94,16 @@ public class Display extends MachineElement {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public int getElementHeightHalf() {
+		return DIMENSION.height/2;
+	}
+
+	@Override
+	public int getElementWidthHalf() {
+		return DIMENSION.width/2;
+	}
+
+	
 }

@@ -53,4 +53,14 @@ public class CoinTwoSlot extends MachineElement {
 		SLOT_COIN = Util.imageResource("coin2SlotCoin");
 	}
 
+	@Override
+	public int getElementHeightHalf() {
+		return SLOT_NO_COIN.getIconHeight()/2;
+	}
+
+	@Override
+	public int getElementWidthHalf() {
+		return SLOT_NO_COIN.getIconWidth()/2;
+	}
+
 }

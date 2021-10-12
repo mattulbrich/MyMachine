@@ -85,4 +85,8 @@ public class State {
     public String toString() {
         return "State{"+ name + '}';
     }
+    
+    public int getStateHalfSize() {
+    	return STATE_SIZE_HALF;
+    }
 }

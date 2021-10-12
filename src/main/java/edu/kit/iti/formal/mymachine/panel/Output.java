@@ -71,6 +71,10 @@ public class Output extends MachineElement {
 
     @Override
     public void react(Machine machine, int messageIndex) {
+    	if (messageIndex == 8) {
+    		/* Ausgabe wird geleert */
+    		messageIndex = -1;
+    	}
         output = messageIndex + 1;
         animationOffset = 100;
         Timer t = new Timer(20, e -> animationStep(e, machine));
@@ -97,4 +101,20 @@ public class Output extends MachineElement {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public int getElementHeightHalf() {
+		return SLOT.getIconHeight()/2;
+	}
+
+	@Override
+	public int getElementWidthHalf() {
+		return SLOT.getIconWidth()/2;
+	}
+	
+	public void setOutput(int output) {
+		this.output = output;
+	}
+
+	
 }

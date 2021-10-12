@@ -55,13 +55,15 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
         g2.setColor(Color.white);
         g2.fillRect(0,0,getWidth(),getHeight());
         g2.setStroke(SOLID_STROKE);
+        
+        
 
         State active = automataEditor.getActiveState();
 
         TransitionPainter.INSTANCE.paintTransitions(g2, automataEditor.getTransitions());
 
         if(firstTransPartner != null) {
-            Graphics2D g3 = (Graphics2D) g2.create();
+        	Graphics2D g3 = (Graphics2D) g2.create();
             g3.setStroke(DASHED_STROKE);
             g3.setColor(Color.CYAN);
             Point pos = firstTransPartner.getPosition();
@@ -71,6 +73,7 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
         for (State state : automataEditor.getStates()) {
             state.paint(g2, state == active);
         }
+        
 
         LOGO.paintIcon(this, g,
                 getWidth() - LOGO.getIconWidth() - 10, getHeight() - LOGO.getIconHeight() - 10);
@@ -78,13 +81,40 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (draggedState != null) {
-            Point pos = draggedState.getPosition();
+    	
+    	if (draggedState != null) {
+    		
+        	/* Elemente sollen nicht außerhalb des Felds gezogen werden dürfen. */
+        	int x_max = e.getComponent().getParent().getBounds().width;
+        	int y_max = e.getComponent().getParent().getBounds().height;
+    		
+    		Point r = draggedState.getPosition();
+    		
+    		if (r.x - draggedState.getStateHalfSize() < 0) {
+    			draggedState.setPosition(new Point(draggedState.getStateHalfSize(), draggedState.getPosition().y));
+    		}  
+    		else if (r.x + draggedState.getStateHalfSize() > x_max) {
+    			draggedState.setPosition(new Point(x_max-draggedState.getStateHalfSize(), draggedState.getPosition().y));
+    		}
+    		
+    		
+    		if (r.y - draggedState.getStateHalfSize() < 0) {
+    			draggedState.setPosition(new Point(draggedState.getPosition().x, draggedState.getStateHalfSize()));
+    		}  
+    		else if (r.y + draggedState.getStateHalfSize() > y_max) {
+    			draggedState.setPosition(new Point(draggedState.getPosition().x, y_max-draggedState.getStateHalfSize()));
+    		}
+    	
+    		/* Ende */
+            
+    		Point pos = draggedState.getPosition();
             pos.x += e.getX() - dragStart.x;
             pos.y += e.getY() - dragStart.y;
             dragStart = e.getPoint();
             repaint();
-        } else if (firstTransPartner != null) {
+        } 
+    	
+    	else if (automataEditor.getMode() == "addtrans" && firstTransPartner != null) {
             dragStart = e.getPoint();
             repaint();
         }
@@ -110,8 +140,8 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
                 repaint();
                 break;
 
-            case "move":
-                if (e.getClickCount() == 2) {
+            case "edit":
+                // if (e.getClickCount() == 2) {
                     State state = findState(e.getPoint());
                     if (state != null) {
                         String newName = JOptionPane.showInputDialog(r.getString("state.rename"), state.getName());
@@ -143,12 +173,8 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
                         editor.setVisible(true);
                         repaint();
                     }
-                }
+                // }
                 break;
-                
-            case "delete":
-            	System.out.println("Delete mode");
-            	// TODO
             	
         }
     }
@@ -185,8 +211,14 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
     @Override
     public void mouseReleased(MouseEvent e) {
         draggedState = null;
-        if (firstTransPartner != null) {
-            State partner = findState(e.getPoint());
+        State partner = findState(e.getPoint());
+        
+        if (partner == null) {
+        	firstTransPartner = null;
+            repaint();
+            return;
+        } else if (firstTransPartner != null) {
+            
 
             if (partner != null) {
 
@@ -194,6 +226,9 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
                         stream().allMatch(x -> !x.isActive())) {
                     JOptionPane.showMessageDialog(this, Util.r("transedit.no_actions_error"),
                            Util.r("error"), JOptionPane.ERROR_MESSAGE);
+                    
+                    firstTransPartner = null;
+                    repaint();
                     return;
                 }
 
@@ -208,6 +243,7 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
             }
 
             firstTransPartner = null;
+            
         }
     }
 

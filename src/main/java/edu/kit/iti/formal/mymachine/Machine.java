@@ -437,5 +437,11 @@ public class Machine implements Serializable {
     		repaint();
     	}
     }
+    
+    public void deleteTransition(Transition transition) {
+    	transitions.remove(transition);
+    	repaint();
+    }
+    
 
 }

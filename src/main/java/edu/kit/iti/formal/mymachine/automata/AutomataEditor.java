@@ -29,6 +29,11 @@ public class AutomataEditor extends JPanel {
     private ButtonGroup buttonGroup = new DeselectButtonGroup();
     private Machine machine;
     private AutomataPane panel;
+    
+    private JToggleButton automataRun;
+    private JToggleButton newState;
+    private JToggleButton newTransition;
+    private JToggleButton mouseButton;
 
     public AutomataEditor(Machine machine) {
         super(new BorderLayout());
@@ -39,28 +44,34 @@ public class AutomataEditor extends JPanel {
     private void init() {
         JToolBar selectionPanel = new JToolBar();
         {
-            JToggleButton b = new JToggleButton(Util.r("automata.run"));
-            selectionPanel.add(b);
-            b.addActionListener(this::run);
+        	automataRun = new JToggleButton(Util.r("automata.run"));
+            selectionPanel.add(automataRun);
+            automataRun.addActionListener(this::run);
         }
         selectionPanel.add(new JSeparator());
         {
-            JToggleButton b = new JToggleButton(Util.r("automata.new_state"));
-            b.setActionCommand("addstate");
-            selectionPanel.add(b);
-            buttonGroup.add(b);
+            newState = new JToggleButton(Util.r("automata.new_state"));
+            newState.setActionCommand("addstate");
+            selectionPanel.add(newState);
+            buttonGroup.add(newState);
         }
         {
-            JToggleButton b = new JToggleButton(Util.r("automata.new_transition"));
-            b.setActionCommand("addtrans");
-            b.addActionListener(e-> {
+            newTransition = new JToggleButton(Util.r("automata.new_transition"));
+            newTransition.setActionCommand("addtrans");
+            newTransition.addActionListener(e-> {
                 this.panel.removeTransitionInfo();
             });
-            selectionPanel.add(b);
-            buttonGroup.add(b);
+            selectionPanel.add(newTransition);
+            buttonGroup.add(newTransition);
         }
-        
-        //TODO
+        {
+        	
+        	Icon icon = Util.imageResource("mouse");
+        	mouseButton = new JToggleButton(icon);
+        	mouseButton.setActionCommand("edit");
+        	selectionPanel.add(mouseButton);
+        	buttonGroup.add(mouseButton);
+        }
         
         /*{
             JToggleButton b = new JToggleButton(Util.r("automata.edit"));
@@ -144,4 +155,15 @@ public class AutomataEditor extends JPanel {
     public Machine getMachine() {
         return machine;
     }
+    
+    public void activateToolTips() {
+    	automataRun.setToolTipText(Util.r("automata.tooltip.run"));
+    	newState.setToolTipText(Util.r("automata.tooltip.newState"));;
+    	newTransition.setToolTipText(Util.r("automata.tooltip.newTransition"));
+    	mouseButton.setToolTipText(Util.r("automata.tooltip.mouseButton"));
+    	
+    	
+    }
+    
+    
 }

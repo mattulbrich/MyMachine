@@ -33,6 +33,8 @@ public class DesignPane extends JPanel {
     private Machine machine;
     private FrontEndPanel frontEndPanel;
     
+    
+    
     public DesignPane(Machine machine) {
         super(new BorderLayout());
         this.machine = machine;
@@ -87,6 +89,14 @@ public class DesignPane extends JPanel {
             selectionPanel.add(b);
             buttonGroup.add(b);
         }
+        /*{
+        	
+        	Icon icon = Util.imageResource("mouse");
+        	JToggleButton mouseButton = new JToggleButton(icon);
+        	mouseButton.setActionCommand("move");
+        	selectionPanel.add(mouseButton);
+        	buttonGroup.add(mouseButton);
+        }*/
 
         machine.addPlaymodeObserver(x -> checkButtonEnabling());
         machine.addFixedInterfaceObserver(x -> checkButtonEnabling());
@@ -124,7 +134,8 @@ public class DesignPane extends JPanel {
     }
 
     public boolean isMoveMode() {
-        return buttonGroup.getSelection() == null;
+    	ButtonModel selection = buttonGroup.getSelection();
+        return buttonGroup.getSelection() == null; // || selection.getActionCommand().equals("move");
     }
 
     public boolean isAddMode() {
@@ -215,15 +226,12 @@ public class DesignPane extends JPanel {
     	frontEndPanel.activateToolTips();
     }
     
-    // TODO
-	public void deactivateTooltipToButtons() {
-		Enumeration<AbstractButton> e = buttonGroup.getElements();
+    public void reset() {
+    	Enumeration<AbstractButton> e = buttonGroup.getElements();
     	while(e.hasMoreElements()) {
     		AbstractButton b = e.nextElement();
-    		b.setToolTipText("");
+    		b.setEnabled(true);
     	}
-    	frontEndPanel.deactivateToolTips();
-		
-	}
+    }
 	
 }

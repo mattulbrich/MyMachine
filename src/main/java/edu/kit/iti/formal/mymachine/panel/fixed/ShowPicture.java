@@ -43,4 +43,16 @@ public class ShowPicture extends Picture {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public int getElementHeightHalf() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getElementWidthHalf() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

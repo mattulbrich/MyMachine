@@ -21,6 +21,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
@@ -32,6 +33,7 @@ public class MainFrame extends JFrame {
     private DesignPane designPane;
     private Machine machine;
     private AutomataEditor automataEditor;
+    private JCheckBox tooltipActivate;
 
     public MainFrame(Machine machine) {
         super(Util.r("title"));
@@ -63,7 +65,7 @@ public class MainFrame extends JFrame {
         control.add(save);
 
         JMenuItem reset = new JMenuItem(Util.r("menu.control.reset"));
-        reset.addActionListener(e -> { machine.reset(); repaint(); });
+        reset.addActionListener(e -> { designPane.reset(); machine.reset(); repaint(); });
         control.add(reset);
 
         JMenuItem newFixedMachine = new JMenuItem(Util.r("menu.control.newFixedMachine"));
@@ -130,10 +132,18 @@ public class MainFrame extends JFrame {
         menuBar.add(help);
         
         JMenuItem example = new JMenuItem(Util.r("menu.help.example"));
-        // example.addActionListener();
+        example.addActionListener(e -> {
+        	try {
+        		File file = new File("einfuehrungsbeispiel.xml");
+				machine.loadScenario(file);
+			} catch (Exception e1) {
+				System.out.println(">>>>>> Einführungsbeispiel konnte nicht geladen werden.");
+			} 
+        }
+        );
         help.add(example);
         
-        JCheckBox tooltipActivate = new JCheckBox(Util.r("menu.help.tooltip"));
+        tooltipActivate = new JCheckBox(Util.r("menu.help.tooltip"));
         tooltipActivate.setToolTipText(Util.r("menu.help.tooltip_tooltip"));
         tooltipActivate.addActionListener(e -> setTooltipToButtons(tooltipActivate.isSelected()));
         help.add(tooltipActivate);
@@ -249,9 +259,11 @@ public class MainFrame extends JFrame {
     
     private void setTooltipToButtons(boolean isSelected) {
     	if (isSelected) {
+    		ToolTipManager.sharedInstance().setEnabled(true);
     		designPane.activateTooltipToButtons();
+    		automataEditor.activateToolTips();
     	} else {
-    		designPane.deactivateTooltipToButtons();
+    		ToolTipManager.sharedInstance().setEnabled(false);
     	}
     }
 }

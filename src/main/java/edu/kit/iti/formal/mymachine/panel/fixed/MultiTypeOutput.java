@@ -95,4 +95,14 @@ public class MultiTypeOutput extends MachineElement {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public int getElementHeightHalf() {
+		return SLOT.getIconHeight()/2;
+	}
+
+	@Override
+	public int getElementWidthHalf() {
+		return SLOT.getIconWidth()/2;
+	}
 }

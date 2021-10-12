@@ -57,4 +57,18 @@ public class Button extends MachineElement {
 		BUTTON_PRESSED = Util.imageResource("buttonPressed");
 		BUTTON_RELEASED = Util.imageResource("buttonReleased"); 
 	}
+
+	@Override
+	public int getElementHeightHalf() {
+		// TODO Auto-generated method stub
+		return BUTTON_PRESSED.getIconHeight()/2;
+	}
+
+	@Override
+	public int getElementWidthHalf() {
+		// TODO Auto-generated method stub
+		return BUTTON_PRESSED.getIconWidth()/2;
+	}
+
+	
 }

@@ -243,6 +243,32 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
     public void mouseDragged(MouseEvent mouseEvent) {
         if(draggedElement != null && !designPane.getMachine().isPlayMode() &&
                 !designPane.getMachine().isFixedInterface()) {
+        	
+        	/* Elemente sollen nicht außerhalb des Felds gezogen werden dürfen. */
+        	int x_max = mouseEvent.getComponent().getParent().getBounds().width;
+        	int y_max = mouseEvent.getComponent().getParent().getBounds().height;
+    		
+    		Point r = draggedElement.getPosition();
+    		
+    		if (r.x - draggedElement.getElementWidthHalf() < 0) {
+    			draggedElement.setPosition(new Point(draggedElement.getElementWidthHalf(), draggedElement.getPosition().y));
+    		}  
+    		else if (r.x + draggedElement.getElementWidthHalf() > x_max) {
+    			draggedElement.setPosition(new Point(x_max-draggedElement.getElementWidthHalf(), draggedElement.getPosition().y));
+    		}
+    		
+    		
+    		if (r.y - draggedElement.getElementHeightHalf() < 0) {
+    			draggedElement.setPosition(new Point(draggedElement.getPosition().x, draggedElement.getElementHeightHalf()));
+    		}  
+    		else if (r.y + draggedElement.getElementHeightHalf() > y_max) {
+    			draggedElement.setPosition(new Point(draggedElement.getPosition().x, y_max-draggedElement.getElementHeightHalf()));
+    		}
+    	
+    		/* Ende */
+            
+        	
+        	
             Point point = scalePoint(mouseEvent.getPoint());
             draggedElement.drag(draggedPos, point);
             draggedPos = point;
