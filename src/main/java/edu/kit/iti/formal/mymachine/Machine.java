@@ -16,6 +16,7 @@ import edu.kit.iti.formal.mymachine.automata.State;
 import edu.kit.iti.formal.mymachine.automata.Transition;
 import edu.kit.iti.formal.mymachine.panel.fixed.FixedInterfaces;
 import edu.kit.iti.formal.mymachine.json.JSONMachineExporter;
+import edu.kit.iti.formal.mymachine.panel.LED;
 import edu.kit.iti.formal.mymachine.panel.MachineElement;
 import edu.kit.iti.formal.mymachine.serialise.MachineSerialiser;
 import edu.kit.iti.formal.mymachine.serialise.XStreamSerialiser;
@@ -245,14 +246,48 @@ public class Machine implements Serializable {
             for (Transition trans : getTransitions()) {
                 if (trans.getFrom() == activeState && trans.getTrigger() == element) {
                     activeState = trans.getTo();
-                    MachineElement output = trans.getOutput();
-                    if (output != null) {
-                        output.react(this, trans.getMessageIndex());
+                    
+                    /* Ausgabe 1 */
+                    if (trans.getMessageIndex() == -1) {
+                    	
+                    	/* Alle LEDs ausschalten */
+                    	Iterator<MachineElement> iterator = getMachineElements().iterator();
+                    	
+                    	while (iterator.hasNext()) {
+                    		MachineElement elem = iterator.next();
+                    		if (elem instanceof LED) {
+                    			elem.react(0);
+                    		}
+                    	}
                     }
-                    output = trans.getOutput2();
-                    if (output != null) {
-                        output.react(this, trans.getMessageIndex2());
+                    else {
+	                    MachineElement output = trans.getOutput();
+	                    if (output != null) {
+	                        output.react(this, trans.getMessageIndex());
+	                    }
                     }
+                    
+                    /* Ausgabe 2 */
+                    if (trans.getMessageIndex2() == -1) {
+                    	
+                    	/* Alle LEDs ausschalten */
+                    	Iterator<MachineElement> iterator = getMachineElements().iterator();
+                    	
+                    	while (iterator.hasNext()) {
+                    		MachineElement elem = iterator.next();
+                    		if (elem instanceof LED) {
+                    			elem.react(0);
+                    		}
+                    	}
+                    	
+                    } 
+                    else {
+                    	MachineElement output = trans.getOutput2();
+	                    if (output != null) {
+	                        output.react(this, trans.getMessageIndex2());
+	                    }
+                    }
+                    
                     // Command has been processed. Do not look further.
                     mainFrame.repaint();
                     break;

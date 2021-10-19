@@ -71,10 +71,11 @@ public class Output extends MachineElement {
 
     @Override
     public void react(Machine machine, int messageIndex) {
-    	if (messageIndex == 8) {
-    		/* Ausgabe wird geleert */
+    	/* if (messageIndex == 8) {
+    		// Ausgabe wird geleert
     		messageIndex = -1;
-    	}
+    	} */
+    	
         output = messageIndex + 1;
         animationOffset = 100;
         Timer t = new Timer(20, e -> animationStep(e, machine));

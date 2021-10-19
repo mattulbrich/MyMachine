@@ -122,7 +122,7 @@ public class JSONMachineExporter {
 
     private String getTrigger(MachineElement element) {
         if (element instanceof Button) {
-            return "Knopf" + element.getName();
+            return "Button" + element.getName();
         }
 
         if (element instanceof Slot) {

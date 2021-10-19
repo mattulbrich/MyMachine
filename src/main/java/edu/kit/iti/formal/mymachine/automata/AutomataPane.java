@@ -56,8 +56,6 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
         g2.fillRect(0,0,getWidth(),getHeight());
         g2.setStroke(SOLID_STROKE);
         
-        
-
         State active = automataEditor.getActiveState();
 
         TransitionPainter.INSTANCE.paintTransitions(g2, automataEditor.getTransitions());
@@ -118,6 +116,8 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
             dragStart = e.getPoint();
             repaint();
         }
+    	
+    	
     }
 
     @Override
@@ -138,10 +138,12 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
                     }
                 }
                 repaint();
+                automataEditor.clearSelection();
                 break;
 
             case "edit":
                 // if (e.getClickCount() == 2) {
+            		setCursor(new Cursor(Cursor.HAND_CURSOR));
                     State state = findState(e.getPoint());
                     if (state != null) {
                         String newName = JOptionPane.showInputDialog(r.getString("state.rename"), state.getName());
@@ -245,6 +247,13 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
             firstTransPartner = null;
             
         }
+        
+        if (automataEditor.getMode() == "addtrans") {
+        	automataEditor.clearSelection();
+        }
+        
+        
+        
     }
 
     @Override

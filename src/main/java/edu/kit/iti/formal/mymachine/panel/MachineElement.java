@@ -189,12 +189,16 @@ public abstract class MachineElement implements Serializable {
      * @return a non-null string
      */
     public String getOutputLabel(int messageIndex) {
-        String[] actions = getActions();
-        if(actions.length == 0) {
-            return getName();
-        } else {
-            return actions[messageIndex];
-        }
+    	if (messageIndex == -1) {
+    		return "Alle LEDs ausschalten";
+    	} else {
+	        String[] actions = getActions();
+	        if(actions.length == 0) {
+	            return getName();
+	        } else {
+	            return actions[messageIndex];
+	        }
+    	}
     }
 
     public String getName() {

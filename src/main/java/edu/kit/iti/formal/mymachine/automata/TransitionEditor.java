@@ -77,6 +77,13 @@ public class TransitionEditor extends JDialog {
         JComboBox<MachineElement> inputs = new JComboBox<>(mkInputs());
         Vector<Event> events = mkOutputs();
         JComboBox<Event> outputs = new JComboBox<>(events);
+        
+        /* DELETE */
+        for (Event event : events) {
+        	System.out.println(event.toString());
+        }
+        /* DELETE */
+        
         JComboBox<Event> outputs2 = new JComboBox<>(events);
         result.add(inputs, gbc);
         gbc.gridy++;
@@ -154,19 +161,27 @@ public class TransitionEditor extends JDialog {
     private Vector<Event> mkOutputs() {
         Vector<Event> result = new Vector<>();
         result.add(new Event(null, 0, Util.r("transedit.no_action")));
+        
+        /* TO CHANGE */
+        LED led = new LED();
+        result.add(new Event(led, -1, "Alle LEDs ausschalten"));
+        
         for (MachineElement element : machine.getMachineElements()) {
             if(!element.isActive()) {
                 String[] actions = element.getActions();
                 if(actions.length > 0) {
                     for (int i = 0; i < actions.length; i++) {
+                    	/* Hier werden die möglichen Ausgaben initiliasiert */
                         String action = actions[i];
                         result.add(new Event(element, i, element + " " + action));
                     }
                 } else {
                     result.add(new Event(element, 0, element.toString()));
                 }
+                
             }
         }
+       
         Collections.sort(result);
         return result;
     }
@@ -240,6 +255,9 @@ public class TransitionEditor extends JDialog {
     }
 
     private void onOK(ActionEvent e) {
+    	
+    	/* DELETE */
+    	System.out.println("Clicked ok!");
 
         for(int i = 0; i < transitions.getComponentCount(); i++) {
             JComponent comp = (JComponent) transitions.getComponent(i);
@@ -256,6 +274,7 @@ public class TransitionEditor extends JDialog {
                     input, event.element, event.messageNumber,
                     event2.element, event2.messageNumber);
 
+            /*/ ? */
             Transition trans = (Transition) comp.getClientProperty("transition");
             if (trans != null) {
                 machine.removeTransition(trans);

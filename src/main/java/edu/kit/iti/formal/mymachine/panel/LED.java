@@ -88,10 +88,6 @@ public class LED extends MachineElement {
 			
 	}
 	
-	public void halloWelt() {
-		System.out.println("Hallo Welt");
-	}
-
 	@Override
 	public int getElementHeightHalf() {
 		return ON_ICON.getIconHeight()/2;

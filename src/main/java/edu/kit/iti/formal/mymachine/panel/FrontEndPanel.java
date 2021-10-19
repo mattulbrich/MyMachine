@@ -124,6 +124,7 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
 
         Point point = scalePoint(mouseEvent.getPoint());
 
+        /* Wenn Automat ausgeführt wird */
         if(designPane.getMachine().isPlayMode()) {
             for (MachineElement element : designPane.getMachineElements()) {
                 if (element.contains(point) && element.isActive()) {
@@ -278,7 +279,21 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
 
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
-    	
+    	if (designPane.isPlayMode()) {
+	    	boolean flag = false;
+	    	Iterator<MachineElement> it = designPane.getMachineElements().iterator();
+	        Point point = scalePoint(mouseEvent.getPoint());
+	        while (it.hasNext()) {
+	        	MachineElement element = it.next();
+	            if ( (element instanceof Button || element instanceof Output ||  element instanceof Slot) && element.contains(point) ) {
+	            	setCursor(new Cursor(Cursor.HAND_CURSOR));
+	            	flag = true;
+	            }
+	        }
+	        if (!flag) {
+	            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	        }
+    	}
     }
     
     /**

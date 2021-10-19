@@ -233,5 +233,9 @@ public class DesignPane extends JPanel {
     		b.setEnabled(true);
     	}
     }
+    
+    public boolean isPlayMode() {
+    	return machine.isPlayMode();
+    }
 	
 }
