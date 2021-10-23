@@ -122,6 +122,14 @@ public class AutomataPane extends JComponent implements MouseMotionListener, Mou
 
     @Override
     public void mouseMoved(MouseEvent e) {
+    	State state = findState(e.getPoint());
+    	Transition transition = findTransition(e.getPoint());
+    	
+    	if (automataEditor.getMode().equals("edit") && (state != null || transition != null) ) {
+    		setCursor(new Cursor(Cursor.HAND_CURSOR));
+    	} else {
+    		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    	}
     }
 
     @Override

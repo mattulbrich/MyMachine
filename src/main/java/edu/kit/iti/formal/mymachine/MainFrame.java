@@ -112,6 +112,16 @@ public class MainFrame extends JFrame {
         
         view.add(new JSeparator());
         
+        JMenuItem zoomIn = new JMenuItem("Vergrößern +");
+        zoomIn.addActionListener(e -> zoomIn());
+        JMenuItem zoomOut = new JMenuItem("Verkleinern -");
+        zoomOut.addActionListener(e -> zoomOut());
+        
+        view.add(zoomIn);
+        view.add(zoomOut);
+        
+        view.add(new JSeparator());
+        
         JCheckBox schokomatViewSet = new JCheckBox(Util.r("menu.view.schokomatView"));
         schokomatViewSet.setSelected(false);
         schokomatViewSet.addActionListener(e -> schokomatView(schokomatViewSet.isSelected()));
@@ -151,6 +161,14 @@ public class MainFrame extends JFrame {
         setJMenuBar(menuBar);
        
     }
+
+	private void zoomIn() {
+		designPane.zoomIn(true);
+	}
+
+	private void zoomOut() {
+		designPane.zoomIn(false);
+	}
 
 	private void editStrings() {
         String[] columName = { Util.r("setup.display_string") };

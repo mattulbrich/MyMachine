@@ -40,7 +40,7 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
 	
 	private boolean toolTipActivated;
 
-    private static final double SCALE_FACTOR;
+    private static double SCALE_FACTOR;
     static {
         double f;
         try {
@@ -356,5 +356,14 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
     public void deactivateToolTips() {
     	toolTipActivated = false;
     	setToolTipText("");
+    }
+    
+    public void changeZoomFactor(double f) {
+    	SCALE_FACTOR = f;
+    	repaint();
+    }
+    
+    public double getZoomFactor() {
+    	return SCALE_FACTOR;
     }
 }

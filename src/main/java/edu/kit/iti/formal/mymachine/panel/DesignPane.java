@@ -237,5 +237,16 @@ public class DesignPane extends JPanel {
     public boolean isPlayMode() {
     	return machine.isPlayMode();
     }
+    
+    public void zoomIn(boolean zoomIn) {
+    	double zoom = frontEndPanel.getZoomFactor();
+    	if (zoomIn && zoom <= 2.25) {
+    		frontEndPanel.changeZoomFactor(zoom + 0.25);
+    	}
+    	else if (!zoomIn && zoom >= 0.75) {
+    		frontEndPanel.changeZoomFactor(zoom - 0.25);
+    	}
+    	
+    }
 	
 }

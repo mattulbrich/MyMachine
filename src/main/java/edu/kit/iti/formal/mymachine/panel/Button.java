@@ -34,6 +34,7 @@ public class Button extends MachineElement {
         if (res != null) {
             setName(res);
         } else {
+        	/* Warum wird hier eine Exception ausgelöst? (Es liegt ja kein Fehler vor) */
             throw new IllegalArgumentException("No name wanted --> abort");
         }
     }

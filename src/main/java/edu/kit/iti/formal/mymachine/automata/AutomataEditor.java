@@ -52,9 +52,6 @@ public class AutomataEditor extends JPanel {
         {
             newState = new JToggleButton(Util.r("automata.new_state"));
             newState.setActionCommand("addstate");
-            newState.addActionListener(e -> {
-            	setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            });
             selectionPanel.add(newState);
             buttonGroup.add(newState);
         }
@@ -63,7 +60,6 @@ public class AutomataEditor extends JPanel {
             newTransition.setActionCommand("addtrans");
             newTransition.addActionListener(e-> {
                 this.panel.removeTransitionInfo();
-                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             });
             selectionPanel.add(newTransition);
             buttonGroup.add(newTransition);
@@ -73,9 +69,6 @@ public class AutomataEditor extends JPanel {
         	Icon icon = Util.imageResource("mouse");
         	mouseButton = new JToggleButton(icon);
         	mouseButton.setActionCommand("edit");
-        	mouseButton.addActionListener(e -> {
-        		setCursor(new Cursor(Cursor.HAND_CURSOR));
-        	});
         	selectionPanel.add(mouseButton);
         	buttonGroup.add(mouseButton);
         }
