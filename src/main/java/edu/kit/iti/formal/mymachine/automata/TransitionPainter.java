@@ -174,10 +174,20 @@ public class TransitionPainter {
             out = transition.getOutput2();
             if(out != null) {
                 List<Pair<Color, String>> line = new LinkedList<>();
+                
+                /* Sonderfall: Alle LEDs ausschalten */
+                if (transition.getMessageIndex2() == -1 ) {
+                	line.add(new Pair<>(OUTPUT_COLOR, ""));
+                    line.add(new Pair<>(PARAM_COLOR,
+                            " " + out.getOutputLabel(transition.getMessageIndex2())));
+                }
+                else {
                 line.add(new Pair<>(OUTPUT_COLOR, " " + out));
                 line.add(new Pair<>(PARAM_COLOR,
                         " " + out.getOutputLabel(transition.getMessageIndex2())));
+                }
                 result.add(line);
+                
             }
         }
 

@@ -78,18 +78,14 @@ public class TransitionEditor extends JDialog {
         Vector<Event> events = mkOutputs();
         JComboBox<Event> outputs = new JComboBox<>(events);
         
-        /* DELETE */
-        for (Event event : events) {
-        	System.out.println(event.toString());
-        }
-        /* DELETE */
-        
         JComboBox<Event> outputs2 = new JComboBox<>(events);
         result.add(inputs, gbc);
         gbc.gridy++;
         result.add(outputs, gbc);
         gbc.gridy++;
         result.add(outputs2, gbc);
+        
+        /* Wenn Kante bereits existiert --> bearbeitet wird */
         if (transition != null) {
             gbc.gridy++;
             gbc.fill = GridBagConstraints.NONE;
@@ -97,8 +93,24 @@ public class TransitionEditor extends JDialog {
             delete.addActionListener(e -> deleteTrans(transition));
             result.add(delete, gbc);
             inputs.setSelectedItem(transition.getTrigger());
-            outputs.setSelectedItem(new Event(transition.getOutput(), transition.getMessageIndex(), ""));
-            outputs2.setSelectedItem(new Event(transition.getOutput2(), transition.getMessageIndex2(), ""));
+            
+            if (transition.getOutput() == null) {
+            	outputs.setSelectedIndex(0);
+            } else if (transition.getOutput().getName() == Util.r("automata.leds_turn_off")) {
+            	outputs.setSelectedIndex(1);
+            } else {
+            	outputs.setSelectedItem(new Event(transition.getOutput(), transition.getMessageIndex(), ""));
+            }
+            
+            if (transition.getOutput2() == null) {
+            	outputs2.setSelectedIndex(0);
+            } else if (transition.getOutput2().getName() == Util.r("automata.leds_turn_off")) {
+            	outputs2.setSelectedIndex(1);
+            } else {
+            	outputs2.setSelectedItem(new Event(transition.getOutput2(), transition.getMessageIndex2(), ""));
+            }
+            
+            
             result.putClientProperty("transition", transition);
         }
         result.putClientProperty("inputs", inputs);
@@ -162,9 +174,21 @@ public class TransitionEditor extends JDialog {
         Vector<Event> result = new Vector<>();
         result.add(new Event(null, 0, Util.r("transedit.no_action")));
         
-        /* TO CHANGE */
-        LED led = new LED();
-        result.add(new Event(led, -1, "Alle LEDs ausschalten"));
+        /* Wenn es mehr als eine LED gibt, dann gibt es die Option alle LEDs auszuschalten. */
+        int count = 0;
+        for (MachineElement element : machine.getMachineElements()) {
+        	if (element instanceof LED) {
+        		count++;
+        	}
+        }
+        
+        if (count >= 2) {
+        	LED led = new LED();
+        	led.setName(Util.r("automata.leds_turn_off"));
+            result.add(new Event(led, -1, Util.r("automata.leds_turn_off")));
+        }
+        
+        /* */ 
         
         for (MachineElement element : machine.getMachineElements()) {
             if(!element.isActive()) {
@@ -255,9 +279,6 @@ public class TransitionEditor extends JDialog {
     }
 
     private void onOK(ActionEvent e) {
-    	
-    	/* DELETE */
-    	System.out.println("Clicked ok!");
 
         for(int i = 0; i < transitions.getComponentCount(); i++) {
             JComponent comp = (JComponent) transitions.getComponent(i);
