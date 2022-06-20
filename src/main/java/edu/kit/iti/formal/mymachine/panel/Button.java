@@ -30,7 +30,7 @@ public class Button extends MachineElement {
 
     @Override
     public void uiConfig(Machine machine) {
-        String res = JOptionPane.showInputDialog("Wie soll der Button benannt sein (1 Wort)");
+        String res = JOptionPane.showInputDialog("Wie soll der Knopf benannt sein (1 Wort)");
         if (res != null) {
             setName(res);
         } else {
