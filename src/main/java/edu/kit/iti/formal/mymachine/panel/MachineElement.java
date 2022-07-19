@@ -33,13 +33,13 @@ public abstract class MachineElement implements Serializable {
      *
      * Note: This is the center point of this element!
      */
-    private Point position;
+    protected Point position;
 
     /**
      * The size of this element on the screen
      * (for mouse responsibility detection)
      */
-    private final Dimension dimension;
+    protected final Dimension dimension;
 
     /**
      * Is this an active element.

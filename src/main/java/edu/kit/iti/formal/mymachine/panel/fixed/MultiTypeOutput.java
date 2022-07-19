@@ -58,19 +58,19 @@ public class MultiTypeOutput extends MachineElement {
         Point pos = getPosition();
         switch(output) {
             case 0:
-                BLOCK1.paintIcon(null, g, pos.x - 130, pos.y - 15);
+                BLOCK1.paintIcon(null, g, pos.x, pos.y - 15);
                 break;
             case 1:
-                BLOCK2.paintIcon(null, g, pos.x - 130, pos.y - 15);
+                BLOCK2.paintIcon(null, g, pos.x, pos.y - 15);
                 break;
             case 2:
-                BLOCK3.paintIcon(null, g, pos.x - 130, pos.y - 15);
+                BLOCK3.paintIcon(null, g, pos.x, pos.y - 15);
                 break;
             case 3:
-                COIN1.paintIcon(null, g, pos.x - 90, pos.y + 15);
+                COIN1.paintIcon(null, g, pos.x, pos.y + 15);
                 break;
             case 4:
-                COIN2.paintIcon(null, g, pos.x - 90, pos.y + 15);
+                COIN2.paintIcon(null, g, pos.x, pos.y + 15);
                 break;
         }
     }

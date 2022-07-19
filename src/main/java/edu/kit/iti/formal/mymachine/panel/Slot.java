@@ -20,11 +20,11 @@ import java.awt.*;
 
 public class Slot extends MachineElement {
 
-    // private static final Icon SLOT_NO_COIN = Util.imageResource("coinSlotEmpty.png");
-	private static Icon SLOT_NO_COIN = Util.imageResource("coinSlotEmpty");
+    // private static final Icon SLOT_NO_COIN = Util.imageResource("slotEmpty.png");
+	private static Icon SLOT_NO_COIN = Util.imageResource("slotEmpty");
 	
-    // private static final Icon SLOT_COIN = Util.imageResource("coinSlotCoin.png");
-	private static Icon SLOT_COIN = Util.imageResource("coinSlotCoin");
+    // private static final Icon SLOT_COIN = Util.imageResource("slotCoin.png");
+	private static Icon SLOT_COIN = Util.imageResource("slotCoin");
 
     public Slot() {
         super("#Coin", Util.getDimension(SLOT_COIN), true);
@@ -45,14 +45,22 @@ public class Slot extends MachineElement {
     }
 
     @Override
+    public boolean contains(Point point) {
+        int w2 = dimension.width / 4;
+        int h2 = dimension.height / 2;
+        return position.x - w2 <= point.x && point.x <= position.x + w2 &&
+                position.y - h2 <= point.y && point.y <= position.y + h2;
+    }
+
+    @Override
     public String toString() {
         return Util.r("panel.slot");
     }
 
 	@Override
 	public void changeDesign() {
-		SLOT_NO_COIN = Util.imageResource("coinSlotEmpty");
-		SLOT_COIN = Util.imageResource("coinSlotCoin");
+		SLOT_NO_COIN = Util.imageResource("slotEmpty");
+		SLOT_COIN = Util.imageResource("slotCoin");
 	}
 
 	@Override

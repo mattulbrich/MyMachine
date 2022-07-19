@@ -66,12 +66,12 @@ public class FixedInterfaces {
         }
         {
             Slot slot = new Slot();
-            slot.setPosition(new Point(SECOND_COL, OUTPUT_HEIGHT));
+            slot.setPosition(new Point(SECOND_COL - 21, OUTPUT_HEIGHT));
             machine.addMachineElement(slot);
         }
         {
             CoinTwoSlot slot = new CoinTwoSlot();
-            slot.setPosition(new Point(SECOND_COL + 82, OUTPUT_HEIGHT));
+            slot.setPosition(new Point(SECOND_COL + 17, OUTPUT_HEIGHT));
             machine.addMachineElement(slot);
         }
     }

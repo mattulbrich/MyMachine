@@ -14,6 +14,7 @@
 package edu.kit.iti.formal.mymachine.panel;
 
 
+import edu.kit.iti.formal.mymachine.panel.fixed.CoinTwoSlot;
 import edu.kit.iti.formal.mymachine.util.Util;
 import edu.kit.iti.formal.mymachine.panel.MachineElement.PaintMode;
 
@@ -129,6 +130,7 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
             for (MachineElement element : designPane.getMachineElements()) {
                 if (element.contains(point) && element.isActive()) {
                     designPane.getMachine().fire(element);
+                    return; // Nur eine Aktion pro Klick
                 }
             }
             return;
@@ -285,7 +287,7 @@ public class FrontEndPanel extends JComponent implements MouseListener, MouseMot
 	        Point point = scalePoint(mouseEvent.getPoint());
 	        while (it.hasNext()) {
 	        	MachineElement element = it.next();
-	            if ( (element instanceof Button || element instanceof Output ||  element instanceof Slot) && element.contains(point) ) {
+	            if ( (element instanceof Button || element instanceof Output ||  element instanceof Slot || element instanceof CoinTwoSlot) && element.contains(point) ) {
 	            	setCursor(new Cursor(Cursor.HAND_CURSOR));
 	            	flag = true;
 	            }
