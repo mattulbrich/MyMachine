@@ -112,9 +112,9 @@ public class MainFrame extends JFrame {
         
         view.add(new JSeparator());
         
-        JMenuItem zoomIn = new JMenuItem("Vergr\u00f6\u00dfern +");
+        JMenuItem zoomIn = new JMenuItem(Util.r("menu.view.zoomIn"));
         zoomIn.addActionListener(e -> zoomIn());
-        JMenuItem zoomOut = new JMenuItem("Verkleinern -");
+        JMenuItem zoomOut = new JMenuItem(Util.r("menu.view.zoomOut"));
         zoomOut.addActionListener(e -> zoomOut());
         
         view.add(zoomIn);

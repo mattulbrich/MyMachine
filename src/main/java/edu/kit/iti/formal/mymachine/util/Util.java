@@ -8,8 +8,8 @@ import java.util.ResourceBundle;
 
 public class Util {
     public static final ResourceBundle RESOURCE_BUNDLE =
-            // ResourceBundle.getBundle("edu.kit.iti.formal.mymachine.MyMachine"); // für englische Sprache
-    		ResourceBundle.getBundle("edu.kit.iti.formal.mymachine.MyMachine_de"); // für deutsche Sprache
+            ResourceBundle.getBundle("edu.kit.iti.formal.mymachine.MyMachine"); // für englische Sprache
+    		//ResourceBundle.getBundle("edu.kit.iti.formal.mymachine.MyMachine_de"); // für deutsche Sprache
     
     private static boolean schokomatView; 
 

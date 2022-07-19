@@ -53,7 +53,6 @@ public class Output extends MachineElement {
                 SLOT.getIconWidth(), SLOT.getIconHeight());
 
         // TODO Make this nice!
-        System.out.println(output);
         if(output <= 4) {
             for (int i = 0; i < output; i++) {
                 BLOCK.paintIcon(null, g, pos.x - output*50/2 + i*50, pos.y - 15 - animationOffset);
